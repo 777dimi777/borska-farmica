@@ -1,0 +1,25 @@
+{
+  "name": "borska-farmica",
+  "version": "0.1.0",
+  "description": "Profesionalna e-commerce platforma za Borsku Farmicu",
+  "private": true,
+  "license": "UNLICENSED",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css}\""
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "npm@11.12.1",
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.8"
+  }
+}
