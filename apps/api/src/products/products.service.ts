@@ -1,4 +1,4 @@
-﻿import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
 import { createPaginationMetadata } from '../common/pagination/pagination';
@@ -79,7 +79,12 @@ export class ProductsService {
             },
           },
           images: {
-            orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+            orderBy: [
+              { isPrimary: 'desc' },
+              { sortOrder: 'asc' },
+              { createdAt: 'asc' },
+              { id: 'asc' },
+            ],
             take: 1,
             select: { url: true, altText: true },
           },
@@ -145,7 +150,12 @@ export class ProductsService {
           },
         },
         images: {
-          orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+          orderBy: [
+            { isPrimary: 'desc' },
+            { sortOrder: 'asc' },
+            { createdAt: 'asc' },
+            { id: 'asc' },
+          ],
           select: { id: true, url: true, altText: true, isPrimary: true },
         },
         availabilityWindows: {

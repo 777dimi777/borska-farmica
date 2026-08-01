@@ -195,6 +195,65 @@ export class AdminProductImagesService {
       });
     });
   }
+  async reorder(
+    productId: string,
+    dto: import('./dto/content-mutation.dto').ProductImageReorderDto,
+    c: AuditContext,
+  ) {
+    const ids = dto.items.map((x) => x.id),
+      orders = dto.items.map((x) => x.sortOrder);
+    if (
+      new Set(ids).size !== ids.length ||
+      new Set(orders).size !== orders.length
+    )
+      throw new BadRequestException('Duplicate ids or sortOrder values.');
+    return this.serial(async (tx) => {
+      const rows = await tx.productImage.findMany({
+        where: { productId, id: { in: ids } },
+        select: { id: true, isPrimary: true },
+      });
+      if (rows.length !== ids.length)
+        throw new NotFoundException('Image not found.');
+      if (dto.primaryImageId && !rows.some((x) => x.id === dto.primaryImageId))
+        throw new NotFoundException('Primary image not found.');
+      for (const item of dto.items)
+        await tx.productImage.update({
+          where: { id: item.id },
+          data: { sortOrder: item.sortOrder },
+        });
+      const previous = rows.find((x) => x.isPrimary)?.id ?? null;
+      if (dto.primaryImageId && dto.primaryImageId !== previous) {
+        await tx.productImage.updateMany({
+          where: { productId, isPrimary: true },
+          data: { isPrimary: false },
+        });
+        await tx.productImage.update({
+          where: { id: dto.primaryImageId },
+          data: { isPrimary: true },
+        });
+      }
+      await this.audit.write(tx, c, {
+        action: AUDIT_ACTIONS.PRODUCT_IMAGE_REORDERED,
+        resourceType: AUDIT_RESOURCE_TYPES.PRODUCT_IMAGE,
+        resourceId: productId,
+        changes: {
+          items: dto.items.map(({ id, sortOrder }) => ({ id, sortOrder })),
+          primaryBefore: previous,
+          primaryAfter: dto.primaryImageId ?? previous,
+        },
+      });
+      return tx.productImage.findMany({
+        where: { productId },
+        select: imageSelect,
+        orderBy: [
+          { isPrimary: 'desc' },
+          { sortOrder: 'asc' },
+          { createdAt: 'asc' },
+          { id: 'asc' },
+        ],
+      });
+    });
+  }
   private async serial<T>(
     fn: (tx: Prisma.TransactionClient) => Promise<T>,
   ): Promise<T> {

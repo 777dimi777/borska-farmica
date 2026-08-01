@@ -42,7 +42,12 @@ export const adminProductSelect = {
     ],
   },
   images: {
-    orderBy: [{ isPrimary: 'desc' as const }, { sortOrder: 'asc' as const }],
+    orderBy: [
+      { isPrimary: 'desc' as const },
+      { sortOrder: 'asc' as const },
+      { createdAt: 'asc' as const },
+      { id: 'asc' as const },
+    ],
     select: {
       id: true,
       url: true,

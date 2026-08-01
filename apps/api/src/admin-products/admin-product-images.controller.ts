@@ -20,7 +20,10 @@ import { AccessJwtGuard } from '../admin-auth/guards/access-jwt.guard';
 import { RolesGuard } from '../admin-auth/guards/roles.guard';
 import { AdminRole } from '../generated/prisma/enums';
 import { AdminProductImagesService } from './admin-product-images.service';
-import { ProductImageMutationDto } from './dto/content-mutation.dto';
+import {
+  ProductImageMutationDto,
+  ProductImageReorderDto,
+} from './dto/content-mutation.dto';
 @ApiTags('Admin Product Images')
 @ApiBearerAuth('admin-access')
 @UseGuards(AccessJwtGuard, RolesGuard)
@@ -43,6 +46,15 @@ export class AdminProductImagesController {
     @Req() r: Request,
   ) {
     return this.service.create(p, d, this.context(a, r));
+  }
+  @Patch('reorder')
+  reorder(
+    @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
+    @Body() d: ProductImageReorderDto,
+    @CurrentAdmin() a: AuthenticatedAdmin,
+    @Req() r: Request,
+  ) {
+    return this.service.reorder(p, d, this.context(a, r));
   }
   @Patch(':imageId') update(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
