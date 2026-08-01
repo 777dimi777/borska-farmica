@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminAuthController } from './admin-auth.controller';
 import { AdminAuthService } from './admin-auth.service';
@@ -10,7 +10,14 @@ import { TokenService } from './token.service';
 @Module({
   imports: [JwtModule.register({})],
   controllers: [AdminAuthController],
-  providers: [AdminAuthService, PasswordService, SessionService, TokenService],
+  providers: [
+    AdminAuthService,
+    PasswordService,
+    SessionService,
+    TokenService,
+    AccessJwtGuard,
+    RolesGuard,
+  ],
   exports: [
     AdminAuthService,
     PasswordService,

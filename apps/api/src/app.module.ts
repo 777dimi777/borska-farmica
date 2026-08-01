@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
@@ -23,7 +23,7 @@ import { ProductsModule } from './products/products.module';
         DATABASE_URL: Joi.string().required(),
         TRUST_PROXY: Joi.boolean().truthy('true').falsy('false').default(false),
         JSON_BODY_LIMIT: Joi.string()
-          .pattern(/^\\d+(kb|mb)$/i)
+          .pattern(/^\d+(kb|mb)$/i)
           .default('100kb'),
         JWT_ACCESS_SECRET: Joi.string().min(32).required(),
         JWT_REFRESH_SECRET: Joi.string()
