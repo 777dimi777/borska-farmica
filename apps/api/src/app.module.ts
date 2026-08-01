@@ -6,6 +6,7 @@ import Joi from 'joi';
 import { AdminAuditModule } from './admin-audit/admin-audit.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { AdminCategoriesModule } from './admin-categories/admin-categories.module';
+import { AdminProductsModule } from './admin-products/admin-products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
@@ -53,6 +54,7 @@ import { ProductsModule } from './products/products.module';
     AdminAuthModule,
     AdminAuditModule,
     AdminCategoriesModule,
+    AdminProductsModule,
     CategoriesModule,
     ProductsModule,
     HealthModule,
