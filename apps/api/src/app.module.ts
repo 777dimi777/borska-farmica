@@ -16,6 +16,10 @@ import { HealthModule } from './health/health.module';
         PORT: Joi.number().port().default(4000),
         FRONTEND_URL: Joi.string().uri().default('http://localhost:3000'),
         DATABASE_URL: Joi.string().required(),
+        SWAGGER_ENABLED: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(true),
       }),
     }),
     DatabaseModule,
