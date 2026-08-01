@@ -4,20 +4,25 @@ Roadmap je fazan. Svaka faza se završava funkcionalnom proverom, testovima i sm
 
 ## Faza 1 — stabilna osnova
 
-### Obuhvat
+**Status: završeno.**
 
-- monorepo, npm workspaces i Turborepo
-- Next.js frontend i NestJS backend
-- environment konfiguracija i validacija
-- Docker Compose PostgreSQL
-- Prisma konfiguracija i DatabaseModule
-- health endpoint
-- lint, format, test i build osnova
-- osnovna projektna dokumentacija
+### Završeno
+
+- [x] monorepo, npm workspaces i Turborepo
+- [x] Next.js frontend i NestJS backend
+- [x] environment konfiguracija i validacija
+- [x] Docker Compose PostgreSQL na lokalnom portu 5434
+- [x] Prisma konfiguracija, generisanje klijenta i DatabaseModule
+- [x] liveness i database readiness endpointi
+- [x] read-only lint, format check, typecheck, unit test, e2e i build osnova
+- [x] zajednička bezbedna `npm run check` komanda
+- [x] lokalna razvojna dokumentacija
 
 ### Kriterijum završetka
 
-Frontend i API se lokalno pokreću, baza je zdrava, Prisma Client se generiše, health provera radi, a lint, test i kompletan build prolaze iz čistog checkouta uz dokumentovana uputstva.
+Frontend i API se lokalno pokreću, baza je zdrava, Prisma Client se generiše, health provere rade, a lint, typecheck, test i kompletan build prolaze iz root foldera uz dokumentovana uputstva.
+
+Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalje vraća `Hello World!`; njegovo uklanjanje je mala naredna cleanup celina i nije blokada za stabilnu osnovu.
 
 ## Faza 2 — katalog i zalihe
 
@@ -136,4 +141,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Završiti Fazu 1 pre modelovanja kataloga: dodati health endpoint, proveriti test/format osnovu i napisati jasna lokalna setup uputstva. Kategorije i proizvode ne implementirati dok ovaj stabilizacioni korak ne prođe sve provere.
+Pre modelovanja kataloga potvrditi otvorene poslovne odluke za Fazu 2, zatim u zasebnoj celini uvesti početne Prisma modele i migracije. Ne uvoditi katalog, proizvode ili zalihe bez potvrđenih kategorija, pakovanja, mernih jedinica, cena i pravila dostupnosti.
