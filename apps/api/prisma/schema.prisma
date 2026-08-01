@@ -161,3 +161,45 @@ model InventoryMovement {
 
   @@index([variantId, createdAt(sort: Desc)])
 }
+
+enum AdminRole {
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum AdminStatus {
+  ACTIVE
+  DISABLED
+}
+
+model AdminUser {
+  id           String         @id @default(uuid()) @db.Uuid
+  email        String         @unique @db.VarChar(254)
+  passwordHash String         @db.VarChar(255)
+  firstName    String         @db.VarChar(80)
+  lastName     String         @db.VarChar(80)
+  role         AdminRole      @default(ADMIN)
+  status       AdminStatus    @default(ACTIVE)
+  lastLoginAt  DateTime?      @db.Timestamptz(3)
+  createdAt    DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime       @updatedAt @db.Timestamptz(3)
+  sessions     AdminSession[]
+
+  @@index([status])
+}
+
+model AdminSession {
+  id               String    @id @default(uuid()) @db.Uuid
+  adminId          String    @db.Uuid
+  refreshTokenHash String    @unique @db.VarChar(64)
+  expiresAt        DateTime  @db.Timestamptz(3)
+  revokedAt        DateTime? @db.Timestamptz(3)
+  lastUsedAt       DateTime? @db.Timestamptz(3)
+  userAgent        String?   @db.VarChar(512)
+  ipAddress        String?   @db.VarChar(64)
+  createdAt        DateTime  @default(now()) @db.Timestamptz(3)
+  admin            AdminUser @relation(fields: [adminId], references: [id], onDelete: Restrict)
+
+  @@index([adminId, revokedAt])
+  @@index([expiresAt])
+}
