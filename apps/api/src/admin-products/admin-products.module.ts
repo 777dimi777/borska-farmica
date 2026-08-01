@@ -10,6 +10,8 @@ import { AdminInventoryController } from './admin-inventory.controller';
 import { AdminInventoryService } from './admin-inventory.service';
 import { AdminAvailabilityController } from './admin-availability.controller';
 import { AdminAvailabilityService } from './admin-availability.service';
+import { AdminAvailabilityMutationsController } from './admin-availability-mutations.controller';
+import { AdminAvailabilityMutationsService } from './admin-availability-mutations.service';
 @Module({
   imports: [AdminAuthModule, AdminAuditModule],
   controllers: [
@@ -17,6 +19,7 @@ import { AdminAvailabilityService } from './admin-availability.service';
     AdminVariantsController,
     AdminInventoryController,
     AdminAvailabilityController,
+    AdminAvailabilityMutationsController,
   ],
   providers: [
     AdminProductsService,
@@ -24,6 +27,7 @@ import { AdminAvailabilityService } from './admin-availability.service';
     AdminVariantsService,
     AdminInventoryService,
     AdminAvailabilityService,
+    AdminAvailabilityMutationsService,
   ],
 })
 export class AdminProductsModule {}

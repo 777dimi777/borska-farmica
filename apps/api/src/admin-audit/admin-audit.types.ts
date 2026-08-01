@@ -20,12 +20,19 @@ export const AUDIT_ACTIONS = {
   INVENTORY_RESTOCKED: 'inventory.restocked',
   INVENTORY_ADJUSTED: 'inventory.adjusted',
   INVENTORY_DAMAGED: 'inventory.damaged',
+  AVAILABILITY_WINDOW_CREATED: 'availability_window.created',
+  AVAILABILITY_WINDOW_UPDATED: 'availability_window.updated',
+  AVAILABILITY_WINDOW_ACTIVATED: 'availability_window.activated',
+  AVAILABILITY_WINDOW_DEACTIVATED: 'availability_window.deactivated',
+  AVAILABILITY_WINDOW_DELETED: 'availability_window.deleted',
+  AVAILABILITY_WINDOW_REORDERED: 'availability_window.reordered',
 } as const;
 export const AUDIT_RESOURCE_TYPES = {
   CATEGORY: 'category',
   PRODUCT: 'product',
   PRODUCT_VARIANT: 'product_variant',
   INVENTORY: 'inventory',
+  AVAILABILITY_WINDOW: 'availability_window',
 } as const;
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];
 export interface AuditContext {
