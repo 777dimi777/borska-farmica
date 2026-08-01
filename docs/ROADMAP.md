@@ -98,15 +98,21 @@ Kritični tok od korpe do porudžbine je transakcion, precizan, bezbedan i pokri
 
 ## Faza 5 — admin autentifikacija
 
+**Status: backend foundation završena; admin frontend nije započet.**
+
 ### Obuhvat
 
-- administratorski korisnik bez podrazumevanih produkcionih kredencijala
-- sigurno hashovanje lozinki
-- login, access i refresh mehanizam
-- httpOnly cookie za web autentifikaciju
-- zaštita ruta i početna role/permission osnova
-- rate limiting osetljivih ruta
-- audit log bez osetljivih podataka
+- [x] administratorski korisnik bez podrazumevanih produkcionih kredencijala
+- [x] sigurno Argon2id hashovanje lozinki
+- [x] login, access JWT i transakciona refresh rotacija
+- [x] HttpOnly refresh cookie
+- [x] access i role guard osnova
+- [x] HTTP hardening i rate limiting osetljivih ruta
+- [ ] admin frontend login
+- [ ] admin CRUD
+- [ ] audit log
+- [ ] 2FA i password reset
+- [ ] customer auth (poslovna odluka nije doneta)
 
 ### Kriterijum završetka
 
@@ -153,4 +159,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Sledeća bezbedna celina je admin autentifikacija i autorizaciona osnova. Tek zatim implementirati zaštićeni admin CRUD katalog; upload slika i frontend katalog ostaju nezavršeni.
+Sledeća celina je zaštićeni admin CRUD katalog koristeći završenu auth osnovu. Admin frontend login, customer auth, 2FA i password reset ostaju van obuhvata dok se ne potvrde poslovne i produkcione odluke.
