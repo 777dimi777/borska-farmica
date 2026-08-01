@@ -6,7 +6,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AccessJwtGuard } from '../admin-auth/guards/access-jwt.guard';
 import { RolesGuard } from '../admin-auth/guards/roles.guard';
 import { Roles } from '../admin-auth/decorators/roles.decorator';
@@ -25,6 +30,7 @@ import {
 export class AdminAvailabilityController {
   constructor(private readonly service: AdminAvailabilityService) {}
   @Get('availability-windows')
+  @ApiOperation({ summary: 'List all product availability windows' })
   @ApiOkResponse({ type: AdminAvailabilityWindowDto, isArray: true })
   list(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) productId: string,
@@ -32,6 +38,9 @@ export class AdminAvailabilityController {
     return this.service.list(productId);
   }
   @Get('availability-preview')
+  @ApiOperation({
+    summary: 'Preview product availability at an optional instant',
+  })
   @ApiOkResponse({ type: AvailabilityPreviewDto })
   preview(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) productId: string,

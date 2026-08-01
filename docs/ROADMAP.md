@@ -37,7 +37,7 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 - [x] zaštićeni admin CRUD kategorija sa audit logom
 - [x] admin product queries i product lifecycle
 - [x] admin upravljanje varijantama i inventory adjustments sa auditom
-- [ ] image upload i image mutation endpointi
+- [x] image metadata mutation endpointi (upload nije implementiran)
 - [ ] availability window management
 - [ ] upload slika
 - [ ] frontend katalog
@@ -165,4 +165,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Sledeća celina je image management i upload, uz prethodnu odluku o storage provajderu. Availability window management, admin UI, dashboard, porudžbine i stvarni admin nalog ostaju nezavršeni i nisu deo ove implementacije.
+Sledeća celina je izbor cloud storage provajdera i admin UI za već završene product-content endpoint-e. Upload i transformacije slika, dashboard, porudžbine i stvarni admin nalog ostaju nezavršeni.

@@ -11,7 +11,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { CurrentAdmin } from '../admin-auth/decorators/current-admin.decorator';
 import { Roles } from '../admin-auth/decorators/roles.decorator';
@@ -34,12 +34,14 @@ export class AdminProductImagesController {
   private context(a: AuthenticatedAdmin, r: Request) {
     return { adminId: a.id, ipAddress: r.ip, userAgent: r.get('user-agent') };
   }
-  @Get() list(
-    @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
-  ) {
+  @Get()
+  @ApiOperation({ summary: 'List product image metadata' })
+  list(@Param('productId', new ParseUUIDPipe({ version: '4' })) p: string) {
     return this.service.list(p);
   }
-  @Post() create(
+  @Post()
+  @ApiOperation({ summary: 'Create product image metadata' })
+  create(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Body() d: ProductImageMutationDto,
     @CurrentAdmin() a: AuthenticatedAdmin,
@@ -48,6 +50,7 @@ export class AdminProductImagesController {
     return this.service.create(p, d, this.context(a, r));
   }
   @Patch('reorder')
+  @ApiOperation({ summary: 'Reorder images and optionally select primary' })
   reorder(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Body() d: ProductImageReorderDto,
@@ -56,7 +59,9 @@ export class AdminProductImagesController {
   ) {
     return this.service.reorder(p, d, this.context(a, r));
   }
-  @Patch(':imageId') update(
+  @Patch(':imageId')
+  @ApiOperation({ summary: 'Update product image metadata' })
+  update(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Param('imageId', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() d: ProductImageMutationDto,
@@ -65,7 +70,12 @@ export class AdminProductImagesController {
   ) {
     return this.service.update(p, id, d, this.context(a, r));
   }
-  @Delete(':imageId') @HttpCode(204) remove(
+  @Delete(':imageId')
+  @ApiOperation({
+    summary: 'Delete image metadata without deleting the remote file',
+  })
+  @HttpCode(204)
+  remove(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Param('imageId', new ParseUUIDPipe({ version: '4' })) id: string,
     @CurrentAdmin() a: AuthenticatedAdmin,

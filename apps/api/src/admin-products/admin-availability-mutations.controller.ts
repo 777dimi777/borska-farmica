@@ -10,7 +10,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { CurrentAdmin } from '../admin-auth/decorators/current-admin.decorator';
 import { Roles } from '../admin-auth/decorators/roles.decorator';
@@ -33,7 +33,9 @@ export class AdminAvailabilityMutationsController {
   private context(a: AuthenticatedAdmin, r: Request) {
     return { adminId: a.id, ipAddress: r.ip, userAgent: r.get('user-agent') };
   }
-  @Post() create(
+  @Post()
+  @ApiOperation({ summary: 'Create an availability window' })
+  create(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Body() d: AvailabilityWindowMutationDto,
     @CurrentAdmin() a: AuthenticatedAdmin,
@@ -41,7 +43,9 @@ export class AdminAvailabilityMutationsController {
   ) {
     return this.service.create(p, d, this.context(a, r));
   }
-  @Patch('reorder') reorder(
+  @Patch('reorder')
+  @ApiOperation({ summary: 'Reorder availability windows atomically' })
+  reorder(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Body() d: ContentReorderDto,
     @CurrentAdmin() a: AuthenticatedAdmin,
@@ -49,7 +53,9 @@ export class AdminAvailabilityMutationsController {
   ) {
     return this.service.reorder(p, d, this.context(a, r));
   }
-  @Patch(':windowId') update(
+  @Patch(':windowId')
+  @ApiOperation({ summary: 'Update an availability window' })
+  update(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Param('windowId', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() d: AvailabilityWindowMutationDto,
@@ -58,7 +64,10 @@ export class AdminAvailabilityMutationsController {
   ) {
     return this.service.update(p, id, d, this.context(a, r));
   }
-  @Delete(':windowId') @HttpCode(204) remove(
+  @Delete(':windowId')
+  @ApiOperation({ summary: 'Delete an availability window' })
+  @HttpCode(204)
+  remove(
     @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
     @Param('windowId', new ParseUUIDPipe({ version: '4' })) id: string,
     @CurrentAdmin() a: AuthenticatedAdmin,
