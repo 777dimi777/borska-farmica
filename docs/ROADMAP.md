@@ -26,6 +26,15 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 
 ## Faza 2 — katalog i zalihe
 
+**Status: u toku — projektovanje domena kataloga je započeto.**
+
+### Napredak
+
+- [x] poslovni model kataloga dokumentovan u [CATALOG_DOMAIN.md](CATALOG_DOMAIN.md)
+- [ ] Prisma modeli i prva migracija kataloga
+- [ ] idempotentni seed potvrđenih kategorija
+- [ ] CRUD API, validacija, pretraga i testovi
+
 ### Obuhvat
 
 - Category, Product, ProductVariant i ProductImage modeli

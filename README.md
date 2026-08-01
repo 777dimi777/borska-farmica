@@ -2,7 +2,7 @@
 
 Borska Farmica je e-commerce platforma za domaće proizvode sa farme, sa glavnim fokusom na sir, kozje mleko i surutku. Projekat je trenutno u aktivnom razvoju.
 
-Detaljni ciljevi i redosled razvoja nalaze se u [projektnom briefu](docs/PROJECT_BRIEF.md) i [roadmapu](docs/ROADMAP.md).
+Detaljni ciljevi i redosled razvoja nalaze se u [projektnom briefu](docs/PROJECT_BRIEF.md), [roadmapu](docs/ROADMAP.md) i [modelu domena kataloga](docs/CATALOG_DOMAIN.md).
 
 ## Tehnološki stack
 
