@@ -40,7 +40,8 @@ describe('AdminCategoriesService', () => {
       sort: AdminCategorySort.SORT_ORDER,
     });
     const json = JSON.stringify(findMany.mock.calls);
-    expect(json).toContain('activeProducts');
+    expect(json).toContain('products');
     expect(json).not.toContain('include');
+    expect(JSON.stringify(groupBy.mock.calls)).toContain('"status":"ACTIVE"');
   });
 });
