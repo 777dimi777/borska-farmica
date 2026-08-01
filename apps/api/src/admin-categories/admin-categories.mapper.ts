@@ -9,9 +9,12 @@ export interface AdminCategoryRecord {
   sortOrder: number;
   createdAt: Date;
   updatedAt: Date;
-  _count: { products: number; activeProducts: number };
+  _count: { products: number };
 }
-export const mapAdminCategory = (x: AdminCategoryRecord): AdminCategoryDto => ({
+export const mapAdminCategory = (
+  x: AdminCategoryRecord,
+  activeProductCount = 0,
+): AdminCategoryDto => ({
   id: x.id,
   name: x.name,
   slug: x.slug,
@@ -20,7 +23,7 @@ export const mapAdminCategory = (x: AdminCategoryRecord): AdminCategoryDto => ({
   isActive: x.isActive,
   sortOrder: x.sortOrder,
   productCount: x._count.products,
-  activeProductCount: x._count.activeProducts,
+  activeProductCount,
   createdAt: x.createdAt,
   updatedAt: x.updatedAt,
 });

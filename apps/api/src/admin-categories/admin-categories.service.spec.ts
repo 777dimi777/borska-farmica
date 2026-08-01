@@ -13,7 +13,7 @@ describe('AdminCategoriesService', () => {
     product: { groupBy },
     $transaction: jest.fn(async (x: Promise<unknown>[]) => Promise.all(x)),
   };
-  const s = new AdminCategoriesService(p as never);
+  const s = new AdminCategoriesService(p as never, { write: jest.fn() });
   beforeEach(() => jest.clearAllMocks());
   it('paginates, filters inactive, searches and sorts in database', async () => {
     await s.findAll({
