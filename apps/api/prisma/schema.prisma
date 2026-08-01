@@ -259,3 +259,42 @@ model CartItem {
   @@index([cartId, createdAt])
   @@index([variantId])
 }
+
+enum CustomerStatus {
+  ACTIVE
+  DISABLED
+}
+
+model CustomerUser {
+  id                String            @id @default(uuid()) @db.Uuid
+  email             String            @unique @db.VarChar(254)
+  passwordHash      String            @db.VarChar(255)
+  firstName         String            @db.VarChar(80)
+  lastName          String            @db.VarChar(80)
+  phone             String            @db.VarChar(32)
+  status            CustomerStatus    @default(ACTIVE)
+  emailVerifiedAt   DateTime?         @db.Timestamptz(3)
+  lastLoginAt       DateTime?         @db.Timestamptz(3)
+  passwordChangedAt DateTime?         @db.Timestamptz(3)
+  createdAt         DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime          @updatedAt @db.Timestamptz(3)
+  sessions          CustomerSession[]
+
+  @@index([status])
+}
+
+model CustomerSession {
+  id               String       @id @default(uuid()) @db.Uuid
+  customerId       String       @db.Uuid
+  refreshTokenHash String       @unique @db.VarChar(64)
+  expiresAt        DateTime     @db.Timestamptz(3)
+  revokedAt        DateTime?    @db.Timestamptz(3)
+  lastUsedAt       DateTime?    @db.Timestamptz(3)
+  userAgent        String?      @db.VarChar(512)
+  ipAddress        String?      @db.VarChar(64)
+  createdAt        DateTime     @default(now()) @db.Timestamptz(3)
+  customer         CustomerUser @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  @@index([customerId, revokedAt])
+  @@index([expiresAt])
+}
