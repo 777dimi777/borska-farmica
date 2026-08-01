@@ -5,8 +5,17 @@ export const AUDIT_ACTIONS = {
   CATEGORY_DEACTIVATED: 'category.deactivated',
   CATEGORY_REORDERED: 'category.reordered',
   CATEGORY_DELETED: 'category.deleted',
+  PRODUCT_CREATED: 'product.created',
+  PRODUCT_UPDATED: 'product.updated',
+  PRODUCT_PUBLISHED: 'product.published',
+  PRODUCT_MOVED_TO_DRAFT: 'product.moved_to_draft',
+  PRODUCT_ARCHIVED: 'product.archived',
+  PRODUCT_DELETED: 'product.deleted',
 } as const;
-export const AUDIT_RESOURCE_TYPES = { CATEGORY: 'category' } as const;
+export const AUDIT_RESOURCE_TYPES = {
+  CATEGORY: 'category',
+  PRODUCT: 'product',
+} as const;
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];
 export interface AuditContext {
   adminId: string;

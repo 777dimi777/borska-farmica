@@ -1,11 +1,1 @@
-export function categorySlug(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/\u0111/g, 'dj')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+export { canonicalSlug as categorySlug } from '../common/slug';
