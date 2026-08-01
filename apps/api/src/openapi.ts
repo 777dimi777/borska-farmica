@@ -15,6 +15,12 @@ export function configureOpenApi(
     .addTag('Health')
     .addTag('Categories')
     .addTag('Products')
+    .addTag('Admin Auth')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'admin-access',
+    )
+    .addCookieAuth('bf_admin_refresh')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     ignoreGlobalPrefix: true,

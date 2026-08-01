@@ -4,6 +4,8 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Get,
+  UseGuards,
   Req,
   Res,
   UnauthorizedException,
@@ -16,11 +18,17 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  ApiBearerAuth,
+  ApiForbiddenResponse,
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import type { Request, Response, CookieOptions } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { AccessJwtGuard } from './guards/access-jwt.guard';
+import { CurrentAdmin } from './decorators/current-admin.decorator';
+import type { AuthenticatedAdmin } from './authenticated-request';
+import { AdminProfileDto } from './dto/admin-profile.dto';
 import { AdminAuthService } from './admin-auth.service';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { LoginDto } from './dto/login.dto';
@@ -106,5 +114,15 @@ export class AdminAuthController {
       this.config.getOrThrow('ADMIN_REFRESH_COOKIE_NAME'),
       this.cookieOptions(),
     );
+  }
+
+  @Get('me')
+  @UseGuards(AccessJwtGuard)
+  @ApiBearerAuth('admin-access')
+  @ApiOkResponse({ type: AdminProfileDto })
+  @ApiUnauthorizedResponse()
+  @ApiForbiddenResponse()
+  me(@CurrentAdmin() admin: AuthenticatedAdmin): AdminProfileDto {
+    return admin;
   }
 }
