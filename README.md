@@ -69,7 +69,7 @@ Detaljni ciljevi i redosled razvoja nalaze se u [projektnom briefu](docs/PROJECT
    docker compose stop
    ```
 
-Prisma migracije još nisu uvedene. Kada schema dobije prve modele i migracije, razvojna komanda će biti:
+Prva kataloška migracija je uvedena. Za kreiranje naredne razvojne migracije koristi se:
 
 ```powershell
 npm run prisma:migrate --workspace=@borska-farmica/api
@@ -110,6 +110,7 @@ Liveness potvrđuje da API proces radi i ne zavisi od baze. Readiness izvršava 
 
 ```powershell
 npm run prisma:generate --workspace=@borska-farmica/api
+npm run prisma:seed
 npm run prisma:studio --workspace=@borska-farmica/api
 ```
 

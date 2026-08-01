@@ -31,8 +31,8 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 ### Napredak
 
 - [x] poslovni model kataloga dokumentovan u [CATALOG_DOMAIN.md](CATALOG_DOMAIN.md)
-- [ ] Prisma modeli i prva migracija kataloga
-- [ ] idempotentni seed potvrđenih kategorija
+- [x] Prisma modeli i prva migracija kataloga
+- [x] idempotentni seed šest potvrđenih kategorija
 - [ ] CRUD API, validacija, pretraga i testovi
 
 ### Obuhvat
@@ -150,4 +150,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Pre modelovanja kataloga potvrditi otvorene poslovne odluke za Fazu 2, zatim u zasebnoj celini uvesti početne Prisma modele i migracije. Ne uvoditi katalog, proizvode ili zalihe bez potvrđenih kategorija, pakovanja, mernih jedinica, cena i pravila dostupnosti.
+Nastaviti Fazu 2 implementacijom stabilnog i testiranog CRUD API-ja za kategorije i proizvode, uz DTO validaciju, standardizovane greške, paginaciju, filtere i Swagger. Frontend katalog i administraciju ne započinjati pre stabilnog poslovnog API-ja.
