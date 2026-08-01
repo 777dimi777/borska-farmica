@@ -11,10 +11,17 @@ export const AUDIT_ACTIONS = {
   PRODUCT_MOVED_TO_DRAFT: 'product.moved_to_draft',
   PRODUCT_ARCHIVED: 'product.archived',
   PRODUCT_DELETED: 'product.deleted',
+  PRODUCT_VARIANT_CREATED: 'product_variant.created',
+  PRODUCT_VARIANT_UPDATED: 'product_variant.updated',
+  PRODUCT_VARIANT_ACTIVATED: 'product_variant.activated',
+  PRODUCT_VARIANT_DEACTIVATED: 'product_variant.deactivated',
+  PRODUCT_VARIANT_DEFAULT_CHANGED: 'product_variant.default_changed',
+  PRODUCT_VARIANT_DELETED: 'product_variant.deleted',
 } as const;
 export const AUDIT_RESOURCE_TYPES = {
   CATEGORY: 'category',
   PRODUCT: 'product',
+  PRODUCT_VARIANT: 'product_variant',
 } as const;
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];
 export interface AuditContext {
