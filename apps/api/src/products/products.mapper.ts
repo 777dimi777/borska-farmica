@@ -1,5 +1,6 @@
-﻿import { Prisma } from '../generated/prisma/client';
+import { Prisma } from '../generated/prisma/client';
 import { AvailabilityMode } from '../generated/prisma/enums';
+import { calculateAvailability, AvailabilityWindowInput } from './availability';
 import { ProductListItemDto } from './dto/product-response.dto';
 
 type DecimalValue = Prisma.Decimal;
@@ -20,23 +21,22 @@ export interface ProductListRecord {
     allowBackorder: boolean;
   }>;
   images: Array<{ url: string; altText: string }>;
-  availabilityWindows: Array<{ publicLabel: string | null }>;
+  availabilityWindows: AvailabilityWindowInput[];
 }
 
 export function mapProductListItem(
   record: ProductListRecord,
+  referenceTime?: Date,
 ): ProductListItemDto {
-  const sellableVariant = record.variants.some(
-    (variant) =>
-      variant.allowBackorder ||
-      variant.stockQuantity.greaterThan(variant.reservedQuantity),
+  const availability = calculateAvailability(
+    {
+      mode: record.availabilityMode,
+      manuallyAvailable: record.isManuallyAvailable,
+      variants: record.variants,
+      windows: record.availabilityWindows,
+    },
+    referenceTime,
   );
-  const currentlyAvailable =
-    record.availabilityMode === AvailabilityMode.ALWAYS ||
-    (record.availabilityMode === AvailabilityMode.MANUAL &&
-      record.isManuallyAvailable) ||
-    (record.availabilityMode === AvailabilityMode.SEASONAL &&
-      record.availabilityWindows.length > 0);
   return {
     id: record.id,
     name: record.name,
@@ -47,12 +47,6 @@ export function mapProductListItem(
     category: record.category,
     primaryImage: record.images[0] ?? null,
     startingPrice: record.variants[0].price.toFixed(2),
-    availability: {
-      mode: record.availabilityMode,
-      currentlyAvailable,
-      inStock: sellableVariant,
-      purchasable: currentlyAvailable && sellableVariant,
-      label: record.availabilityWindows[0]?.publicLabel ?? null,
-    },
+    availability,
   };
 }

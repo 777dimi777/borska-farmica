@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+﻿import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
 import { createPaginationMetadata } from '../common/pagination/pagination';
 import { ProductQueryDto } from './dto/product-query.dto';
 import { ProductListResponseDto } from './dto/product-response.dto';
+import { mapProductDetail } from './product-detail.mapper';
+import { ProductDetailResponseDto } from './dto/product-detail-response.dto';
 import { mapProductListItem } from './products.mapper';
 import { ProductSort } from './product-sort.enum';
 
@@ -84,17 +86,87 @@ export class ProductsService {
           availabilityWindows: {
             where: { isActive: true },
             orderBy: [{ sortOrder: 'asc' }],
-            select: { publicLabel: true },
+            select: {
+              type: true,
+              startsAt: true,
+              endsAt: true,
+              startMonth: true,
+              startDay: true,
+              endMonth: true,
+              endDay: true,
+              publicLabel: true,
+            },
           },
         },
       }),
     ]);
     return {
-      data: products.map(mapProductListItem),
+      data: products.map((product) => mapProductListItem(product)),
       pagination: createPaginationMetadata(query.page, query.limit, total),
     };
   }
 
+  async findBySlug(slug: string): Promise<ProductDetailResponseDto> {
+    const product = await this.prisma.product.findFirst({
+      where: {
+        slug,
+        status: 'ACTIVE',
+        category: { isActive: true },
+        variants: { some: { isActive: true } },
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        shortDescription: true,
+        description: true,
+        isFeatured: true,
+        isMainProduct: true,
+        availabilityMode: true,
+        isManuallyAvailable: true,
+        seoTitle: true,
+        seoDescription: true,
+        category: { select: { name: true, slug: true } },
+        variants: {
+          where: { isActive: true },
+          orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+          select: {
+            id: true,
+            name: true,
+            sku: true,
+            price: true,
+            compareAtPrice: true,
+            packageAmount: true,
+            measurementUnit: true,
+            isDefault: true,
+            stockQuantity: true,
+            reservedQuantity: true,
+            allowBackorder: true,
+          },
+        },
+        images: {
+          orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+          select: { id: true, url: true, altText: true, isPrimary: true },
+        },
+        availabilityWindows: {
+          where: { isActive: true },
+          orderBy: [{ sortOrder: 'asc' }],
+          select: {
+            type: true,
+            startsAt: true,
+            endsAt: true,
+            startMonth: true,
+            startDay: true,
+            endMonth: true,
+            endDay: true,
+            publicLabel: true,
+          },
+        },
+      },
+    });
+    if (!product) throw new NotFoundException('Product not found.');
+    return mapProductDetail(product);
+  }
   private orderBy(sort: ProductSort): Prisma.ProductOrderByWithRelationInput[] {
     switch (sort) {
       case ProductSort.NAME_ASC:
