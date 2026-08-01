@@ -8,8 +8,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const port = configService.getOrThrow<number>('PORT');
-  const frontendUrl =
-    configService.getOrThrow<string>('FRONTEND_URL');
+  const frontendUrl = configService.getOrThrow<string>('FRONTEND_URL');
 
   app.setGlobalPrefix('api/v1');
 
