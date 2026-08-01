@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+coverage
+.turbo
+apps/api/src/generated/prisma
+package-lock.json
+*.tsbuildinfo
+next-env.d.ts
+**/AGENTS.md
