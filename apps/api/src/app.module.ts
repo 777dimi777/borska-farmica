@@ -4,6 +4,7 @@ import Joi from 'joi';
 import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { HealthModule } from './health/health.module';
     }),
     DatabaseModule,
     CategoriesModule,
+    ProductsModule,
     HealthModule,
   ],
 })
