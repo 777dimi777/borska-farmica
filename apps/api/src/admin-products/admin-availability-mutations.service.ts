@@ -21,8 +21,43 @@ export class AdminAvailabilityMutationsService {
     private readonly prisma: PrismaService,
     private readonly audit: AdminAuditService,
   ) {}
-  private data(dto: AvailabilityWindowMutationDto, old?: any) {
-    const x = { ...old, ...dto };
+  private data(
+    dto: AvailabilityWindowMutationDto,
+    old?: {
+      type: AvailabilityWindowType;
+      startsAt: string | null;
+      endsAt: string | null;
+      startMonth: number | null;
+      startDay: number | null;
+      endMonth: number | null;
+      endDay: number | null;
+      isActive: boolean;
+      label: string | null;
+      sortOrder: number;
+    },
+  ) {
+    const x = {
+      type: dto.type ?? old?.type,
+      startsAt: dto.startsAt ?? old?.startsAt ?? null,
+      endsAt: dto.endsAt ?? old?.endsAt ?? null,
+      startMonth: dto.startMonth ?? old?.startMonth ?? null,
+      startDay: dto.startDay ?? old?.startDay ?? null,
+      endMonth: dto.endMonth ?? old?.endMonth ?? null,
+      endDay: dto.endDay ?? old?.endDay ?? null,
+      isActive: dto.isActive ?? old?.isActive ?? true,
+      label: dto.label !== undefined ? dto.label : (old?.label ?? null),
+      sortOrder: dto.sortOrder ?? old?.sortOrder ?? 0,
+    };
+    if (old && dto.type && dto.type !== old.type) {
+      if (dto.type === AvailabilityWindowType.FIXED_DATE_RANGE)
+        Object.assign(x, {
+          startMonth: null,
+          startDay: null,
+          endMonth: null,
+          endDay: null,
+        });
+      else Object.assign(x, { startsAt: null, endsAt: null });
+    }
     const fixed = x.type === AvailabilityWindowType.FIXED_DATE_RANGE;
     if (fixed) {
       if (
@@ -61,16 +96,16 @@ export class AdminAvailabilityMutationsService {
         throw new BadRequestException('Invalid recurring calendar day.');
     } else throw new BadRequestException('Window type is required.');
     return {
-      type: x.type,
-      startsAt: fixed ? new Date(x.startsAt + 'T00:00:00.000Z') : null,
-      endsAt: fixed ? new Date(x.endsAt + 'T00:00:00.000Z') : null,
+      type: x.type!,
+      startsAt: fixed ? new Date(x.startsAt! + 'T00:00:00.000Z') : null,
+      endsAt: fixed ? new Date(x.endsAt! + 'T00:00:00.000Z') : null,
       startMonth: fixed ? null : x.startMonth,
       startDay: fixed ? null : x.startDay,
       endMonth: fixed ? null : x.endMonth,
       endDay: fixed ? null : x.endDay,
-      isActive: x.isActive ?? true,
+      isActive: x.isActive,
       publicLabel: x.label?.trim() || null,
-      sortOrder: x.sortOrder ?? 0,
+      sortOrder: x.sortOrder,
     };
   }
   private date(s: string) {
@@ -124,8 +159,8 @@ export class AdminAvailabilityMutationsService {
       if (!old) throw new NotFoundException('Availability window not found.');
       const base = {
         ...old,
-        startsAt: old.startsAt?.toISOString().slice(0, 10),
-        endsAt: old.endsAt?.toISOString().slice(0, 10),
+        startsAt: old.startsAt?.toISOString().slice(0, 10) ?? null,
+        endsAt: old.endsAt?.toISOString().slice(0, 10) ?? null,
         label: old.publicLabel,
       };
       const before = this.data({}, base),
