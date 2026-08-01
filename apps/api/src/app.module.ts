@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 import { AdminAuditModule } from './admin-audit/admin-audit.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
+import { AdminCategoriesModule } from './admin-categories/admin-categories.module';
 import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
@@ -51,6 +52,7 @@ import { ProductsModule } from './products/products.module';
     DatabaseModule,
     AdminAuthModule,
     AdminAuditModule,
+    AdminCategoriesModule,
     CategoriesModule,
     ProductsModule,
     HealthModule,
