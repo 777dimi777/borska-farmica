@@ -184,8 +184,26 @@ model AdminUser {
   createdAt    DateTime       @default(now()) @db.Timestamptz(3)
   updatedAt    DateTime       @updatedAt @db.Timestamptz(3)
   sessions     AdminSession[]
+  auditLogs    AdminAuditLog[]
 
   @@index([status])
+}
+
+model AdminAuditLog {
+  id           String    @id @default(uuid()) @db.Uuid
+  adminId      String    @db.Uuid
+  action       String    @db.VarChar(100)
+  resourceType String    @db.VarChar(80)
+  resourceId   String?   @db.Uuid
+  changes      Json?
+  ipAddress    String?   @db.VarChar(64)
+  userAgent    String?   @db.VarChar(512)
+  createdAt    DateTime  @default(now()) @db.Timestamptz(3)
+  admin        AdminUser @relation(fields: [adminId], references: [id], onDelete: Restrict)
+
+  @@index([adminId, createdAt(sort: Desc)])
+  @@index([resourceType, resourceId, createdAt(sort: Desc)])
+  @@index([action, createdAt(sort: Desc)])
 }
 
 model AdminSession {

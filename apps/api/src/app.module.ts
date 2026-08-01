@@ -1,8 +1,9 @@
-﻿import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
+import { AdminAuditModule } from './admin-audit/admin-audit.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
@@ -49,6 +50,7 @@ import { ProductsModule } from './products/products.module';
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
     DatabaseModule,
     AdminAuthModule,
+    AdminAuditModule,
     CategoriesModule,
     ProductsModule,
     HealthModule,
