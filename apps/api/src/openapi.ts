@@ -9,13 +9,19 @@ export function configureOpenApi(
 
   const config = new DocumentBuilder()
     .setTitle('Borska Farmica API')
-    .setDescription('Public API for Borska Farmica health and catalog data.')
+    .setDescription(
+      'Public catalog plus protected Borska Farmica admin APIs for authentication, categories, products, variants and inventory.',
+    )
     .setVersion('1.0')
     .addServer('/api/v1', 'Version 1 API')
     .addTag('Health')
     .addTag('Categories')
     .addTag('Products')
     .addTag('Admin Auth')
+    .addTag('Admin Categories')
+    .addTag('Admin Products')
+    .addTag('Admin Product Variants')
+    .addTag('Admin Inventory')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
       'admin-access',

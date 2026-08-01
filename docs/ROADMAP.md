@@ -26,7 +26,7 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 
 ## Faza 2 — katalog i zalihe
 
-**Status: u toku — javni katalog i zaštićeno admin upravljanje kategorijama su završeni.**
+**Status: u toku — javni katalog, admin kategorije, proizvodi, varijante i inventory adjustments su završeni.**
 
 ### Napredak
 
@@ -35,7 +35,10 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 - [x] idempotentni seed šest potvrđenih kategorija
 - [x] javni read-only category/product API, validacija, paginacija, filteri, Swagger i testovi
 - [x] zaštićeni admin CRUD kategorija sa audit logom
-- [x] admin CRUD kategorija proizvoda, varijanti, fotografija i zaliha
+- [x] admin product queries i product lifecycle
+- [x] admin upravljanje varijantama i inventory adjustments sa auditom
+- [ ] image upload i image mutation endpointi
+- [ ] availability window management
 - [ ] upload slika
 - [ ] frontend katalog
 
@@ -111,7 +114,9 @@ Kritični tok od korpe do porudžbine je transakcion, precizan, bezbedan i pokri
 - [x] HTTP hardening i rate limiting osetljivih ruta
 - [ ] admin frontend login
 - [x] admin CRUD kategorija
-- [x] audit log za mutacije kategorija
+- [x] audit log za mutacije kategorija, proizvoda, varijanti i zaliha
+- [x] admin product/variant/inventory backend
+- [ ] stvarni admin nalog
 - [ ] 2FA i password reset
 - [ ] customer auth (poslovna odluka nije doneta)
 
@@ -160,4 +165,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Sledeća celina je zaštićeni admin CRUD proizvoda i varijanti. Upload slika i admin frontend ostaju zasebne celine; customer auth, 2FA i password reset ostaju van obuhvata dok se ne potvrde poslovne i produkcione odluke.
+Sledeća celina je image management i upload, uz prethodnu odluku o storage provajderu. Availability window management, admin UI, dashboard, porudžbine i stvarni admin nalog ostaju nezavršeni i nisu deo ove implementacije.
