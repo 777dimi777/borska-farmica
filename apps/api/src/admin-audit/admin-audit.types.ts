@@ -26,6 +26,11 @@ export const AUDIT_ACTIONS = {
   AVAILABILITY_WINDOW_DEACTIVATED: 'availability_window.deactivated',
   AVAILABILITY_WINDOW_DELETED: 'availability_window.deleted',
   AVAILABILITY_WINDOW_REORDERED: 'availability_window.reordered',
+  PRODUCT_IMAGE_CREATED: 'product_image.created',
+  PRODUCT_IMAGE_UPDATED: 'product_image.updated',
+  PRODUCT_IMAGE_PRIMARY_CHANGED: 'product_image.primary_changed',
+  PRODUCT_IMAGE_DELETED: 'product_image.deleted',
+  PRODUCT_IMAGE_REORDERED: 'product_image.reordered',
 } as const;
 export const AUDIT_RESOURCE_TYPES = {
   CATEGORY: 'category',
@@ -33,6 +38,7 @@ export const AUDIT_RESOURCE_TYPES = {
   PRODUCT_VARIANT: 'product_variant',
   INVENTORY: 'inventory',
   AVAILABILITY_WINDOW: 'availability_window',
+  PRODUCT_IMAGE: 'product_image',
 } as const;
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];
 export interface AuditContext {
