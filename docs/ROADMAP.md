@@ -166,3 +166,13 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 ## Sledeća neposredna celina
 
 Sledeća celina je izbor cloud storage provajdera i admin UI za već završene product-content endpoint-e. Upload i transformacije slika, dashboard, porudžbine i stvarni admin nalog ostaju nezavršeni.
+
+## Status: guest cart backend
+
+- [x] secure guest cookie identity and expiry lifecycle
+- [x] server-side Decimal pricing and quantity validation
+- [x] cart item mutations without stock reservation
+- [x] isolated cart e2e coverage
+- [ ] customer accounts and cart merge
+- [ ] stock reservation, checkout and orders
+- [ ] coupons, delivery, payment and frontend
