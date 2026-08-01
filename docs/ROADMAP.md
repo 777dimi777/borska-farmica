@@ -26,14 +26,17 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 
 ## Faza 2 — katalog i zalihe
 
-**Status: u toku — projektovanje domena kataloga je započeto.**
+**Status: u toku — javni read-only katalog je završen; admin upravljanje čeka autentifikaciju.**
 
 ### Napredak
 
 - [x] poslovni model kataloga dokumentovan u [CATALOG_DOMAIN.md](CATALOG_DOMAIN.md)
 - [x] Prisma modeli i prva migracija kataloga
 - [x] idempotentni seed šest potvrđenih kategorija
-- [ ] CRUD API, validacija, pretraga i testovi
+- [x] javni read-only category/product API, validacija, paginacija, filteri, Swagger i testovi
+- [ ] admin CRUD API (čeka admin autentifikaciju)
+- [ ] upload slika
+- [ ] frontend katalog
 
 ### Obuhvat
 
@@ -150,4 +153,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Nastaviti Fazu 2 implementacijom stabilnog i testiranog CRUD API-ja za kategorije i proizvode, uz DTO validaciju, standardizovane greške, paginaciju, filtere i Swagger. Frontend katalog i administraciju ne započinjati pre stabilnog poslovnog API-ja.
+Sledeća bezbedna celina je admin autentifikacija i autorizaciona osnova. Tek zatim implementirati zaštićeni admin CRUD katalog; upload slika i frontend katalog ostaju nezavršeni.

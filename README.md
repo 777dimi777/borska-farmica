@@ -135,3 +135,17 @@ Koristimo Conventional Commits i male, smislene commitove. Pre commita pokrenite
 - **Baza nije spremna:** proverite `docker compose ps` i `docker compose logs postgres`; readiness će vraćati 503 dok konekcija ne proradi.
 - **Dependency paketi nisu instalirani:** iz root foldera pokrenite `npm install`.
 - **VS Code prikazuje stare TypeScript greške:** pokrenite `npm run typecheck`, zatim u Command Palette izaberite `TypeScript: Restart TS Server`.
+
+## Javni Catalog API
+
+Swagger UI: http://localhost:4000/api/docs
+
+OpenAPI JSON: http://localhost:4000/api/docs-json
+
+Javne read-only rute su `GET /api/v1/categories`, `GET /api/v1/categories/:slug`, `GET /api/v1/products` i `GET /api/v1/products/:slug`. Listing filteri su `page`, `limit`, `search`, `category`, `featured`, `mainProduct`, `availabilityMode`, `inStock` i `sort` (`newest`, `name_asc`, `name_desc`, `featured`). Primer:
+
+```text
+http://localhost:4000/api/v1/products?category=mlecni-proizvodi&featured=true&sort=newest&page=1&limit=12
+```
+
+Mutation endpoint-i nisu javno dostupni; admin CRUD se uvodi tek posle admin autentifikacije. Poslovna pravila i contract opisani su u [dokumentaciji javnog Catalog API-ja](docs/CATALOG_API.md).

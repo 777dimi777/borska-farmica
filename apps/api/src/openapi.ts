@@ -16,7 +16,9 @@ export function configureOpenApi(
     .addTag('Categories')
     .addTag('Products')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    ignoreGlobalPrefix: true,
+  });
 
   SwaggerModule.setup('api/docs', app, document, {
     jsonDocumentUrl: 'api/docs-json',
