@@ -5,13 +5,20 @@ import { AdminProductMutationsService } from './admin-product-mutations.service'
 import { AdminAuditModule } from '../admin-audit/admin-audit.module';
 import { AdminVariantsController } from './admin-variants.controller';
 import { AdminVariantsService } from './admin-variants.service';
+import { AdminInventoryController } from './admin-inventory.controller';
+import { AdminInventoryService } from './admin-inventory.service';
 @Module({
   imports: [AdminAuditModule],
-  controllers: [AdminProductsController, AdminVariantsController],
+  controllers: [
+    AdminProductsController,
+    AdminVariantsController,
+    AdminInventoryController,
+  ],
   providers: [
     AdminProductsService,
     AdminProductMutationsService,
     AdminVariantsService,
+    AdminInventoryService,
   ],
 })
 export class AdminProductsModule {}

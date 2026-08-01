@@ -17,11 +17,15 @@ export const AUDIT_ACTIONS = {
   PRODUCT_VARIANT_DEACTIVATED: 'product_variant.deactivated',
   PRODUCT_VARIANT_DEFAULT_CHANGED: 'product_variant.default_changed',
   PRODUCT_VARIANT_DELETED: 'product_variant.deleted',
+  INVENTORY_RESTOCKED: 'inventory.restocked',
+  INVENTORY_ADJUSTED: 'inventory.adjusted',
+  INVENTORY_DAMAGED: 'inventory.damaged',
 } as const;
 export const AUDIT_RESOURCE_TYPES = {
   CATEGORY: 'category',
   PRODUCT: 'product',
   PRODUCT_VARIANT: 'product_variant',
+  INVENTORY: 'inventory',
 } as const;
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS];
 export interface AuditContext {
