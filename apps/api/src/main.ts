@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { json, urlencoded } from 'express';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { configureOpenApi } from './openapi';
 
@@ -18,6 +19,7 @@ async function bootstrap() {
 
   express.disable('x-powered-by');
   express.set('trust proxy', configService.getOrThrow<boolean>('TRUST_PROXY'));
+  app.use(cookieParser());
   app.use(
     helmet({
       contentSecurityPolicy: {

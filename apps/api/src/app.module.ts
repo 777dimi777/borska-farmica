@@ -3,6 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
+import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
@@ -24,6 +25,21 @@ import { ProductsModule } from './products/products.module';
         JSON_BODY_LIMIT: Joi.string()
           .pattern(/^\\d+(kb|mb)$/i)
           .default('100kb'),
+        JWT_ACCESS_SECRET: Joi.string().min(32).required(),
+        JWT_REFRESH_SECRET: Joi.string()
+          .min(32)
+          .invalid(Joi.ref('JWT_ACCESS_SECRET'))
+          .required(),
+        JWT_ACCESS_TTL: Joi.number().integer().min(60).default(900),
+        JWT_REFRESH_TTL: Joi.number().integer().min(3600).default(604800),
+        ADMIN_REFRESH_COOKIE_NAME: Joi.string().default('bf_admin_refresh'),
+        AUTH_COOKIE_SECURE: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        AUTH_COOKIE_SAME_SITE: Joi.string()
+          .valid('lax', 'strict', 'none')
+          .default('lax'),
         SWAGGER_ENABLED: Joi.boolean()
           .truthy('true')
           .falsy('false')
@@ -32,6 +48,7 @@ import { ProductsModule } from './products/products.module';
     }),
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
     DatabaseModule,
+    AdminAuthModule,
     CategoriesModule,
     ProductsModule,
     HealthModule,
