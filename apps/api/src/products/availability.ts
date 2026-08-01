@@ -1,4 +1,4 @@
-﻿import { Prisma } from '../generated/prisma/client';
+import { Prisma } from '../generated/prisma/client';
 import {
   AvailabilityMode,
   AvailabilityWindowType,
@@ -12,6 +12,7 @@ export interface AvailabilityVariant {
   allowBackorder: boolean;
 }
 export interface AvailabilityWindowInput {
+  id?: string;
   isActive?: boolean;
   type: AvailabilityWindowType;
   startsAt: Date | null;
@@ -120,5 +121,75 @@ export function calculateAvailability(
     inStock: physicalStock,
     purchasable: currentlyAvailable && sellableStock,
     label: matchingWindow?.publicLabel ?? null,
+  };
+}
+
+export enum AvailabilityBusinessReason {
+  ALWAYS_AVAILABLE = 'ALWAYS_AVAILABLE',
+  MANUALLY_AVAILABLE = 'MANUALLY_AVAILABLE',
+  MANUALLY_UNAVAILABLE = 'MANUALLY_UNAVAILABLE',
+  MATCHED_FIXED_WINDOW = 'MATCHED_FIXED_WINDOW',
+  MATCHED_RECURRING_WINDOW = 'MATCHED_RECURRING_WINDOW',
+  NO_ACTIVE_WINDOW = 'NO_ACTIVE_WINDOW',
+  OUTSIDE_ALL_WINDOWS = 'OUTSIDE_ALL_WINDOWS',
+}
+export enum AvailabilityStockReason {
+  IN_STOCK = 'IN_STOCK',
+  OUT_OF_STOCK = 'OUT_OF_STOCK',
+  BACKORDER_AVAILABLE = 'BACKORDER_AVAILABLE',
+  NO_ACTIVE_VARIANT = 'NO_ACTIVE_VARIANT',
+}
+export interface AvailabilityEvaluation extends ProductAvailabilityDto {
+  businessDate: string;
+  matchedWindowId: string | null;
+  businessReason: AvailabilityBusinessReason;
+  stockReason: AvailabilityStockReason;
+}
+export function evaluateAvailability(
+  input: AvailabilityInput,
+  referenceTime = new Date(),
+): AvailabilityEvaluation {
+  const base = calculateAvailability(input, referenceTime);
+  const current = belgradeDate(referenceTime);
+  const matchingWindow =
+    input.mode === AvailabilityMode.SEASONAL
+      ? input.windows.find((window) => matchesWindow(window, current))
+      : undefined;
+  const activeWindowCount = input.windows.filter(
+    (window) => window.isActive !== false,
+  ).length;
+  const businessReason =
+    input.mode === AvailabilityMode.ALWAYS
+      ? AvailabilityBusinessReason.ALWAYS_AVAILABLE
+      : input.mode === AvailabilityMode.MANUAL
+        ? input.manuallyAvailable
+          ? AvailabilityBusinessReason.MANUALLY_AVAILABLE
+          : AvailabilityBusinessReason.MANUALLY_UNAVAILABLE
+        : matchingWindow
+          ? matchingWindow.type === AvailabilityWindowType.FIXED_DATE_RANGE
+            ? AvailabilityBusinessReason.MATCHED_FIXED_WINDOW
+            : AvailabilityBusinessReason.MATCHED_RECURRING_WINDOW
+          : activeWindowCount === 0
+            ? AvailabilityBusinessReason.NO_ACTIVE_WINDOW
+            : AvailabilityBusinessReason.OUTSIDE_ALL_WINDOWS;
+  const sellableStock = input.variants.some(
+    (variant) =>
+      variant.allowBackorder ||
+      variant.stockQuantity.greaterThan(variant.reservedQuantity),
+  );
+  const stockReason =
+    input.variants.length === 0
+      ? AvailabilityStockReason.NO_ACTIVE_VARIANT
+      : base.inStock
+        ? AvailabilityStockReason.IN_STOCK
+        : sellableStock
+          ? AvailabilityStockReason.BACKORDER_AVAILABLE
+          : AvailabilityStockReason.OUT_OF_STOCK;
+  return {
+    ...base,
+    businessDate: `${current.year.toString().padStart(4, '0')}-${current.month.toString().padStart(2, '0')}-${current.day.toString().padStart(2, '0')}`,
+    matchedWindowId: matchingWindow?.id ?? null,
+    businessReason,
+    stockReason,
   };
 }

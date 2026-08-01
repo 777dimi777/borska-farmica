@@ -8,18 +8,22 @@ import { AdminVariantsController } from './admin-variants.controller';
 import { AdminVariantsService } from './admin-variants.service';
 import { AdminInventoryController } from './admin-inventory.controller';
 import { AdminInventoryService } from './admin-inventory.service';
+import { AdminAvailabilityController } from './admin-availability.controller';
+import { AdminAvailabilityService } from './admin-availability.service';
 @Module({
   imports: [AdminAuthModule, AdminAuditModule],
   controllers: [
     AdminProductsController,
     AdminVariantsController,
     AdminInventoryController,
+    AdminAvailabilityController,
   ],
   providers: [
     AdminProductsService,
     AdminProductMutationsService,
     AdminVariantsService,
     AdminInventoryService,
+    AdminAvailabilityService,
   ],
 })
 export class AdminProductsModule {}
