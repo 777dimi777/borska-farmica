@@ -11,6 +11,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
 import { ProductsModule } from './products/products.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -40,6 +41,15 @@ import { ProductsModule } from './products/products.module';
           .truthy('true')
           .falsy('false')
           .default(false),
+        CART_COOKIE_NAME: Joi.string().default('bf_cart'),
+        CART_TTL_DAYS: Joi.number().integer().min(1).max(365).default(30),
+        CART_COOKIE_SECURE: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        CART_COOKIE_SAME_SITE: Joi.string()
+          .valid('lax', 'strict', 'none')
+          .default('lax'),
         AUTH_COOKIE_SAME_SITE: Joi.string()
           .valid('lax', 'strict', 'none')
           .default('lax'),
@@ -57,6 +67,7 @@ import { ProductsModule } from './products/products.module';
     AdminProductsModule,
     CategoriesModule,
     ProductsModule,
+    CartModule,
     HealthModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
