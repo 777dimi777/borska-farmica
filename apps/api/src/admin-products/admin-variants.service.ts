@@ -86,7 +86,7 @@ export class AdminVariantsService {
     dto: UpdateVariantDto,
     context: AuditContext,
   ) {
-    if (!Object.keys(dto).length)
+    if (!Object.values(dto).some((value) => value !== undefined))
       throw new BadRequestException('At least one field is required.');
     this.validate(dto);
     try {

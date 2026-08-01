@@ -17,7 +17,7 @@ import {
   mapAdminProductDetail,
 } from './admin-products.mapper';
 
-const select = {
+export const adminProductSelect = {
   id: true,
   categoryId: true,
   name: true,
@@ -88,7 +88,7 @@ export class AdminProductsService {
         orderBy: this.order(q.sort),
         skip: (q.page - 1) * q.limit,
         take: q.limit,
-        select,
+        select: adminProductSelect,
       }),
     ]);
     return {
@@ -97,7 +97,10 @@ export class AdminProductsService {
     };
   }
   async findOne(id: string): Promise<AdminProductDetailDto> {
-    const row = await this.prisma.product.findUnique({ where: { id }, select });
+    const row = await this.prisma.product.findUnique({
+      where: { id },
+      select: adminProductSelect,
+    });
     if (!row) throw new NotFoundException('Product not found.');
     return mapAdminProductDetail(row);
   }

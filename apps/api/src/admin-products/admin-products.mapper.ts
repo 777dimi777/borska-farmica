@@ -1,20 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 import { Prisma } from '../generated/prisma/client';
+import type { adminProductSelect } from './admin-products.service';
 import {
   AdminProductDetailDto,
   AdminProductDto,
 } from './dto/admin-product-response.dto';
 import { productStockStatus, variantStockStatus } from './admin-product-stock';
 
-type RecordType = any;
+type RecordType = Prisma.ProductGetPayload<{
+  select: typeof adminProductSelect;
+}>;
 const sum = (values: Prisma.Decimal[]) =>
   values.reduce((a, b) => a.plus(b), new Prisma.Decimal(0));
 export function mapAdminProduct(p: RecordType): AdminProductDto {
-  const active = p.variants.filter((v: RecordType) => v.isActive);
-  const stock = sum(p.variants.map((v: RecordType) => v.stockQuantity));
-  const reserved = sum(p.variants.map((v: RecordType) => v.reservedQuantity));
+  const active = p.variants.filter((v) => v.isActive);
+  const stock = sum(p.variants.map((v) => v.stockQuantity));
+  const reserved = sum(p.variants.map((v) => v.reservedQuantity));
   const prices = active
-    .map((v: RecordType) => v.price)
+    .map((v) => v.price)
     .sort((a: Prisma.Decimal, b: Prisma.Decimal) => a.comparedTo(b));
   return {
     id: p.id,
@@ -48,7 +50,7 @@ export function mapAdminProductDetail(p: RecordType): AdminProductDetailDto {
     description: p.description,
     seoTitle: p.seoTitle,
     seoDescription: p.seoDescription,
-    variants: p.variants.map((v: RecordType) => ({
+    variants: p.variants.map((v) => ({
       id: v.id,
       name: v.name,
       sku: v.sku,
@@ -70,7 +72,7 @@ export function mapAdminProductDetail(p: RecordType): AdminProductDetailDto {
       createdAt: v.createdAt,
       updatedAt: v.updatedAt,
     })),
-    images: p.images.map((x: RecordType) => ({ ...x, primary: x.isPrimary })),
+    images: p.images.map((x) => ({ ...x, primary: x.isPrimary })),
     availabilityWindows: p.availabilityWindows,
   };
 }

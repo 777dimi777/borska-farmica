@@ -34,7 +34,7 @@ describe('admin product mapper', () => {
       images: [],
       createdAt: new Date(0),
       updatedAt: new Date(0),
-    });
+    } as never);
     expect(result).toMatchObject({
       startingPrice: '10.10',
       highestPrice: '20.20',

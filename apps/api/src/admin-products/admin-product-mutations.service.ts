@@ -64,7 +64,7 @@ export class AdminProductMutationsService {
     }
   }
   async update(id: string, dto: UpdateProductDto, context: AuditContext) {
-    if (!Object.keys(dto).length)
+    if (!Object.values(dto).some((value) => value !== undefined))
       throw new BadRequestException('At least one field is required.');
     try {
       await this.prisma.$transaction(async (tx) => {
