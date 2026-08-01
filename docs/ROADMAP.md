@@ -26,7 +26,7 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 
 ## Faza 2 — katalog i zalihe
 
-**Status: u toku — javni read-only katalog je završen; admin upravljanje čeka autentifikaciju.**
+**Status: u toku — javni katalog i zaštićeno admin upravljanje kategorijama su završeni.**
 
 ### Napredak
 
@@ -34,7 +34,8 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 - [x] Prisma modeli i prva migracija kataloga
 - [x] idempotentni seed šest potvrđenih kategorija
 - [x] javni read-only category/product API, validacija, paginacija, filteri, Swagger i testovi
-- [ ] admin CRUD API (čeka admin autentifikaciju)
+- [x] zaštićeni admin CRUD kategorija sa audit logom
+- [x] admin CRUD kategorija proizvoda, varijanti, fotografija i zaliha
 - [ ] upload slika
 - [ ] frontend katalog
 
@@ -109,8 +110,8 @@ Kritični tok od korpe do porudžbine je transakcion, precizan, bezbedan i pokri
 - [x] access i role guard osnova
 - [x] HTTP hardening i rate limiting osetljivih ruta
 - [ ] admin frontend login
-- [ ] admin CRUD
-- [ ] audit log
+- [x] admin CRUD kategorija
+- [x] audit log za mutacije kategorija
 - [ ] 2FA i password reset
 - [ ] customer auth (poslovna odluka nije doneta)
 
@@ -159,4 +160,4 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Sledeća celina je zaštićeni admin CRUD katalog koristeći završenu auth osnovu. Admin frontend login, customer auth, 2FA i password reset ostaju van obuhvata dok se ne potvrde poslovne i produkcione odluke.
+Sledeća celina je zaštićeni admin CRUD proizvoda i varijanti. Upload slika i admin frontend ostaju zasebne celine; customer auth, 2FA i password reset ostaju van obuhvata dok se ne potvrde poslovne i produkcione odluke.

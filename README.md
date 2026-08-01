@@ -150,6 +150,8 @@ http://localhost:4000/api/v1/products?category=mlecni-proizvodi&featured=true&so
 
 Mutation endpoint-i nisu javno dostupni; admin CRUD se uvodi tek posle admin autentifikacije. Poslovna pravila i contract opisani su u [dokumentaciji javnog Catalog API-ja](docs/CATALOG_API.md).
 
+Zaštićeno upravljanje kategorijama dostupno je kroz /api/v1/admin/categories; role, rute, validacija, bezbedno brisanje i audit opisani su u [ADMIN_CATEGORIES_API.md](docs/ADMIN_CATEGORIES_API.md).
+
 ## Admin auth backend
 
 Admin auth rute su `POST /api/v1/admin/auth/login`, `POST /api/v1/admin/auth/refresh`, `POST /api/v1/admin/auth/logout` i zaštićeni `GET /api/v1/admin/auth/me`. Nema javne registracije. Prvi admin se kontrolisano kreira komandom:
