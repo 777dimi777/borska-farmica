@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
+import { CategoriesModule } from './categories/categories.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
 
@@ -23,6 +24,7 @@ import { HealthModule } from './health/health.module';
       }),
     }),
     DatabaseModule,
+    CategoriesModule,
     HealthModule,
   ],
 })
