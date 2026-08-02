@@ -55,3 +55,7 @@ The implemented flow is cash-only pickup at Nade Dimić 30 or Gradska pijaca Bor
 ## Verification
 
 DTO unit tests cover normalization and invalid input. Isolated E2E tests cover registration, duplicate accounts, generic login errors, admin/customer token separation, refresh rotation and reuse rejection, sanitized profile access, profile validation, password invalidation, logout cookie isolation, disabled users and rate limiting. Test cleanup is limited to the dedicated customer fixture and does not delete admin, catalog, cart or seed data.
+
+## Session retention
+
+Expired or revoked customer session rows older than the configured retention period are physically removed by maintenance. Authentication rejects them before cleanup and active sessions/accounts are not deleted. See [MAINTENANCE_JOBS.md](MAINTENANCE_JOBS.md).

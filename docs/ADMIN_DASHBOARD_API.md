@@ -56,3 +56,7 @@ Seasonal endpoint ponovo koristi postojeći availability engine za recurring, cr
 `DASHBOARD_PENDING_ATTENTION_HOURS` je Joi-validiran integer 1–720, default `24`. Stale pending znači `PENDING_CONFIRMATION` stariji od praga. Overdue pickup obuhvata samo neterminalne statuse sa prošlim requested pickup datumom.
 
 Nijedan endpoint ne mutira kupca ili porudžbinu i ne vraća customer email/telefon, password/session/token podatke, idempotency hash ili rezervacione interne podatke. Nisu implementirani frontend, chart biblioteka, CSV, refunds, online payment, email/SMS ni cloud servis.
+
+## Timeout compatibility
+
+Automatically expired orders use normal `CANCELLED` status and are excluded from revenue. Revenue remains based only on COMPLETED/PAID orders and `completedAt`.

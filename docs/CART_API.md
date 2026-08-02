@@ -37,3 +37,7 @@ Errors use clear messages such as `CART_ITEM_UNAVAILABLE`, `CART_INSUFFICIENT_ST
 Adding, updating or deleting cart items never changes `stockQuantity`, `reservedQuantity` or InventoryMovement. A cart does not reserve or guarantee stock. Final validation and physical-stock reservation happen only during checkout/order creation.
 
 Implemented separately: customer accounts, account-only checkout, pickup orders and reservations. Not implemented: cart merge, coupons, delivery, online payments, frontend or admin cart views.
+
+## Expiration maintenance
+
+Expired ACTIVE carts are idempotently marked `EXPIRED`. Old EXPIRED/ABANDONED carts without order history are removed after retention; ACTIVE and CONVERTED carts are never retention-deleted. See [MAINTENANCE_JOBS.md](MAINTENANCE_JOBS.md).

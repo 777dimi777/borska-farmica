@@ -42,3 +42,7 @@ Pokrenite PostgreSQL, zatim `npm run test:e2e --workspace=@borska-farmica/api --
 ## Sigurnosna ograničenja i naredne odluke
 
 Helmet, uklonjen X-Powered-By, ograničen JSON body, globalni limiter i stroži login limiter čine osnovu. Lozinke/tokeni se ne loguju. Pre produkcije treba potvrditi reverse proxy/trust proxy, admin/frontend domene, CORS, Secure/SameSite/CSRF strategiju, secret management/rotation, session retention, audit log, incident revocation, 2FA i password reset/email provajdera. Admin frontend, admin CRUD, javna registracija i customer auth nisu deo ove faze.
+
+## Session retention
+
+Expired or revoked admin session rows older than the configured retention period are physically removed without deleting administrators or audit history. See [MAINTENANCE_JOBS.md](MAINTENANCE_JOBS.md).

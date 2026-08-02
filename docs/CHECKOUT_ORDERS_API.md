@@ -109,3 +109,7 @@ Customer and admin JWT secrets/guards remain separate. Responses never expose se
 ## Not implemented
 
 Frontend checkout/order screens, email/SMS notifications, returns/refunds, automatic reservation expiration, backorder fulfillment, delivery, online payments and analytics are not implemented.
+
+## Automatic confirmation timeout
+
+New pending orders persist `confirmationExpiresAt` using the configured 24-hour TTL. Customer/admin responses expose that deadline and structured `cancellationReason`. Timeout cancellation releases reservations without changing physical stock; see [MAINTENANCE_JOBS.md](MAINTENANCE_JOBS.md).

@@ -212,3 +212,10 @@ Checkout/order backend je implementiran sa tim pravilima; frontend checkout još
 - produkcioni hardening, observability i deployment konfiguracija
 - opcione email/SMS notifikacije
 - frontend storefront i admin dashboard
+
+## Status: automated maintenance
+
+- [x] automatic reservation expiration
+- [x] cart expiration and retention cleanup
+- [x] customer/admin session retention cleanup
+- [ ] production hardening, observability, backup/restore and deployment configuration

@@ -183,3 +183,5 @@ Admin customer pregled/kontrole, SUPER_ADMIN audit viewer i bounded bezbedni CSV
 ## Cloud image upload
 
 Managed Cloudinary upload, Sharp obrada i external/managed lifecycle opisani su u [IMAGE_STORAGE_UPLOAD_API.md](docs/IMAGE_STORAGE_UPLOAD_API.md). Upload je lokalno bezbedno isključen dok se deployment credentials ručno ne podese.
+
+Automatsko isticanje rezervacija, korpi i starih sesija opisano je u [docs/MAINTENANCE_JOBS.md](docs/MAINTENANCE_JOBS.md).
