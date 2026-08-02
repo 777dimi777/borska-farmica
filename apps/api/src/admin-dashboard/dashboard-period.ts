@@ -1,3 +1,4 @@
+import { Prisma } from '../generated/prisma/client';
 import { BadRequestException } from '@nestjs/common';
 
 export const DASHBOARD_TIME_ZONE = 'Europe/Belgrade';
@@ -155,18 +156,21 @@ export interface MetricComparison {
 }
 
 export function compareMetric(
-  current: number,
-  previous: number,
+  current: Prisma.Decimal | number | string,
+  previous: Prisma.Decimal | number | string,
   fractionDigits = 2,
 ): MetricComparison {
-  const absolute = current - previous;
-  const format = (value: number) => value.toFixed(fractionDigits);
+  const currentDecimal = new Prisma.Decimal(current);
+  const previousDecimal = new Prisma.Decimal(previous);
+  const absolute = currentDecimal.minus(previousDecimal);
+  const format = (value: Prisma.Decimal) => value.toFixed(fractionDigits);
   return {
-    current: format(current),
-    previous: format(previous),
+    current: format(currentDecimal),
+    previous: format(previousDecimal),
     absoluteChange: format(absolute),
-    percentageChange:
-      previous === 0 ? null : ((absolute / previous) * 100).toFixed(2),
-    trend: absolute > 0 ? 'up' : absolute < 0 ? 'down' : 'flat',
+    percentageChange: previousDecimal.isZero()
+      ? null
+      : absolute.dividedBy(previousDecimal).times(100).toFixed(2),
+    trend: absolute.gt(0) ? 'up' : absolute.lt(0) ? 'down' : 'flat',
   };
 }
