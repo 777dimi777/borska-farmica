@@ -53,7 +53,7 @@ Audit actions: `availability_window.created`, `.updated`, `.activated`, `.deacti
 - `GET /images` lists primary first, then `sortOrder`, `createdAt`, and `id`.
 - `POST /images` creates URL metadata.
 - `PATCH /images/:imageId` updates URL, alt text, primary status, or order.
-- `DELETE /images/:imageId` deletes only the database record and returns 204.
+- `DELETE /images/:imageId` deletes the database record and, for managed images, first deletes the remote asset. External images remain metadata-only deletes.
 - `PATCH /images/reorder` atomically changes unique orders and optionally `primaryImageId` (maximum 100 items).
 
 Create example:
@@ -74,10 +74,6 @@ The first image becomes primary automatically. Selecting another primary atomica
 Primary-changing create/update/delete/reorder operations use SERIALIZABLE transactions and retry PostgreSQL/Prisma write conflicts (`P2034`) at most twice. This prevents two normal concurrent requests from leaving two primary rows. A future PostgreSQL partial unique index may provide another database-level safeguard.
 
 Audit actions: `product_image.created`, `.updated`, `.primary_changed`, `.deleted`, and `.reordered`. Audit snapshots exclude credentials and provider secrets.
-
-## Scope
-
-File upload, multipart requests, cloud storage SDKs, image transformations and remote-file deletion are not implemented. Deleting image metadata never deletes the remote image.
 
 ## Managed upload
 

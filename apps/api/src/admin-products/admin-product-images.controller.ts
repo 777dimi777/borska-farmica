@@ -118,7 +118,7 @@ export class AdminProductImagesController {
   }
   @Delete(':imageId')
   @ApiOperation({
-    summary: 'Delete image metadata without deleting the remote file',
+    summary: 'Delete image metadata and its managed remote asset',
   })
   @HttpCode(204)
   remove(
