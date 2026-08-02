@@ -179,3 +179,7 @@ Zaštićeni backend dashboard je dostupan pod `/api/v1/admin/dashboard` za `ADMI
 ## Admin customer, audit i CSV backend
 
 Admin customer pregled/kontrole, SUPER_ADMIN audit viewer i bounded bezbedni CSV izvozi dostupni su pod `/api/v1/admin`. Role, filteri, Decimal metrike, session revocation, audit redakcija i CSV zaštite opisani su u [ADMIN_CUSTOMERS_AUDIT_API.md](docs/ADMIN_CUSTOMERS_AUDIT_API.md).
+
+## Cloud image upload
+
+Managed Cloudinary upload, Sharp obrada i external/managed lifecycle opisani su u [IMAGE_STORAGE_UPLOAD_API.md](docs/IMAGE_STORAGE_UPLOAD_API.md). Upload je lokalno bezbedno isključen dok se deployment credentials ručno ne podese.

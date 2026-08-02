@@ -39,7 +39,7 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 - [x] admin upravljanje varijantama i inventory adjustments sa auditom
 - [x] image metadata mutation endpointi (upload nije implementiran)
 - [ ] availability window management
-- [ ] upload slika
+- [x] stvarni Cloudinary upload i upravljanje slikama
 - [ ] frontend katalog
 
 ### Obuhvat
@@ -204,11 +204,11 @@ Checkout/order backend je implementiran sa tim pravilima; frontend checkout još
 - [ ] frontend checkout i order UX
 - [ ] email/SMS obaveštenja
 - [ ] returns/refunds i automatsko isticanje rezervacija
-- [ ] cloud upload, analytics frontend i production deployment
+- [x] cloud upload backend; [ ] analytics frontend i production deployment
 
 ### Preostale veće oblasti
 
-- stvarni cloud image upload/storage
+- [x] stvarni cloud image upload/storage
 - produkcioni hardening, observability i deployment konfiguracija
 - opcione email/SMS notifikacije
 - frontend storefront i admin dashboard

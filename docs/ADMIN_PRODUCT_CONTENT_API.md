@@ -78,3 +78,7 @@ Audit actions: `product_image.created`, `.updated`, `.primary_changed`, `.delete
 ## Scope
 
 File upload, multipart requests, cloud storage SDKs, image transformations and remote-file deletion are not implemented. Deleting image metadata never deletes the remote image.
+
+## Managed upload
+
+Stvarni multipart upload je dokumentovan u [IMAGE_STORAGE_UPLOAD_API.md](IMAGE_STORAGE_UPLOAD_API.md). External HTTPS metadata ostaje podržana. Managed Cloudinary URL/storage polja su server-managed; DELETE uklanja remote asset pre metadata zapisa, uz postojeći primary fallback.
