@@ -1,6 +1,6 @@
 # Guest Cart API
 
-Base path: `/api/v1/cart`. The cart is anonymous; customer accounts, checkout and orders are not implemented.
+Base path: `/api/v1/cart`. The cart remains anonymous, while checkout requires a separate authenticated customer account.
 
 ## Identity and lifecycle
 
@@ -8,7 +8,7 @@ The first successful mutation without a usable identity creates an ACTIVE cart. 
 
 GET without a cookie returns an empty response and creates no database row. Random, expired, CONVERTED or otherwise unavailable identities are cleared without revealing whether a hash existed. An expired ACTIVE row is marked EXPIRED and is never reactivated. A later mutation creates a new cart. Mutations use sliding expiration (`now + CART_TTL_DAYS`); GET is read-only.
 
-Cookie defaults: Path `/api/v1/cart`, HttpOnly, 30 days, SameSite=Lax and non-Secure locally. Production must use Secure when SameSite=None. CORS uses the configured frontend origin with credentials and never wildcard. Browser mutations with an Origin header must match `FRONTEND_URL`; missing Origin is permitted for server-to-server and Swagger clients. Production cross-site deployment must confirm the final CSRF architecture.
+Cookie defaults: Path `/api/v1`, HttpOnly, 30 days, SameSite=Lax and non-Secure locally. The broader API path allows the same cart identity to reach checkout. Legacy `/api/v1/cart` cookies are reissued and cleared safely. Production must use Secure when SameSite=None. CORS uses the configured frontend origin with credentials and never wildcard. Browser mutations with an Origin header must match `FRONTEND_URL`; missing Origin is permitted for server-to-server and Swagger clients. Production cross-site deployment must confirm the final CSRF architecture.
 
 ## Endpoints
 
@@ -34,6 +34,6 @@ Errors use clear messages such as `CART_ITEM_UNAVAILABLE`, `CART_INSUFFICIENT_ST
 
 ## Stock and scope
 
-Adding, updating or deleting cart items never changes `stockQuantity`, `reservedQuantity` or InventoryMovement. A cart does not reserve or guarantee stock. Final validation and reservation belong to future checkout/order creation.
+Adding, updating or deleting cart items never changes `stockQuantity`, `reservedQuantity` or InventoryMovement. A cart does not reserve or guarantee stock. Final validation and physical-stock reservation happen only during checkout/order creation.
 
-Not implemented: customer accounts, cart merge, coupons, delivery, payments, checkout, orders, frontend or admin cart views.
+Implemented separately: customer accounts, account-only checkout, pickup orders and reservations. Not implemented: cart merge, coupons, delivery, online payments, frontend or admin cart views.

@@ -46,21 +46,11 @@ Configure distinct, high-entropy values for:
 
 The application rejects customer secrets that equal either admin secret or each other. Never commit real secrets.
 
-## Checkout boundary and confirmed business rules
+## Checkout integration
 
-Checkout and orders remain intentionally unimplemented in this phase. The next implementation must require both a valid customer access token and the existing cart cookie; purchasing without an account is not allowed. Cart merge is not implied by this authentication work.
+Checkout and orders are now implemented as a separate backend domain. Purchasing requires both a valid customer access token and the existing `bf_cart` cookie; anonymous checkout is rejected. Customer/admin identities and sessions remain isolated, and cart merge is still not implied.
 
-Confirmed rules for that future order phase:
-
-- payment is cash only, in person;
-- there is no delivery and no online payment;
-- pickup is either at the farm/home location, Nade Dimić 30, Bor (immediately below stovarište Našković), or at Gradska pijaca Bor on Saturdays;
-- an administrator manually confirms the order;
-- there is no minimum order amount;
-- stock reservation should follow a standard e-commerce flow when checkout/orders are implemented;
-- sale/discount support may be added in its own scoped phase.
-
-These locations and rules are documented requirements, not yet active checkout options.
+The implemented flow is cash-only pickup at Nade Dimić 30 or Gradska pijaca Bor on Saturdays, with telephone confirmation by admin, no delivery, no fee and no minimum amount. Atomic reservations and the complete order lifecycle are documented in [CHECKOUT_ORDERS_API.md](CHECKOUT_ORDERS_API.md).
 
 ## Verification
 

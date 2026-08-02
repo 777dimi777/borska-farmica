@@ -26,7 +26,7 @@ Sve stavke Faze 1 su implementirane i proverene. Generički `GET /api/v1` i dalj
 
 ## Faza 2 — katalog i zalihe
 
-**Status: u toku — javni katalog, admin kategorije, proizvodi, varijante i inventory adjustments su završeni.**
+**Status: u toku — katalog, admin sadržaj, customer auth, korpa i checkout/order backend su završeni.**
 
 ### Napredak
 
@@ -85,16 +85,16 @@ Korisnik može brzo i pristupačno da istraži stvarni katalog na svim važnim v
 
 - korpa za gosta i podrška za budućeg prijavljenog korisnika
 - serverska provera cena, količina i zaliha
-- checkout i validacija podataka kupca
-- transakciono kreiranje porudžbine
-- rezervacija ili umanjenje zaliha
-- snapshot stavki porudžbine
-- potvrda porudžbine i pregled statusa
-- testovi kritičnog toka i obračuna
+- [x] checkout i validacija podataka kupca
+- [x] transakciono kreiranje porudžbine
+- [x] rezervacija i lifecycle fizičke zalihe
+- [x] snapshot stavki porudžbine
+- [x] potvrda porudžbine i pregled statusa
+- [x] testovi kritičnog toka i obračuna
 
 ### Otvorene odluke
 
-Pre rada potvrditi načine plaćanja i preuzimanja, zone i cenu dostave, minimalan iznos, obavezne kontakt podatke, potrebu za nalogom, telefonsku potvrdu i konačne statuse porudžbine. Tok za rakiju zahteva zasebnu pravnu i poslovnu potvrdu.
+Potvrđeno i implementirano: customer nalog je obavezan, nema dostave ni fee-a, plaćanje je gotovinom pri preuzimanju, a admin ručno potvrđuje termin. Tok za rakiju i dalje zahteva zasebnu pravnu i poslovnu potvrdu.
 
 ### Kriterijum završetka
 
@@ -174,8 +174,8 @@ Sledeća celina je izbor cloud storage provajdera i admin UI za već završene p
 - [x] cart item mutations without stock reservation
 - [x] isolated cart e2e coverage
 - [x] customer accounts (cart merge ostaje zaseban posao)
-- [ ] stock reservation, checkout and orders
-- [ ] coupons, delivery, payment and frontend
+- [x] stock reservation, checkout and orders
+- [ ] coupons, delivery, online payment and frontend
 
 ## Status: customer auth backend
 
@@ -186,6 +186,20 @@ Sledeća celina je izbor cloud storage provajdera i admin UI za već završene p
 - [x] izolovani unit i e2e testovi
 - [ ] email verification provider i password reset
 - [ ] frontend forme i customer UX
-- [ ] checkout koji zahteva customer access token i postojeću korpu
+- [x] checkout koji zahteva customer access token i postojeću korpu
 
-Za budući checkout potvrđeno je: nema kupovine bez naloga, plaćanje je isključivo gotovinom uživo, nema dostave, a lično preuzimanje je na adresi Nade Dimić 30 u Boru ili subotom na Gradskoj pijaci Bor. Admin ručno potvrđuje porudžbinu, nema minimalnog iznosa, a rezervacija zaliha se uvodi u order fazi. Ove odluke još nisu implementirane kao checkout/order funkcionalnost.
+Checkout/order backend je implementiran sa tim pravilima; frontend checkout još nije urađen.
+
+## Status: checkout i orders backend
+
+- [x] account-only checkout preview i kreiranje porudžbine
+- [x] Borska Farmica i subotnja Gradska pijaca pickup pravila
+- [x] idempotentno atomsko kreiranje i fizičke stock rezervacije
+- [x] customer order listing/details/pending cancellation
+- [x] admin listing/details i stroga transition matrica
+- [x] cash completion, PAID status i SALE movements
+- [x] cancellation release bez promene fizičkog stocka
+- [ ] frontend checkout i order UX
+- [ ] email/SMS obaveštenja
+- [ ] returns/refunds i automatsko isticanje rezervacija
+- [ ] cloud upload, analytics dashboard i production deployment

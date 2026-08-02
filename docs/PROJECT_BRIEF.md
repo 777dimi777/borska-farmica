@@ -70,11 +70,13 @@ Ključna pravila:
 - Važni poslovni tokovi dobijaju stvarne unit, integration i e2e testove.
 - Cilj javnog sajta je WCAG AA, dobra navigacija tastaturom, dovoljan kontrast i poštovanje `prefers-reduced-motion`.
 
-## Nepotvrđene poslovne odluke
+## Potvrđene checkout odluke
 
-Pre implementacije moraju se potvrditi stvarne cene i pakovanja, dostava i njena cena, minimalni iznos, način plaćanja, lično preuzimanje, korisnički nalozi, obavezni kontakt podaci, telefonska potvrda, pravila za alkohol, pravni i poslovni podaci, skladištenje fotografija i produkcioni provajderi.
+Kupovina zahteva customer nalog. Nema dostave, delivery adrese, online plaćanja, fee-a ni minimalnog iznosa. Plaćanje je isključivo gotovinom pri preuzimanju. Lokacije su Borska Farmica, Nade Dimić 30, Bor (odmah ispod Stovarišta Našković) i Gradska pijaca Bor subotom. Admin telefonom potvrđuje tačan termin. Order creation rezerviše fizički dostupnu zalihu; cancellation je oslobađa, a cash completion smanjuje fizički stock i pravi SALE movement.
 
-Ne izmišljati cene, količine, sertifikate, zdravstvene tvrdnje, poreklo, kontakte, adresu, pravne podatke, zone dostave ili rokove. Lažni demo podaci nikada ne smeju izgledati kao stvarni produkcioni podaci.
+## Preostale nepotvrđene odluke
+
+Pre narednih faza moraju se potvrditi stvarne cene i pakovanja, pravila za alkohol, pravni podaci, skladištenje fotografija i produkcioni provajderi.
 
 ## Git i način rada
 

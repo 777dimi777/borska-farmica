@@ -168,4 +168,6 @@ Product availability windows, availability preview and HTTPS image metadata mana
 
 Trajna gostujuća korpa dostupna je na `/api/v1/cart`; cookie identitet, Decimal pricing, quantity pravila i no-reservation granica opisani su u [CART_API.md](docs/CART_API.md).
 
-Customer registracija, login, rotirajuće sesije i profil dostupni su kroz `/api/v1/auth` i `/api/v1/account`; kompletan contract, bezbednosna izolacija od admina i potvrđene granice budućeg checkout-a opisani su u [CUSTOMER_AUTH.md](docs/CUSTOMER_AUTH.md).
+Customer registracija, login, rotirajuće sesije i profil dostupni su kroz `/api/v1/auth` i `/api/v1/account`; kompletan contract, bezbednosna izolacija od admina i customer/checkout integracija opisani su u [CUSTOMER_AUTH.md](docs/CUSTOMER_AUTH.md).
+
+Account-only checkout, pickup lokacije, atomske rezervacije, customer istorija i admin order lifecycle opisani su u [CHECKOUT_ORDERS_API.md](docs/CHECKOUT_ORDERS_API.md). Nema dostave ni online plaćanja; završetak porudžbine evidentira gotovinu i SALE movement.
