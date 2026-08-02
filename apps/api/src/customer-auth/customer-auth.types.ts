@@ -1,6 +1,7 @@
 export interface CustomerAccessPayload {
   sub: string;
   type: 'customer_access';
+  passwordChangedAt: number | null;
   iat?: number;
   exp?: number;
 }

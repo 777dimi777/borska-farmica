@@ -25,6 +25,16 @@ export class CustomerAuthService {
   private unauthorized(): never {
     throw new UnauthorizedException('Invalid credentials.');
   }
+  async refresh(rawToken: string, metadata: CustomerSessionMetadata) {
+    const rotated = await this.sessions.rotate(rawToken, metadata);
+    return {
+      response: await this.response(rotated.customer),
+      refreshToken: rotated.refreshToken,
+    };
+  }
+  logout(rawToken?: string) {
+    return this.sessions.revoke(rawToken);
+  }
   private async response(customer: {
     id: string;
     firstName: string;
@@ -32,9 +42,13 @@ export class CustomerAuthService {
     email: string;
     phone: string;
     emailVerifiedAt: Date | null;
+    passwordChangedAt: Date | null;
   }): Promise<CustomerAuthResponse> {
     return {
-      accessToken: await this.tokens.signAccess(customer.id),
+      accessToken: await this.tokens.signAccess(
+        customer.id,
+        customer.passwordChangedAt,
+      ),
       tokenType: 'Bearer',
       expiresIn: this.tokens.accessTtl(),
       customer: customerSummary(customer),

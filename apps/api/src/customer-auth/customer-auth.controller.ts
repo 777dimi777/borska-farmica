@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import {
   ApiConflictResponse,
@@ -52,5 +61,23 @@ export class CustomerAuthController {
     const result = await this.auth.login(dto, this.metadata(req));
     this.cookies.set(res, result.refreshToken);
     return result.response;
+  }
+  @Post('refresh')
+  @HttpCode(200)
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const raw = this.cookies.read(req);
+    if (!raw) throw new UnauthorizedException('Invalid credentials.');
+    const result = await this.auth.refresh(raw, this.metadata(req));
+    this.cookies.set(res, result.refreshToken);
+    return result.response;
+  }
+  @Post('logout')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    await this.auth.logout(this.cookies.read(req));
+    this.cookies.clear(res);
   }
 }

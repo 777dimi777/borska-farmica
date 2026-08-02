@@ -18,9 +18,13 @@ export class CustomerTokenService {
   refreshTtl() {
     return this.config.getOrThrow<number>('CUSTOMER_JWT_REFRESH_TTL');
   }
-  signAccess(id: string) {
+  signAccess(id: string, passwordChangedAt: Date | null) {
     return this.jwt.signAsync(
-      { sub: id, type: 'customer_access' } satisfies CustomerAccessPayload,
+      {
+        sub: id,
+        type: 'customer_access',
+        passwordChangedAt: passwordChangedAt?.getTime() ?? null,
+      } satisfies CustomerAccessPayload,
       {
         secret: this.config.getOrThrow<string>('CUSTOMER_JWT_ACCESS_SECRET'),
         expiresIn: this.accessTtl(),

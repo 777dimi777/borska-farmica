@@ -6,16 +6,20 @@ import { CustomerAuthService } from './customer-auth.service';
 import { CustomerCookieService } from './customer-cookie.service';
 import { CustomerSessionService } from './customer-session.service';
 import { CustomerTokenService } from './customer-token.service';
+import { AccountController } from './account.controller';
+import { CustomerAccessGuard } from './guards/customer-access.guard';
 @Module({
   imports: [JwtModule.register({}), AdminAuthModule],
-  controllers: [CustomerAuthController],
+  controllers: [CustomerAuthController, AccountController],
   providers: [
     CustomerAuthService,
     CustomerCookieService,
     CustomerSessionService,
     CustomerTokenService,
+    CustomerAccessGuard,
   ],
   exports: [
+    CustomerAccessGuard,
     CustomerAuthService,
     CustomerCookieService,
     CustomerSessionService,
