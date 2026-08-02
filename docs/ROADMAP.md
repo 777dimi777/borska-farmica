@@ -126,14 +126,16 @@ Admin rute su nedostupne neautorizovanim korisnicima, tokeni i lozinke su bezbed
 
 ## Faza 6 — admin panel i analitika
 
+**Status: dashboard analytics backend završen; admin frontend nije započet.
+
 ### Obuhvat
 
-- dashboard sa stvarnim KPI podacima iz baze
+- [x] dashboard API sa stvarnim KPI podacima iz baze
 - upravljanje kategorijama, proizvodima, varijantama i fotografijama
 - zalihe, sezonska dostupnost, porudžbine i kupci
-- periodi i poređenje sa prethodnim periodom
-- grafikoni prodaje, porudžbina, kategorija, proizvoda i zaliha
-- paneli za stavke koje zahtevaju pažnju
+- [x] periodi i poređenje sa prethodnim periodom
+- [x] API serije i agregacije prodaje, porudžbina, kategorija, proizvoda i zaliha
+- [x] API brojači i podaci za stavke koje zahtevaju pažnju
 - responzivne tabele, filteri i kasniji CSV export
 - loading skeleton, empty i error stanja
 
@@ -165,7 +167,7 @@ Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupačan, brz i ima 
 
 ## Sledeća neposredna celina
 
-Sledeća celina je izbor cloud storage provajdera i admin UI za već završene product-content endpoint-e. Upload i transformacije slika, dashboard, porudžbine i stvarni admin nalog ostaju nezavršeni.
+Sledeća celina je izbor cloud storage provajdera i admin UI za već završene product-content endpoint-e. Upload i transformacije slika, dashboard frontend, stvarni admin nalog i production deployment ostaju nezavršeni.
 
 ## Status: guest cart backend
 
@@ -202,4 +204,4 @@ Checkout/order backend je implementiran sa tim pravilima; frontend checkout još
 - [ ] frontend checkout i order UX
 - [ ] email/SMS obaveštenja
 - [ ] returns/refunds i automatsko isticanje rezervacija
-- [ ] cloud upload, analytics dashboard i production deployment
+- [ ] cloud upload, analytics frontend i production deployment

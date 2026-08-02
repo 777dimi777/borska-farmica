@@ -171,3 +171,7 @@ Trajna gostujuća korpa dostupna je na `/api/v1/cart`; cookie identitet, Decimal
 Customer registracija, login, rotirajuće sesije i profil dostupni su kroz `/api/v1/auth` i `/api/v1/account`; kompletan contract, bezbednosna izolacija od admina i customer/checkout integracija opisani su u [CUSTOMER_AUTH.md](docs/CUSTOMER_AUTH.md).
 
 Account-only checkout, pickup lokacije, atomske rezervacije, customer istorija i admin order lifecycle opisani su u [CHECKOUT_ORDERS_API.md](docs/CHECKOUT_ORDERS_API.md). Nema dostave ni online plaćanja; završetak porudžbine evidentira gotovinu i SALE movement.
+
+## Admin dashboard analytics
+
+Zaštićeni backend dashboard je dostupan pod `/api/v1/admin/dashboard` za `ADMIN` i `SUPER_ADMIN`. Obuhvata stvarne KPI-je, periodna poređenja, revenue serije, status/order-flow, prodaju po proizvodu/kategoriji/pickup lokaciji, zalihe, sezonalnost, recent orders i attention brojače. Definicije i svi endpointi su u [ADMIN_DASHBOARD_API.md](docs/ADMIN_DASHBOARD_API.md).
