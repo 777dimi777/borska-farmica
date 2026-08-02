@@ -10,13 +10,15 @@ export function configureOpenApi(
   const config = new DocumentBuilder()
     .setTitle('Borska Farmica API')
     .setDescription(
-      'Public catalog plus protected Borska Farmica admin APIs for authentication, categories, products, variants and inventory.',
+      'Public catalog, guest cart, customer account authentication and protected Borska Farmica admin APIs.',
     )
     .setVersion('1.0')
     .addServer('/api/v1', 'Version 1 API')
     .addTag('Health')
     .addTag('Categories')
     .addTag('Products')
+    .addTag('Customer Auth')
+    .addTag('Customer Account')
     .addTag('Admin Auth')
     .addTag('Admin Categories')
     .addTag('Admin Products')
@@ -27,6 +29,11 @@ export function configureOpenApi(
       'admin-access',
     )
     .addCookieAuth('bf_admin_refresh')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'customer-access',
+    )
+    .addCookieAuth('bf_customer_refresh')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     ignoreGlobalPrefix: true,

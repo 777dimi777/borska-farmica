@@ -118,7 +118,7 @@ Kritični tok od korpe do porudžbine je transakcion, precizan, bezbedan i pokri
 - [x] admin product/variant/inventory backend
 - [ ] stvarni admin nalog
 - [ ] 2FA i password reset
-- [ ] customer auth (poslovna odluka nije doneta)
+- [x] customer auth backend sa odvojenim identitetom, sesijama i profilom
 
 ### Kriterijum završetka
 
@@ -173,6 +173,19 @@ Sledeća celina je izbor cloud storage provajdera i admin UI za već završene p
 - [x] server-side Decimal pricing and quantity validation
 - [x] cart item mutations without stock reservation
 - [x] isolated cart e2e coverage
-- [ ] customer accounts and cart merge
+- [x] customer accounts (cart merge ostaje zaseban posao)
 - [ ] stock reservation, checkout and orders
 - [ ] coupons, delivery, payment and frontend
+
+## Status: customer auth backend
+
+- [x] obavezan customer nalog: registracija i email/password login
+- [x] obavezni ime, prezime i telefon sa E.164 normalizacijom
+- [x] customer-only access/refresh tokeni, rotacija i HttpOnly cookie
+- [x] profil i promena lozinke sa opozivom starih sesija
+- [x] izolovani unit i e2e testovi
+- [ ] email verification provider i password reset
+- [ ] frontend forme i customer UX
+- [ ] checkout koji zahteva customer access token i postojeću korpu
+
+Za budući checkout potvrđeno je: nema kupovine bez naloga, plaćanje je isključivo gotovinom uživo, nema dostave, a lično preuzimanje je na adresi Nade Dimić 30 u Boru ili subotom na Gradskoj pijaci Bor. Admin ručno potvrđuje porudžbinu, nema minimalnog iznosa, a rezervacija zaliha se uvodi u order fazi. Ove odluke još nisu implementirane kao checkout/order funkcionalnost.

@@ -167,3 +167,5 @@ Potpuna konfiguracija, token/cookie tok i sigurnosna ograničenja opisani su u [
 Product availability windows, availability preview and HTTPS image metadata management are available under /api/v1/admin/products/:productId. Contracts, ordering, primary-image rules and audit actions are documented in [ADMIN_PRODUCT_CONTENT_API.md](docs/ADMIN_PRODUCT_CONTENT_API.md). File upload is not implemented.
 
 Trajna gostujuća korpa dostupna je na `/api/v1/cart`; cookie identitet, Decimal pricing, quantity pravila i no-reservation granica opisani su u [CART_API.md](docs/CART_API.md).
+
+Customer registracija, login, rotirajuće sesije i profil dostupni su kroz `/api/v1/auth` i `/api/v1/account`; kompletan contract, bezbednosna izolacija od admina i potvrđene granice budućeg checkout-a opisani su u [CUSTOMER_AUTH.md](docs/CUSTOMER_AUTH.md).
