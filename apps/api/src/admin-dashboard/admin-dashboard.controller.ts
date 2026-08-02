@@ -9,6 +9,9 @@ import {
   DashboardPeriodQueryDto,
   RevenueSeriesQueryDto,
   TopProductsQueryDto,
+  InventoryAlertsQueryDto,
+  SeasonalDashboardQueryDto,
+  RecentOrdersQueryDto,
 } from './dto/dashboard-query.dto';
 
 @ApiTags('Admin Dashboard')
@@ -69,5 +72,37 @@ export class AdminDashboardController {
   @ApiOperation({ summary: 'Read completed and paid sales by pickup location' })
   pickupSales(@Query() query: DashboardPeriodQueryDto) {
     return this.dashboard.pickupSales(query);
+  }
+
+  @Get('inventory-alerts')
+  @ApiOperation({ summary: 'Read active variant stock alerts' })
+  inventoryAlerts(@Query() query: InventoryAlertsQueryDto) {
+    return this.dashboard.inventoryAlerts(query);
+  }
+
+  @Get('inventory-summary')
+  @ApiOperation({
+    summary: 'Read stock status counts and unit-safe quantity totals',
+  })
+  inventorySummary() {
+    return this.dashboard.inventorySummary();
+  }
+
+  @Get('seasonal')
+  @ApiOperation({ summary: 'Read current and upcoming seasonal availability' })
+  seasonal(@Query() query: SeasonalDashboardQueryDto) {
+    return this.dashboard.seasonal(query);
+  }
+
+  @Get('recent-orders')
+  @ApiOperation({ summary: 'Read recent orders without customer contact data' })
+  recentOrders(@Query() query: RecentOrdersQueryDto) {
+    return this.dashboard.recentOrders(query);
+  }
+
+  @Get('attention')
+  @ApiOperation({ summary: 'Read operational dashboard attention counts' })
+  attention() {
+    return this.dashboard.attention();
   }
 }

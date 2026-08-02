@@ -83,6 +83,11 @@ import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
         AUTH_COOKIE_SAME_SITE: Joi.string()
           .valid('lax', 'strict', 'none')
           .default('lax'),
+        DASHBOARD_PENDING_ATTENTION_HOURS: Joi.number()
+          .integer()
+          .min(1)
+          .max(720)
+          .default(24),
         SWAGGER_ENABLED: Joi.boolean()
           .truthy('true')
           .falsy('false')

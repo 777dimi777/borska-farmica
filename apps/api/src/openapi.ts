@@ -22,6 +22,7 @@ export function configureOpenApi(
     .addTag('Checkout')
     .addTag('Customer Orders')
     .addTag('Admin Orders')
+    .addTag('Admin Dashboard')
     .addTag('Admin Auth')
     .addTag('Admin Categories')
     .addTag('Admin Products')

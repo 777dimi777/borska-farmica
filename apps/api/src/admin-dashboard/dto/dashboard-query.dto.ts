@@ -54,3 +54,38 @@ export class TopProductsQueryDto extends DashboardPeriodQueryDto {
   @IsEnum(TopProductsSort)
   sort: TopProductsSort = TopProductsSort.REVENUE;
 }
+
+export enum InventoryAlertFilter {
+  LOW = 'low',
+  OUT = 'out',
+  BACKORDER = 'backorder',
+  RESERVED_PRESSURE = 'reserved_pressure',
+  ALL = 'all',
+}
+export class InventoryAlertsQueryDto {
+  @ApiPropertyOptional({
+    enum: InventoryAlertFilter,
+    default: InventoryAlertFilter.ALL,
+  })
+  @IsOptional()
+  @IsEnum(InventoryAlertFilter)
+  status: InventoryAlertFilter = InventoryAlertFilter.ALL;
+}
+export class SeasonalDashboardQueryDto {
+  @ApiPropertyOptional({ default: 60, minimum: 1, maximum: 366 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(366)
+  horizon = 60;
+}
+export class RecentOrdersQueryDto {
+  @ApiPropertyOptional({ default: 10, minimum: 1, maximum: 50 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  limit = 10;
+}
