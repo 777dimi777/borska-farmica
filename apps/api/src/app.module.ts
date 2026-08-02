@@ -12,6 +12,7 @@ import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
 import { ProductsModule } from './products/products.module';
 import { CartModule } from './cart/cart.module';
+import { CustomerAuthModule } from './customer-auth/customer-auth.module';
 
 @Module({
   imports: [
@@ -41,6 +42,32 @@ import { CartModule } from './cart/cart.module';
           .truthy('true')
           .falsy('false')
           .default(false),
+        CUSTOMER_JWT_ACCESS_SECRET: Joi.string()
+          .min(32)
+          .invalid(Joi.ref('JWT_ACCESS_SECRET'))
+          .invalid(Joi.ref('JWT_REFRESH_SECRET'))
+          .required(),
+        CUSTOMER_JWT_REFRESH_SECRET: Joi.string()
+          .min(32)
+          .invalid(Joi.ref('JWT_ACCESS_SECRET'))
+          .invalid(Joi.ref('JWT_REFRESH_SECRET'))
+          .invalid(Joi.ref('CUSTOMER_JWT_ACCESS_SECRET'))
+          .required(),
+        CUSTOMER_JWT_ACCESS_TTL: Joi.number().integer().min(60).default(900),
+        CUSTOMER_JWT_REFRESH_TTL: Joi.number()
+          .integer()
+          .min(3600)
+          .default(2592000),
+        CUSTOMER_REFRESH_COOKIE_NAME: Joi.string().default(
+          'bf_customer_refresh',
+        ),
+        CUSTOMER_COOKIE_SECURE: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        CUSTOMER_COOKIE_SAME_SITE: Joi.string()
+          .valid('lax', 'strict', 'none')
+          .default('lax'),
         CART_COOKIE_NAME: Joi.string().default('bf_cart'),
         CART_TTL_DAYS: Joi.number().integer().min(1).max(365).default(30),
         CART_COOKIE_SECURE: Joi.boolean()
@@ -68,6 +95,7 @@ import { CartModule } from './cart/cart.module';
     CategoriesModule,
     ProductsModule,
     CartModule,
+    CustomerAuthModule,
     HealthModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
