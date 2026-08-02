@@ -17,6 +17,7 @@ import { CheckoutModule } from './checkout/checkout.module';
 import { OrdersModule } from './orders/orders.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AdminCustomersModule } from './admin-customers/admin-customers.module';
+import { AdminAuditViewerModule } from './admin-audit-viewer/admin-audit-viewer.module';
 
 @Module({
   imports: [
@@ -109,6 +110,7 @@ import { AdminCustomersModule } from './admin-customers/admin-customers.module';
     OrdersModule,
     AdminDashboardModule,
     AdminCustomersModule,
+    AdminAuditViewerModule,
     HealthModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
