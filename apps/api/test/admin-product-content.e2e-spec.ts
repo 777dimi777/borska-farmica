@@ -1,14 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/require-await */
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import request from 'supertest';
+import sharp from 'sharp';
 import { App } from 'supertest/types';
 import { AppModule } from './../dist/src/app.module';
 import { PrismaService } from './../dist/src/database/prisma.service';
 import { PasswordService } from './../dist/src/admin-auth/password.service';
 import { configureOpenApi } from './../dist/src/openapi';
+import { IMAGE_STORAGE_PROVIDER } from './../dist/src/image-storage/image-storage.types';
 
 const prefix = 'e2e-content-',
   email = prefix + 'admin@example.test',
@@ -21,6 +24,28 @@ describe('Admin product availability and images (e2e)', () => {
     otherId: string,
     categoryId: string;
   const auth = () => ({ Authorization: 'Bearer ' + token });
+  const fakeStorage = {
+    upload: jest.fn(
+      async (
+        input: {
+          width: number;
+          height: number;
+          format: string;
+          byteSize: number;
+        },
+        uploadedProductId: string,
+      ) => ({
+        provider: 'CLOUDINARY' as const,
+        storageKey: `fake/${uploadedProductId}/asset.webp`,
+        url: `https://res.cloudinary.com/test/image/upload/fake/${uploadedProductId}/asset.webp`,
+        width: input.width,
+        height: input.height,
+        format: input.format,
+        byteSize: input.byteSize,
+      }),
+    ),
+    delete: jest.fn(async () => 'deleted' as const),
+  };
   const cleanup = async () => {
     const admins = await prisma.adminUser.findMany({
         where: { email },
@@ -61,7 +86,10 @@ describe('Admin product availability and images (e2e)', () => {
   beforeAll(async () => {
     const mod = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(IMAGE_STORAGE_PROVIDER)
+      .useValue(fakeStorage)
+      .compile();
     app = mod.createNestApplication();
     app.use(cookieParser());
     app.use(helmet());
@@ -76,6 +104,7 @@ describe('Admin product availability and images (e2e)', () => {
     );
     configureOpenApi(app, true);
     await app.init();
+    app.get(ConfigService).set('IMAGE_UPLOAD_ENABLED', true);
     prisma = app.get(PrismaService);
     await cleanup();
     const passwordHash = await app.get(PasswordService).hash(password);
@@ -391,5 +420,75 @@ describe('Admin product availability and images (e2e)', () => {
         where: { admin: { email }, action: { startsWith: 'product_image.' } },
       }),
     ).toBeGreaterThanOrEqual(6);
+  });
+  it('uploads a real multipart image through the fake provider', async () => {
+    const png = await sharp({
+      create: {
+        width: 32,
+        height: 16,
+        channels: 4,
+        background: { r: 10, g: 80, b: 20, alpha: 0.7 },
+      },
+    })
+      .png()
+      .toBuffer();
+
+    await request(app.getHttpServer())
+      .post('/api/v1/admin/products/' + productId + '/images/upload')
+      .field('altText', 'Unauthorized image')
+      .attach('file', png, { filename: 'image.png', contentType: 'image/png' })
+      .expect(401);
+    await request(app.getHttpServer())
+      .post('/api/v1/admin/products/' + productId + '/images/upload')
+      .set(auth())
+      .field('altText', 'Missing file')
+      .expect(400);
+    await request(app.getHttpServer())
+      .post('/api/v1/admin/products/' + productId + '/images/upload')
+      .set(auth())
+      .field('altText', 'MIME mismatch')
+      .attach('file', png, { filename: 'image.jpg', contentType: 'image/jpeg' })
+      .expect(415);
+
+    const uploaded = await request(app.getHttpServer())
+      .post('/api/v1/admin/products/' + productId + '/images/upload')
+      .set(auth())
+      .field('altText', 'Managed product image')
+      .field('isPrimary', 'true')
+      .attach('file', png, { filename: 'image.png', contentType: 'image/png' })
+      .expect(201);
+
+    expect(uploaded.body).toMatchObject({
+      storageProvider: 'CLOUDINARY',
+      width: 32,
+      height: 16,
+      format: 'webp',
+      isPrimary: true,
+    });
+    expect(uploaded.body.storageKey).toBeUndefined();
+    expect(fakeStorage.upload).toHaveBeenCalledTimes(1);
+    const publicDetail = await request(app.getHttpServer())
+      .get('/api/v1/products/' + prefix + 'product')
+      .expect(200);
+    expect(publicDetail.body.images[0]).toMatchObject({
+      width: 32,
+      height: 16,
+      primary: true,
+    });
+    expect(publicDetail.body.images[0].storageKey).toBeUndefined();
+    const audit = await prisma.adminAuditLog.findFirstOrThrow({
+      where: { action: 'product_image.uploaded', resourceId: uploaded.body.id },
+      select: { changes: true },
+    });
+    expect(JSON.stringify(audit.changes)).not.toContain('storageKey');
+    await request(app.getHttpServer())
+      .delete(
+        '/api/v1/admin/products/' + productId + '/images/' + uploaded.body.id,
+      )
+      .set(auth())
+      .expect(204);
+    expect(fakeStorage.delete).toHaveBeenCalledWith(
+      `fake/${productId}/asset.webp`,
+    );
   });
 });
