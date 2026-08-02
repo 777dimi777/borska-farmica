@@ -1,6 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsOptional, Matches } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, Matches, Max, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 import { toTrimmedOptionalString } from '../../common/query-transformers';
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 export class DashboardPeriodQueryDto {
@@ -28,4 +29,28 @@ export class RevenueSeriesQueryDto extends DashboardPeriodQueryDto {
   @IsOptional()
   @IsEnum(RevenueGranularity)
   granularity: RevenueGranularity = RevenueGranularity.DAY;
+}
+
+export enum TopProductsSort {
+  REVENUE = 'revenue',
+  QUANTITY = 'quantity',
+  ORDERS = 'orders',
+}
+
+export class TopProductsQueryDto extends DashboardPeriodQueryDto {
+  @ApiPropertyOptional({ default: 10, minimum: 1, maximum: 50 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  limit = 10;
+
+  @ApiPropertyOptional({
+    enum: TopProductsSort,
+    default: TopProductsSort.REVENUE,
+  })
+  @IsOptional()
+  @IsEnum(TopProductsSort)
+  sort: TopProductsSort = TopProductsSort.REVENUE;
 }

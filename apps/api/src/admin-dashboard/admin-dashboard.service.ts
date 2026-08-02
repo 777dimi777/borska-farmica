@@ -7,6 +7,8 @@ import {
   DashboardPeriodQueryDto,
   RevenueGranularity,
   RevenueSeriesQueryDto,
+  TopProductsQueryDto,
+  TopProductsSort,
 } from './dto/dashboard-query.dto';
 
 interface ItemAggregateRow {
@@ -208,6 +210,121 @@ export class AdminDashboardService {
       data: Object.fromEntries(
         fields.map(([name], index) => [name, values[index]]),
       ),
+    };
+  }
+
+  async topProducts(query: TopProductsQueryDto) {
+    const period = this.period(query);
+    const orderBy =
+      query.sort === TopProductsSort.QUANTITY
+        ? Prisma.sql`quantity DESC, revenue DESC`
+        : query.sort === TopProductsSort.ORDERS
+          ? Prisma.sql`orders DESC, revenue DESC`
+          : Prisma.sql`revenue DESC, quantity DESC`;
+    const rows = await this.prisma.$queryRaw<
+      Array<{
+        productId: string;
+        productName: string;
+        productSlug: string;
+        revenue: Prisma.Decimal;
+        quantity: Prisma.Decimal;
+        orders: bigint;
+        imageUrl: string | null;
+      }>
+    >(Prisma.sql`
+      SELECT item."productId",
+        (array_agg(item."productName" ORDER BY orders."completedAt" DESC))[1] AS "productName",
+        (array_agg(item."productSlug" ORDER BY orders."completedAt" DESC))[1] AS "productSlug",
+        SUM(item."lineTotal") AS revenue, SUM(item.quantity) AS quantity,
+        COUNT(DISTINCT orders.id) AS orders,
+        (SELECT image.url FROM "ProductImage" image
+          WHERE image."productId" = item."productId"
+          ORDER BY image."isPrimary" DESC, image."sortOrder", image."createdAt", image.id
+          LIMIT 1) AS "imageUrl"
+      FROM "OrderItem" item JOIN "Order" orders ON orders.id = item."orderId"
+      WHERE orders.status = 'COMPLETED' AND orders."paymentStatus" = 'PAID'
+        AND orders."completedAt" >= ${period.start}
+        AND orders."completedAt" < ${period.endExclusive}
+      GROUP BY item."productId"
+      ORDER BY ${orderBy}
+      LIMIT ${query.limit}
+    `);
+    return {
+      period,
+      sort: query.sort,
+      data: rows.map((row) => ({
+        ...row,
+        revenue: new Prisma.Decimal(row.revenue).toFixed(2),
+        quantity: new Prisma.Decimal(row.quantity).toFixed(3),
+        orders: Number(row.orders),
+      })),
+    };
+  }
+
+  async categorySales(query: DashboardPeriodQueryDto) {
+    const period = this.period(query);
+    const rows = await this.prisma.$queryRaw<
+      Array<{
+        categoryId: string;
+        categoryName: string;
+        categorySlug: string;
+        revenue: Prisma.Decimal;
+        quantity: Prisma.Decimal;
+        orders: bigint;
+      }>
+    >(Prisma.sql`
+      SELECT item."categoryId",
+        (array_agg(item."categoryName" ORDER BY orders."completedAt" DESC))[1] AS "categoryName",
+        (array_agg(item."categorySlug" ORDER BY orders."completedAt" DESC))[1] AS "categorySlug",
+        SUM(item."lineTotal") AS revenue, SUM(item.quantity) AS quantity,
+        COUNT(DISTINCT orders.id) AS orders
+      FROM "OrderItem" item JOIN "Order" orders ON orders.id = item."orderId"
+      WHERE orders.status = 'COMPLETED' AND orders."paymentStatus" = 'PAID'
+        AND orders."completedAt" >= ${period.start}
+        AND orders."completedAt" < ${period.endExclusive}
+      GROUP BY item."categoryId" ORDER BY revenue DESC, quantity DESC
+    `);
+    return {
+      period,
+      snapshotSource: 'order_item',
+      data: rows.map((row) => ({
+        ...row,
+        revenue: new Prisma.Decimal(row.revenue).toFixed(2),
+        quantity: new Prisma.Decimal(row.quantity).toFixed(3),
+        orders: Number(row.orders),
+      })),
+    };
+  }
+
+  async pickupSales(query: DashboardPeriodQueryDto) {
+    const period = this.period(query);
+    const rows = await this.prisma.$queryRaw<
+      Array<{
+        pickupLocationId: string;
+        code: string;
+        name: string;
+        address: string | null;
+        revenue: Prisma.Decimal;
+        orders: bigint;
+      }>
+    >(Prisma.sql`
+      SELECT location.id AS "pickupLocationId", location.code, location.name, location.address,
+        COALESCE(SUM(orders.total), 0) AS revenue, COUNT(orders.id) AS orders
+      FROM "PickupLocation" location
+      LEFT JOIN "Order" orders ON orders."pickupLocationId" = location.id
+        AND orders.status = 'COMPLETED' AND orders."paymentStatus" = 'PAID'
+        AND orders."completedAt" >= ${period.start}
+        AND orders."completedAt" < ${period.endExclusive}
+      GROUP BY location.id ORDER BY revenue DESC, location."sortOrder"
+    `);
+    return {
+      period,
+      displaySource: 'current_pickup_location',
+      data: rows.map((row) => ({
+        ...row,
+        revenue: new Prisma.Decimal(row.revenue).toFixed(2),
+        orders: Number(row.orders),
+      })),
     };
   }
 }

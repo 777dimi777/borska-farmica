@@ -8,6 +8,7 @@ import { AdminDashboardService } from './admin-dashboard.service';
 import {
   DashboardPeriodQueryDto,
   RevenueSeriesQueryDto,
+  TopProductsQueryDto,
 } from './dto/dashboard-query.dto';
 
 @ApiTags('Admin Dashboard')
@@ -48,5 +49,25 @@ export class AdminDashboardController {
   })
   orderFlow(@Query() query: DashboardPeriodQueryDto) {
     return this.dashboard.orderFlow(query);
+  }
+
+  @Get('top-products')
+  @ApiOperation({ summary: 'Rank completed and paid product snapshot sales' })
+  topProducts(@Query() query: TopProductsQueryDto) {
+    return this.dashboard.topProducts(query);
+  }
+
+  @Get('category-sales')
+  @ApiOperation({
+    summary: 'Read completed and paid sales by category snapshot',
+  })
+  categorySales(@Query() query: DashboardPeriodQueryDto) {
+    return this.dashboard.categorySales(query);
+  }
+
+  @Get('pickup-sales')
+  @ApiOperation({ summary: 'Read completed and paid sales by pickup location' })
+  pickupSales(@Query() query: DashboardPeriodQueryDto) {
+    return this.dashboard.pickupSales(query);
   }
 }
