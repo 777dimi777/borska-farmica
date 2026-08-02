@@ -175,3 +175,7 @@ Account-only checkout, pickup lokacije, atomske rezervacije, customer istorija i
 ## Admin dashboard analytics
 
 Zaštićeni backend dashboard je dostupan pod `/api/v1/admin/dashboard` za `ADMIN` i `SUPER_ADMIN`. Obuhvata stvarne KPI-je, periodna poređenja, revenue serije, status/order-flow, prodaju po proizvodu/kategoriji/pickup lokaciji, zalihe, sezonalnost, recent orders i attention brojače. Definicije i svi endpointi su u [ADMIN_DASHBOARD_API.md](docs/ADMIN_DASHBOARD_API.md).
+
+## Admin customer, audit i CSV backend
+
+Admin customer pregled/kontrole, SUPER_ADMIN audit viewer i bounded bezbedni CSV izvozi dostupni su pod `/api/v1/admin`. Role, filteri, Decimal metrike, session revocation, audit redakcija i CSV zaštite opisani su u [ADMIN_CUSTOMERS_AUDIT_API.md](docs/ADMIN_CUSTOMERS_AUDIT_API.md).

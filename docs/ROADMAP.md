@@ -126,17 +126,17 @@ Admin rute su nedostupne neautorizovanim korisnicima, tokeni i lozinke su bezbed
 
 ## Faza 6 — admin panel i analitika
 
-**Status: dashboard analytics backend završen; admin frontend nije započet.
+**Status: dashboard analytics, customer operations, audit viewer i CSV export backend završeni; admin frontend nije započet.**
 
 ### Obuhvat
 
 - [x] dashboard API sa stvarnim KPI podacima iz baze
 - upravljanje kategorijama, proizvodima, varijantama i fotografijama
-- zalihe, sezonska dostupnost, porudžbine i kupci
+- [x] backend zalihe, sezonska dostupnost, porudžbine i kupci
 - [x] periodi i poređenje sa prethodnim periodom
 - [x] API serije i agregacije prodaje, porudžbina, kategorija, proizvoda i zaliha
 - [x] API brojači i podaci za stavke koje zahtevaju pažnju
-- responzivne tabele, filteri i kasniji CSV export
+- [x] backend filteri i bezbedni CSV izvozi; responzivne tabele čekaju frontend
 - loading skeleton, empty i error stanja
 
 ### Kriterijum završetka
@@ -205,3 +205,10 @@ Checkout/order backend je implementiran sa tim pravilima; frontend checkout još
 - [ ] email/SMS obaveštenja
 - [ ] returns/refunds i automatsko isticanje rezervacija
 - [ ] cloud upload, analytics frontend i production deployment
+
+### Preostale veće oblasti
+
+- stvarni cloud image upload/storage
+- produkcioni hardening, observability i deployment konfiguracija
+- opcione email/SMS notifikacije
+- frontend storefront i admin dashboard
