@@ -86,6 +86,58 @@ import { AdminExportsModule } from './admin-exports/admin-exports.module';
         AUTH_COOKIE_SAME_SITE: Joi.string()
           .valid('lax', 'strict', 'none')
           .default('lax'),
+        IMAGE_STORAGE_PROVIDER: Joi.string()
+          .valid('cloudinary')
+          .default('cloudinary'),
+        IMAGE_UPLOAD_ENABLED: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        CLOUDINARY_CLOUD_NAME: Joi.string()
+          .allow('')
+          .when('IMAGE_UPLOAD_ENABLED', {
+            is: true,
+            then: Joi.string().required(),
+          }),
+        CLOUDINARY_API_KEY: Joi.string()
+          .allow('')
+          .when('IMAGE_UPLOAD_ENABLED', {
+            is: true,
+            then: Joi.string().required(),
+          }),
+        CLOUDINARY_API_SECRET: Joi.string()
+          .allow('')
+          .when('IMAGE_UPLOAD_ENABLED', {
+            is: true,
+            then: Joi.string().required(),
+          }),
+        CLOUDINARY_FOLDER: Joi.string()
+          .pattern(/^[a-zA-Z0-9/_-]+$/)
+          .default('borska-farmica'),
+        IMAGE_UPLOAD_MAX_BYTES: Joi.number()
+          .integer()
+          .min(1024)
+          .default(8388608),
+        IMAGE_UPLOAD_MAX_WIDTH: Joi.number()
+          .integer()
+          .min(1)
+          .max(20000)
+          .default(6000),
+        IMAGE_UPLOAD_MAX_HEIGHT: Joi.number()
+          .integer()
+          .min(1)
+          .max(20000)
+          .default(6000),
+        IMAGE_OUTPUT_MAX_DIMENSION: Joi.number()
+          .integer()
+          .min(320)
+          .max(6000)
+          .default(2400),
+        IMAGE_MAX_PER_PRODUCT: Joi.number()
+          .integer()
+          .min(1)
+          .max(50)
+          .default(12),
         DASHBOARD_PENDING_ATTENTION_HOURS: Joi.number()
           .integer()
           .min(1)
