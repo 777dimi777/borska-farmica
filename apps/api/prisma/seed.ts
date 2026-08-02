@@ -12,6 +12,27 @@ const categories = [
   { name: 'Stajsko đubrivo', slug: 'stajsko-djubrivo', sortOrder: 6 },
 ] as const;
 
+const pickupLocations = [
+  {
+    code: 'FARM_HOME',
+    name: 'Borska Farmica',
+    address: 'Nade Dimić 30, Bor',
+    instructions:
+      'Odmah ispod Stovarišta Našković. Tačan termin preuzimanja potvrđujemo telefonom.',
+    allowedWeekday: null,
+    sortOrder: 0,
+  },
+  {
+    code: 'BOR_CITY_MARKET',
+    name: 'Gradska pijaca Bor',
+    address: 'Gradska pijaca Bor',
+    instructions:
+      'Preuzimanje je moguće subotom. Tačan termin potvrđujemo telefonom.',
+    allowedWeekday: 6,
+    sortOrder: 1,
+  },
+] as const;
+
 async function main(): Promise<void> {
   const connectionString = process.env.DATABASE_URL;
 
@@ -40,7 +61,19 @@ async function main(): Promise<void> {
       ),
     );
 
-    console.log(`Seeded ${categories.length} product categories.`);
+    await prisma.$transaction(
+      pickupLocations.map((location) =>
+        prisma.pickupLocation.upsert({
+          where: { code: location.code },
+          update: { ...location, isActive: true },
+          create: { ...location, isActive: true },
+        }),
+      ),
+    );
+
+    console.log(
+      `Seeded ${categories.length} product categories and ${pickupLocations.length} pickup locations.`,
+    );
   } finally {
     await prisma.$disconnect();
     await pool.end();
@@ -49,6 +82,6 @@ async function main(): Promise<void> {
 
 void main().catch((error: unknown) => {
   const errorName = error instanceof Error ? error.name : 'UnknownError';
-  console.error(`Category seed failed (${errorName}).`);
+  console.error(`Database seed failed (${errorName}).`);
   process.exitCode = 1;
 });
