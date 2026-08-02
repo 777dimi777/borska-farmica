@@ -3,7 +3,9 @@ import type { PrismaService } from '../database/prisma.service';
 import { CustomerOrdersService } from './customer-orders.service';
 
 function serviceWith(prisma: object) {
-  return new CustomerOrdersService(prisma as PrismaService);
+  return new CustomerOrdersService(prisma as PrismaService, {
+    cancelIn: jest.fn(),
+  });
 }
 
 describe('CustomerOrdersService', () => {

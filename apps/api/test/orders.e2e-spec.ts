@@ -10,6 +10,7 @@ import { PrismaService } from './../dist/src/database/prisma.service';
 import { CartIdentityService } from './../dist/src/cart/cart-identity.service';
 import { TokenService } from './../dist/src/admin-auth/token.service';
 import { configureOpenApi } from './../dist/src/openapi';
+import { MaintenanceService } from './../dist/src/maintenance/maintenance.service';
 
 jest.setTimeout(30_000);
 const customerEmail = 'orders-customer@example.test';
@@ -49,6 +50,8 @@ describe('Checkout and order lifecycle (e2e)', () => {
   let app: INestApplication<App>,
     prisma: PrismaService,
     identity: CartIdentityService,
+    maintenance: MaintenanceService,
+    customerId: string,
     customerAccess: string,
     otherAccess: string,
     adminId: string,
@@ -217,9 +220,11 @@ describe('Checkout and order lifecycle (e2e)', () => {
     await app.init();
     prisma = app.get(PrismaService);
     identity = app.get(CartIdentityService);
+    maintenance = app.get(MaintenanceService);
     await cleanup();
     const customer = await register(customerEmail, 'Miloš'),
       other = await register(otherEmail, 'Milica');
+    customerId = customer.id;
     customerAccess = customer.access;
     otherAccess = other.access;
     const admin = await prisma.adminUser.create({
@@ -684,5 +689,146 @@ describe('Checkout and order lifecycle (e2e)', () => {
     );
     expect(dbCart.status).toBe('ACTIVE');
     expect(await prisma.order.count({ where: { cartId: cart.id } })).toBe(0);
+  });
+  it('expires a pending order once and releases only reserved stock', async () => {
+    const before = await prisma.productVariant.findUniqueOrThrow({
+      where: { id: variantId },
+    });
+    const cart = await createCart([{ variantId, quantity: '1.000' }]);
+    const created = await createOrder(
+      customerAccess,
+      cart.cookie,
+      farmId,
+      dateString(businessDate()),
+      idempotency('timeout'),
+    ).expect(201);
+    expect(created.body.confirmationExpiresAt).toBeTruthy();
+    const order = await prisma.order.findUniqueOrThrow({
+      where: { orderNumber: created.body.orderNumber },
+    });
+    const reserved = await prisma.productVariant.findUniqueOrThrow({
+      where: { id: variantId },
+    });
+    expect(reserved.stockQuantity.toFixed(3)).toBe(
+      before.stockQuantity.toFixed(3),
+    );
+    expect(
+      reserved.reservedQuantity.minus(before.reservedQuantity).toFixed(3),
+    ).toBe('1.000');
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { confirmationExpiresAt: new Date(Date.now() - 1_000) },
+    });
+
+    await maintenance.expireOrders();
+    const expired = await prisma.order.findUniqueOrThrow({
+      where: { id: order.id },
+    });
+    const after = await prisma.productVariant.findUniqueOrThrow({
+      where: { id: variantId },
+    });
+    expect(expired).toMatchObject({
+      status: 'CANCELLED',
+      cancellationReason: 'CONFIRMATION_TIMEOUT',
+    });
+    expect(after.stockQuantity.toFixed(3)).toBe(
+      before.stockQuantity.toFixed(3),
+    );
+    expect(after.reservedQuantity.toFixed(3)).toBe(
+      before.reservedQuantity.toFixed(3),
+    );
+    expect(
+      await prisma.inventoryMovement.count({
+        where: { variantId, type: 'SALE', reference: created.body.orderNumber },
+      }),
+    ).toBe(0);
+    expect(
+      await prisma.orderEvent.count({
+        where: { orderId: order.id, type: 'order.cancelled_by_timeout' },
+      }),
+    ).toBe(1);
+
+    await maintenance.expireOrders();
+    expect(
+      await prisma.orderEvent.count({
+        where: { orderId: order.id, type: 'order.cancelled_by_timeout' },
+      }),
+    ).toBe(1);
+  });
+  it('expires carts and removes only retained customer/admin sessions', async () => {
+    const expiredCart = await identity.create();
+    const activeCart = await identity.create();
+    await prisma.cart.update({
+      where: { id: expiredCart.cart.id },
+      data: { expiresAt: new Date(Date.now() - 1_000) },
+    });
+    const old = new Date(Date.now() - 100 * 86_400_000);
+    const future = new Date(Date.now() + 86_400_000);
+    await prisma.customerSession.createMany({
+      data: [
+        {
+          customerId,
+          refreshTokenHash: 'old-customer'.padEnd(64, 'a'),
+          expiresAt: old,
+        },
+        {
+          customerId,
+          refreshTokenHash: 'active-customer'.padEnd(64, 'b'),
+          expiresAt: future,
+        },
+      ],
+    });
+    await prisma.adminSession.createMany({
+      data: [
+        {
+          adminId,
+          refreshTokenHash: 'old-admin'.padEnd(64, 'c'),
+          expiresAt: old,
+        },
+        {
+          adminId,
+          refreshTokenHash: 'active-admin'.padEnd(64, 'd'),
+          expiresAt: future,
+        },
+      ],
+    });
+
+    await maintenance.cleanCarts();
+    await maintenance.cleanSessions();
+    expect(
+      (
+        await prisma.cart.findUniqueOrThrow({
+          where: { id: expiredCart.cart.id },
+        })
+      ).status,
+    ).toBe('EXPIRED');
+    expect(
+      (
+        await prisma.cart.findUniqueOrThrow({
+          where: { id: activeCart.cart.id },
+        })
+      ).status,
+    ).toBe('ACTIVE');
+    expect(
+      await prisma.customerSession.count({
+        where: {
+          refreshTokenHash: {
+            in: [
+              'old-customer'.padEnd(64, 'a'),
+              'active-customer'.padEnd(64, 'b'),
+            ],
+          },
+        },
+      }),
+    ).toBe(1);
+    expect(
+      await prisma.adminSession.count({
+        where: {
+          refreshTokenHash: {
+            in: ['old-admin'.padEnd(64, 'c'), 'active-admin'.padEnd(64, 'd')],
+          },
+        },
+      }),
+    ).toBe(1);
   });
 });

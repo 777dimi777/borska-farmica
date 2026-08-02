@@ -22,7 +22,9 @@ function setup(status: string) {
       ),
     } as unknown as PrismaService,
     audit = { write: jest.fn() } as unknown as AdminAuditService;
-  return new AdminOrdersService(prisma, audit);
+  return new AdminOrdersService(prisma, audit, {
+    cancelIn: jest.fn(),
+  });
 }
 
 const context = { adminId: 'admin-id' };
