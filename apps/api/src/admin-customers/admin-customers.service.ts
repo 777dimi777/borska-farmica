@@ -2,6 +2,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
+import { AdminAuditService } from '../admin-audit/admin-audit.service';
+import {
+  AUDIT_ACTIONS,
+  AUDIT_RESOURCE_TYPES,
+  AuditContext,
+} from '../admin-audit/admin-audit.types';
 import { createPaginationMetadata } from '../common/pagination/pagination';
 import {
   AdminCustomerOrderQueryDto,
@@ -12,7 +18,10 @@ import {
 
 @Injectable()
 export class AdminCustomersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly audit: AdminAuditService,
+  ) {}
   private where(query: AdminCustomerQueryDto): Prisma.CustomerUserWhereInput {
     const terms = query.search?.split(/\s+/).filter(Boolean) ?? [];
     const createdAt = {
@@ -227,5 +236,64 @@ export class AdminCustomersService {
       })),
       pagination: createPaginationMetadata(query.page, query.limit, total),
     };
+  }
+  async setEnabled(id: string, enabled: boolean, context: AuditContext) {
+    return this.prisma.$transaction(async (tx) => {
+      const customer = await tx.customerUser.findUnique({
+        where: { id },
+        select: { id: true, status: true },
+      });
+      if (!customer) throw new NotFoundException('Customer not found.');
+      const status = enabled ? 'ACTIVE' : 'DISABLED';
+      if (customer.status !== status)
+        await tx.customerUser.update({ where: { id }, data: { status } });
+      let revokedSessions = 0;
+      if (!enabled) {
+        const revoked = await tx.customerSession.updateMany({
+          where: {
+            customerId: id,
+            revokedAt: null,
+            expiresAt: { gt: new Date() },
+          },
+          data: { revokedAt: new Date() },
+        });
+        revokedSessions = revoked.count;
+      }
+      if (customer.status !== status)
+        await this.audit.write(tx, context, {
+          action: enabled
+            ? AUDIT_ACTIONS.CUSTOMER_ENABLED
+            : AUDIT_ACTIONS.CUSTOMER_DISABLED,
+          resourceType: AUDIT_RESOURCE_TYPES.CUSTOMER,
+          resourceId: id,
+          changes: {
+            fromStatus: customer.status,
+            toStatus: status,
+            revokedSessions,
+          },
+        });
+      return { id, status, revokedSessions };
+    });
+  }
+  async revokeSessions(id: string, context: AuditContext) {
+    return this.prisma.$transaction(async (tx) => {
+      if (!(await tx.customerUser.count({ where: { id } })))
+        throw new NotFoundException('Customer not found.');
+      const revoked = await tx.customerSession.updateMany({
+        where: {
+          customerId: id,
+          revokedAt: null,
+          expiresAt: { gt: new Date() },
+        },
+        data: { revokedAt: new Date() },
+      });
+      await this.audit.write(tx, context, {
+        action: AUDIT_ACTIONS.CUSTOMER_SESSIONS_REVOKED,
+        resourceType: AUDIT_RESOURCE_TYPES.CUSTOMER,
+        resourceId: id,
+        changes: { revokedSessions: revoked.count },
+      });
+      return { id, revokedSessions: revoked.count };
+    });
   }
 }
