@@ -9,6 +9,8 @@ export class ProductCategoryDto {
 export class ProductImageDto {
   @ApiProperty({ format: 'uri' }) url!: string;
   @ApiProperty() altText!: string;
+  @ApiProperty({ type: Number, nullable: true }) width!: number | null;
+  @ApiProperty({ type: Number, nullable: true }) height!: number | null;
 }
 export class ProductAvailabilityDto {
   @ApiProperty({ enum: AvailabilityMode }) mode!: AvailabilityMode;

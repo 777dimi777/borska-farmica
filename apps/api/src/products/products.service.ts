@@ -86,7 +86,7 @@ export class ProductsService {
               { id: 'asc' },
             ],
             take: 1,
-            select: { url: true, altText: true },
+            select: { url: true, altText: true, width: true, height: true },
           },
           availabilityWindows: {
             where: { isActive: true },
@@ -156,7 +156,14 @@ export class ProductsService {
             { createdAt: 'asc' },
             { id: 'asc' },
           ],
-          select: { id: true, url: true, altText: true, isPrimary: true },
+          select: {
+            id: true,
+            url: true,
+            altText: true,
+            isPrimary: true,
+            width: true,
+            height: true,
+          },
         },
         availabilityWindows: {
           where: { isActive: true },

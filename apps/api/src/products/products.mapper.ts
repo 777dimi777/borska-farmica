@@ -20,7 +20,12 @@ export interface ProductListRecord {
     reservedQuantity: DecimalValue;
     allowBackorder: boolean;
   }>;
-  images: Array<{ url: string; altText: string }>;
+  images: Array<{
+    url: string;
+    altText: string;
+    width?: number | null;
+    height?: number | null;
+  }>;
   availabilityWindows: AvailabilityWindowInput[];
 }
 
@@ -45,7 +50,13 @@ export function mapProductListItem(
     featured: record.isFeatured,
     mainProduct: record.isMainProduct,
     category: record.category,
-    primaryImage: record.images[0] ?? null,
+    primaryImage: record.images[0]
+      ? {
+          ...record.images[0],
+          width: record.images[0].width ?? null,
+          height: record.images[0].height ?? null,
+        }
+      : null,
     startingPrice: record.variants[0].price.toFixed(2),
     availability,
   };

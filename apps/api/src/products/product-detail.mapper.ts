@@ -38,6 +38,8 @@ export interface ProductDetailRecord {
     url: string;
     altText: string;
     isPrimary: boolean;
+    width?: number | null;
+    height?: number | null;
   }>;
   availabilityWindows: Array<
     AvailabilityWindowInput & { type: AvailabilityWindowType }
@@ -89,6 +91,8 @@ export function mapProductDetail(
       url: image.url,
       altText: image.altText,
       primary: image.isPrimary,
+      width: image.width ?? null,
+      height: image.height ?? null,
     })),
     availability,
     seo: { title: record.seoTitle, description: record.seoDescription },
