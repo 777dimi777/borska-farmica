@@ -14,6 +14,7 @@ import { ProductsModule } from './products/products.module';
 import { CartModule } from './cart/cart.module';
 import { CustomerAuthModule } from './customer-auth/customer-auth.module';
 import { CheckoutModule } from './checkout/checkout.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -98,6 +99,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     CartModule,
     CustomerAuthModule,
     CheckoutModule,
+    OrdersModule,
     HealthModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
