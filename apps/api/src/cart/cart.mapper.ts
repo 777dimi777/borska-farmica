@@ -8,7 +8,9 @@ export const cartInclude = {
         include: {
           product: {
             include: {
-              category: { select: { id: true, isActive: true } },
+              category: {
+                select: { id: true, name: true, slug: true, isActive: true },
+              },
               images: {
                 orderBy: [
                   { isPrimary: 'desc' as const },

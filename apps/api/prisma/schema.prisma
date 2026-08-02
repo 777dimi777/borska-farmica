@@ -391,6 +391,8 @@ model Order {
   @@unique([customerId, checkoutIdempotencyKeyHash])
   @@index([customerId, createdAt(sort: Desc)])
   @@index([status, createdAt(sort: Desc)])
+  @@index([status, completedAt])
+  @@index([paymentStatus, completedAt])
   @@index([pickupLocationId, requestedPickupDate])
 }
 
@@ -401,6 +403,9 @@ model OrderItem {
   variantId       String            @db.Uuid
   productName     String            @db.VarChar(160)
   productSlug     String            @db.VarChar(180)
+  categoryId      String            @db.Uuid
+  categoryName    String            @db.VarChar(100)
+  categorySlug    String            @db.VarChar(120)
   variantName     String            @db.VarChar(120)
   sku             String            @db.VarChar(80)
   packageAmount   Decimal           @db.Decimal(12, 3)
@@ -417,6 +422,7 @@ model OrderItem {
 
   @@index([orderId, createdAt])
   @@index([productId])
+  @@index([categoryId])
   @@index([variantId])
 }
 
