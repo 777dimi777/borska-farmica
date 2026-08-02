@@ -412,6 +412,14 @@ describe('Checkout and order lifecycle (e2e)', () => {
       unitPrice: '250.00',
       quantity: '2.000',
     });
+    const snapshot = await prisma.orderItem.findFirstOrThrow({
+      where: { order: { orderNumber: first.body.orderNumber } },
+    });
+    expect(snapshot).toMatchObject({
+      categoryId,
+      categoryName: 'Orders E2E',
+      categorySlug: 'orders-e2e-category',
+    });
     const cleared = cookieLines(first.headers['set-cookie']).join(';');
     expect(cleared).toContain('bf_cart=;');
     expect(cleared).not.toContain('Idempotency-Key');
