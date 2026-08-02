@@ -15,6 +15,7 @@ import { CartModule } from './cart/cart.module';
 import { CustomerAuthModule } from './customer-auth/customer-auth.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { OrdersModule } from './orders/orders.module';
+import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 
 @Module({
   imports: [
@@ -100,6 +101,7 @@ import { OrdersModule } from './orders/orders.module';
     CustomerAuthModule,
     CheckoutModule,
     OrdersModule,
+    AdminDashboardModule,
     HealthModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
