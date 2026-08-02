@@ -342,6 +342,13 @@ enum OrderActorType {
   SYSTEM
 }
 
+enum OrderCancellationReason {
+  CUSTOMER_REQUEST
+  ADMIN_ACTION
+  CONFIRMATION_TIMEOUT
+  UNSPECIFIED
+}
+
 model PickupLocation {
   id             String   @id @default(uuid()) @db.Uuid
   code           String   @unique @db.VarChar(40)
@@ -359,37 +366,39 @@ model PickupLocation {
 }
 
 model Order {
-  id                         String             @id @default(uuid()) @db.Uuid
-  orderNumber                String             @unique @db.VarChar(32)
-  customerId                 String             @db.Uuid
-  cartId                     String             @unique @db.Uuid
-  pickupLocationId           String             @db.Uuid
-  status                     OrderStatus        @default(PENDING_CONFIRMATION)
-  paymentMethod              PaymentMethod      @default(CASH_ON_PICKUP)
-  paymentStatus              PaymentStatus      @default(UNPAID)
-  currency                   String             @default("RSD") @db.VarChar(3)
-  subtotal                   Decimal            @db.Decimal(12, 2)
-  total                      Decimal            @db.Decimal(12, 2)
-  requestedPickupDate        DateTime           @db.Date
-  confirmedPickupAt          DateTime?          @db.Timestamptz(3)
-  customerFirstName          String             @db.VarChar(80)
-  customerLastName           String             @db.VarChar(80)
-  customerEmail              String             @db.VarChar(254)
-  customerPhone              String             @db.VarChar(32)
-  customerNote               String?            @db.VarChar(500)
-  cancellationReason         String?            @db.VarChar(500)
-  confirmedAt                DateTime?          @db.Timestamptz(3)
-  preparingAt                DateTime?          @db.Timestamptz(3)
-  readyAt                    DateTime?          @db.Timestamptz(3)
-  completedAt                DateTime?          @db.Timestamptz(3)
-  cancelledAt                DateTime?          @db.Timestamptz(3)
-  checkoutIdempotencyKeyHash String             @db.VarChar(64)
-  checkoutRequestFingerprint String             @db.VarChar(64)
-  createdAt                  DateTime           @default(now()) @db.Timestamptz(3)
-  updatedAt                  DateTime           @updatedAt @db.Timestamptz(3)
-  customer                   CustomerUser       @relation(fields: [customerId], references: [id], onDelete: Restrict)
-  cart                       Cart               @relation(fields: [cartId], references: [id], onDelete: Restrict)
-  pickupLocation             PickupLocation     @relation(fields: [pickupLocationId], references: [id], onDelete: Restrict)
+  id                         String                   @id @default(uuid()) @db.Uuid
+  orderNumber                String                   @unique @db.VarChar(32)
+  customerId                 String                   @db.Uuid
+  cartId                     String                   @unique @db.Uuid
+  pickupLocationId           String                   @db.Uuid
+  status                     OrderStatus              @default(PENDING_CONFIRMATION)
+  paymentMethod              PaymentMethod            @default(CASH_ON_PICKUP)
+  paymentStatus              PaymentStatus            @default(UNPAID)
+  currency                   String                   @default("RSD") @db.VarChar(3)
+  subtotal                   Decimal                  @db.Decimal(12, 2)
+  total                      Decimal                  @db.Decimal(12, 2)
+  requestedPickupDate        DateTime                 @db.Date
+  confirmedPickupAt          DateTime?                @db.Timestamptz(3)
+  customerFirstName          String                   @db.VarChar(80)
+  customerLastName           String                   @db.VarChar(80)
+  customerEmail              String                   @db.VarChar(254)
+  customerPhone              String                   @db.VarChar(32)
+  customerNote               String?                  @db.VarChar(500)
+  confirmationExpiresAt      DateTime?                @db.Timestamptz(3)
+  cancellationReason         OrderCancellationReason?
+  cancellationNote           String?                  @db.VarChar(500)
+  confirmedAt                DateTime?                @db.Timestamptz(3)
+  preparingAt                DateTime?                @db.Timestamptz(3)
+  readyAt                    DateTime?                @db.Timestamptz(3)
+  completedAt                DateTime?                @db.Timestamptz(3)
+  cancelledAt                DateTime?                @db.Timestamptz(3)
+  checkoutIdempotencyKeyHash String                   @db.VarChar(64)
+  checkoutRequestFingerprint String                   @db.VarChar(64)
+  createdAt                  DateTime                 @default(now()) @db.Timestamptz(3)
+  updatedAt                  DateTime                 @updatedAt @db.Timestamptz(3)
+  customer                   CustomerUser             @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  cart                       Cart                     @relation(fields: [cartId], references: [id], onDelete: Restrict)
+  pickupLocation             PickupLocation           @relation(fields: [pickupLocationId], references: [id], onDelete: Restrict)
   items                      OrderItem[]
   reservations               StockReservation[]
   events                     OrderEvent[]
@@ -397,6 +406,7 @@ model Order {
   @@unique([customerId, checkoutIdempotencyKeyHash])
   @@index([customerId, createdAt(sort: Desc)])
   @@index([status, createdAt(sort: Desc)])
+  @@index([status, confirmationExpiresAt])
   @@index([status, completedAt])
   @@index([paymentStatus, completedAt])
   @@index([pickupLocationId, requestedPickupDate])

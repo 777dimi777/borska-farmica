@@ -42,6 +42,8 @@ export function mapOrder(order: OrderResponseRecord, idempotentReplay = false) {
       phone: order.customerPhone,
     },
     customerNote: order.customerNote,
+    confirmationExpiresAt: order.confirmationExpiresAt,
+    cancellationReason: order.cancellationReason,
     items: order.items.map((item) => ({
       productName: item.productName,
       productSlug: item.productSlug,

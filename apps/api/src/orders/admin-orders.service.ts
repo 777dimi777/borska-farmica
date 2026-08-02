@@ -21,6 +21,7 @@ import {
   AdminOrderTransitionDto,
 } from './dto/admin-order.dto';
 import { OrderStatus } from '../generated/prisma/enums';
+import { OrderCancellationService } from '../maintenance/order-cancellation.service';
 
 const adminDetailInclude = {
   pickupLocation: true,
@@ -68,6 +69,7 @@ export class AdminOrdersService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly audit: AdminAuditService,
+    private readonly cancellation: OrderCancellationService,
   ) {}
 
   async list(query: AdminOrderQueryDto) {
@@ -285,56 +287,24 @@ export class AdminOrdersService {
     dto: AdminOrderTransitionDto,
     context: AuditContext,
   ) {
-    const now = new Date(),
-      changed = await tx.order.updateMany({
-        where: { id: order.id, status: order.status },
-        data: {
-          status: 'CANCELLED',
-          paymentStatus: 'UNPAID',
-          cancelledAt: now,
-          cancellationReason: dto.cancellationReason!,
-        },
-      });
-    if (changed.count !== 1)
-      throw new ConflictException('ORDER_STATUS_CONFLICT');
-    const reservations = await tx.stockReservation.findMany({
-      where: { orderId: order.id, status: 'ACTIVE' },
-    });
-    for (const reservation of reservations) {
-      const rows = await tx.$queryRaw<Array<{ id: string }>>(Prisma.sql`
-        UPDATE "ProductVariant"
-        SET "reservedQuantity" = "reservedQuantity" - ${reservation.quantity},
-            "updatedAt" = CURRENT_TIMESTAMP
-        WHERE "id" = ${reservation.variantId}::uuid
-          AND "reservedQuantity" >= ${reservation.quantity}
-        RETURNING "id"
-      `);
-      if (rows.length !== 1)
-        throw new ConflictException('ORDER_RESERVATION_CONFLICT');
-    }
-    await tx.stockReservation.updateMany({
-      where: { orderId: order.id, status: 'ACTIVE' },
-      data: { status: 'RELEASED', releasedAt: now },
-    });
-    await tx.orderEvent.create({
-      data: {
-        orderId: order.id,
-        type: 'order.cancelled_by_admin',
-        fromStatus: order.status,
-        toStatus: 'CANCELLED',
-        actorType: 'ADMIN',
-        adminId: context.adminId,
-        note: dto.cancellationReason!,
-      },
+    const result = await this.cancellation.cancelIn(tx, {
+      orderId: order.id,
+      expectedStatuses: [order.status],
+      now: new Date(),
+      reason: 'ADMIN_ACTION',
+      note: dto.cancellationReason!,
+      actorType: 'ADMIN',
+      adminId: context.adminId,
+      eventType: 'order.cancelled_by_admin',
     });
     await this.audit.write(tx, context, {
       action: AUDIT_ACTIONS.ORDER_CANCELLED,
       resourceType: AUDIT_RESOURCE_TYPES.ORDER,
       resourceId: order.id,
       changes: {
-        orderNumber: order.orderNumber,
-        fromStatus: order.status,
-        releasedReservationCount: reservations.length,
+        orderNumber: result.orderNumber,
+        fromStatus: result.fromStatus,
+        releasedReservationCount: result.releasedReservationCount,
         reason: dto.cancellationReason!,
       },
     });
@@ -458,6 +428,7 @@ export class AdminOrdersService {
       },
       customerNote: order.customerNote,
       cancellationReason: order.cancellationReason,
+      cancellationNote: order.cancellationNote,
       items: order.items.map((item) => ({
         id: item.id,
         productId: item.productId,

@@ -19,6 +19,7 @@ import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AdminCustomersModule } from './admin-customers/admin-customers.module';
 import { AdminAuditViewerModule } from './admin-audit-viewer/admin-audit-viewer.module';
 import { AdminExportsModule } from './admin-exports/admin-exports.module';
+import { MaintenanceModule } from './maintenance/maintenance.module';
 
 @Module({
   imports: [
@@ -138,6 +139,38 @@ import { AdminExportsModule } from './admin-exports/admin-exports.module';
           .min(1)
           .max(50)
           .default(12),
+        MAINTENANCE_JOBS_ENABLED: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        ORDER_EXPIRATION_CRON: Joi.string()
+          .pattern(/^(\\S+\\s+){4}\\S+$/)
+          .default('*/5 * * * *'),
+        ORDER_CONFIRMATION_TTL_HOURS: Joi.number()
+          .integer()
+          .min(1)
+          .max(168)
+          .default(24),
+        MAINTENANCE_BATCH_SIZE: Joi.number()
+          .integer()
+          .min(1)
+          .max(500)
+          .default(100),
+        MAINTENANCE_MAX_BATCHES: Joi.number()
+          .integer()
+          .min(1)
+          .max(100)
+          .default(10),
+        CART_RETENTION_DAYS: Joi.number()
+          .integer()
+          .min(1)
+          .max(3650)
+          .default(30),
+        SESSION_RETENTION_DAYS: Joi.number()
+          .integer()
+          .min(1)
+          .max(3650)
+          .default(90),
         DASHBOARD_PENDING_ATTENTION_HOURS: Joi.number()
           .integer()
           .min(1)
@@ -166,6 +199,7 @@ import { AdminExportsModule } from './admin-exports/admin-exports.module';
     AdminAuditViewerModule,
     AdminExportsModule,
     HealthModule,
+    MaintenanceModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

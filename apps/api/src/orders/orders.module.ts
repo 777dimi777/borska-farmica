@@ -6,9 +6,15 @@ import { CustomerOrdersController } from './customer-orders.controller';
 import { CustomerOrdersService } from './customer-orders.service';
 import { AdminOrdersController } from './admin-orders.controller';
 import { AdminOrdersService } from './admin-orders.service';
+import { MaintenanceModule } from '../maintenance/maintenance.module';
 
 @Module({
-  imports: [CustomerAuthModule, AdminAuthModule, AdminAuditModule],
+  imports: [
+    CustomerAuthModule,
+    AdminAuthModule,
+    AdminAuditModule,
+    MaintenanceModule,
+  ],
   controllers: [CustomerOrdersController, AdminOrdersController],
   providers: [CustomerOrdersService, AdminOrdersService],
   exports: [CustomerOrdersService, AdminOrdersService],

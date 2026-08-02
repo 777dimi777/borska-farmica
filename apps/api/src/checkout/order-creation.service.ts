@@ -1,4 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
@@ -21,6 +22,7 @@ export class OrderCreationService {
     private readonly prisma: PrismaService,
     private readonly identity: CartIdentityService,
     private readonly validation: CheckoutValidationService,
+    private readonly config: ConfigService,
   ) {}
 
   async create(
@@ -157,6 +159,7 @@ export class OrderCreationService {
       (sum, item) => sum.plus(item.lineTotal),
       new Prisma.Decimal(0),
     );
+    const now = new Date();
     const order = await tx.order.create({
       data: {
         orderNumber: orderNumber(),
@@ -171,6 +174,11 @@ export class OrderCreationService {
         customerEmail: customer.email,
         customerPhone: customer.phone,
         customerNote: dto.customerNote ?? null,
+        confirmationExpiresAt: new Date(
+          now.getTime() +
+            this.config.get<number>('ORDER_CONFIRMATION_TTL_HOURS', 24) *
+              3_600_000,
+        ),
         checkoutIdempotencyKeyHash: keyHash,
         checkoutRequestFingerprint: fingerprint,
         items: { createMany: { data: itemSnapshots } },
@@ -206,7 +214,7 @@ export class OrderCreationService {
     });
     await tx.cart.update({
       where: { id: cart.id },
-      data: { status: 'CONVERTED', convertedAt: new Date() },
+      data: { status: 'CONVERTED', convertedAt: now },
     });
     const result = await tx.order.findUniqueOrThrow({
       where: { id: order.id },

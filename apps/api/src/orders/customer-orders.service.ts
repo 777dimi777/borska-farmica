@@ -7,6 +7,7 @@ import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
 import { createPaginationMetadata } from '../common/pagination/pagination';
 import { isRetryableTransactionError } from '../common/prisma-write-conflict';
+import { OrderCancellationService } from '../maintenance/order-cancellation.service';
 import {
   CustomerCancelOrderDto,
   CustomerOrderQueryDto,
@@ -30,7 +31,10 @@ type Detail = Prisma.OrderGetPayload<{ include: typeof detailInclude }>;
 
 @Injectable()
 export class CustomerOrdersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cancellation: OrderCancellationService,
+  ) {}
 
   async list(customerId: string, query: CustomerOrderQueryDto) {
     const where: Prisma.OrderWhereInput = {
@@ -99,52 +103,15 @@ export class CustomerOrdersService {
             if (current.status === 'CANCELLED') return;
             if (current.status !== 'PENDING_CONFIRMATION')
               throw new ConflictException('ORDER_CANCELLATION_NOT_ALLOWED');
-            const now = new Date(),
-              changed = await tx.order.updateMany({
-                where: {
-                  id: current.id,
-                  customerId,
-                  status: 'PENDING_CONFIRMATION',
-                },
-                data: {
-                  status: 'CANCELLED',
-                  cancelledAt: now,
-                  cancellationReason: dto.reason ?? null,
-                },
-              });
-            if (changed.count !== 1)
-              throw new ConflictException('ORDER_STATUS_CONFLICT');
-            const reservations = await tx.stockReservation.findMany({
-              where: { orderId: current.id, status: 'ACTIVE' },
-            });
-            for (const reservation of reservations) {
-              const released = await tx.$queryRaw<
-                Array<{ id: string }>
-              >(Prisma.sql`
-                UPDATE "ProductVariant"
-                SET "reservedQuantity" = "reservedQuantity" - ${reservation.quantity},
-                    "updatedAt" = CURRENT_TIMESTAMP
-                WHERE "id" = ${reservation.variantId}::uuid
-                  AND "reservedQuantity" >= ${reservation.quantity}
-                RETURNING "id"
-              `);
-              if (released.length !== 1)
-                throw new ConflictException('ORDER_RESERVATION_CONFLICT');
-            }
-            await tx.stockReservation.updateMany({
-              where: { orderId: current.id, status: 'ACTIVE' },
-              data: { status: 'RELEASED', releasedAt: now },
-            });
-            await tx.orderEvent.create({
-              data: {
-                orderId: current.id,
-                type: 'order.cancelled_by_customer',
-                fromStatus: 'PENDING_CONFIRMATION',
-                toStatus: 'CANCELLED',
-                actorType: 'CUSTOMER',
-                customerId,
-                note: dto.reason ?? null,
-              },
+            await this.cancellation.cancelIn(tx, {
+              orderId: current.id,
+              expectedStatuses: ['PENDING_CONFIRMATION'],
+              now: new Date(),
+              reason: 'CUSTOMER_REQUEST',
+              note: dto.reason ?? null,
+              actorType: 'CUSTOMER',
+              customerId,
+              eventType: 'order.cancelled_by_customer',
             });
           },
           { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
@@ -180,6 +147,7 @@ export class CustomerOrdersService {
       },
       customerNote: order.customerNote,
       cancellationReason: order.cancellationReason,
+      cancellationNote: order.cancellationNote,
       items: order.items.map((item) => ({
         productName: item.productName,
         productSlug: item.productSlug,

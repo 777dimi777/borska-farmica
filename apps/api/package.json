@@ -26,7 +26,8 @@
     "typecheck": "tsc --noEmit --incremental false",
     "seed": "npm run build && node dist/prisma/seed.js",
     "prisma:seed": "prisma db seed",
-    "admin:bootstrap": "npm run build && node dist/prisma/admin-bootstrap.js"
+    "admin:bootstrap": "npm run build && node dist/prisma/admin-bootstrap.js",
+    "maintenance:run": "npm run build && node dist/src/maintenance/maintenance.cli.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -34,6 +35,7 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.1.3",
     "@nestjs/swagger": "^11.4.6",
     "@nestjs/throttler": "^6.5.0",
     "@prisma/adapter-pg": "^7.9.1",
