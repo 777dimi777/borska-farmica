@@ -39,6 +39,8 @@ describe('mapProductListItem', () => {
     expect(mapProductListItem(record()).primaryImage).toEqual({
       url: 'https://example.test/image.jpg',
       altText: 'Milk',
+      width: null,
+      height: null,
     }));
   it('returns null without an image', () =>
     expect(mapProductListItem(record({ images: [] })).primaryImage).toBeNull());
