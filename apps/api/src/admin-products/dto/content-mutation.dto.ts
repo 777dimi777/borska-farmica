@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   ArrayMaxSize,
   IsArray,
@@ -47,4 +47,14 @@ export class ProductImageMutationDto {
 }
 export class ProductImageReorderDto extends ContentReorderDto {
   @IsOptional() @IsUUID('4') primaryImageId?: string;
+}
+
+export class ProductImageUploadDto {
+  @IsString() @MinLength(3) @MaxLength(160) altText!: string;
+  @IsOptional()
+  @Transform(
+    ({ value }: { value: unknown }) => value === true || value === 'true',
+  )
+  @IsBoolean()
+  isPrimary?: boolean;
 }

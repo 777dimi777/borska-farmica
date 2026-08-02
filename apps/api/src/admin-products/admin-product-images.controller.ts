@@ -9,10 +9,20 @@ import {
   Patch,
   Post,
   Req,
+  UploadedFile,
+  UseInterceptors,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import type { Request } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Throttle } from '@nestjs/throttler';
 import { CurrentAdmin } from '../admin-auth/decorators/current-admin.decorator';
 import { Roles } from '../admin-auth/decorators/roles.decorator';
 import type { AuthenticatedAdmin } from '../admin-auth/authenticated-request';
@@ -22,6 +32,7 @@ import { AdminRole } from '../generated/prisma/enums';
 import { AdminProductImagesService } from './admin-product-images.service';
 import {
   ProductImageMutationDto,
+  ProductImageUploadDto,
   ProductImageReorderDto,
 } from './dto/content-mutation.dto';
 @ApiTags('Admin Product Images')
@@ -38,6 +49,41 @@ export class AdminProductImagesController {
   @ApiOperation({ summary: 'List product image metadata' })
   list(@Param('productId', new ParseUUIDPipe({ version: '4' })) p: string) {
     return this.service.list(p);
+  }
+  @Post('upload')
+  @Throttle({ default: { limit: 15, ttl: 60_000 } })
+  @UseInterceptors(
+    FileInterceptor('file', { limits: { files: 1, fileSize: 8_388_608 } }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file', 'altText'],
+      properties: {
+        file: { type: 'string', format: 'binary' },
+        altText: { type: 'string', minLength: 3, maxLength: 160 },
+        isPrimary: { type: 'boolean', default: false },
+      },
+    },
+  })
+  @ApiOperation({
+    summary: 'Validate, process and upload one managed product image',
+  })
+  upload(
+    @Param('productId', new ParseUUIDPipe({ version: '4' })) p: string,
+    @UploadedFile() file: Express.Multer.File | undefined,
+    @Body() d: ProductImageUploadDto,
+    @CurrentAdmin() a: AuthenticatedAdmin,
+    @Req() r: Request,
+  ) {
+    return this.service.upload(
+      p,
+      file,
+      d.altText,
+      d.isPrimary === true,
+      this.context(a, r),
+    );
   }
   @Post()
   @ApiOperation({ summary: 'Create product image metadata' })

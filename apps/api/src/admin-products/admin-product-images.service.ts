@@ -2,8 +2,14 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Inject,
+  ServiceUnavailableException,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { IMAGE_STORAGE_PROVIDER } from '../image-storage/image-storage.types';
+import type { ImageStorageProvider } from '../image-storage/image-storage.types';
+import { ImageProcessor } from '../image-storage/image-processor.service';
 import { AdminAuditService } from '../admin-audit/admin-audit.service';
 import {
   AUDIT_ACTIONS,
@@ -22,12 +28,21 @@ const imageSelect = {
   sortOrder: true,
   createdAt: true,
   updatedAt: true,
+  storageProvider: true,
+  width: true,
+  height: true,
+  format: true,
+  byteSize: true,
 };
 @Injectable()
 export class AdminProductImagesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly audit: AdminAuditService,
+    private readonly processor: ImageProcessor,
+    private readonly config: ConfigService,
+    @Inject(IMAGE_STORAGE_PROVIDER)
+    private readonly storage: ImageStorageProvider,
   ) {}
   private async product(id: string) {
     if (
@@ -51,6 +66,78 @@ export class AdminProductImagesService {
         ],
       }),
     );
+  }
+  async upload(
+    productId: string,
+    file: Express.Multer.File | undefined,
+    altText: string,
+    requestedPrimary: boolean,
+    c: AuditContext,
+  ) {
+    if (!this.config.get<boolean>('IMAGE_UPLOAD_ENABLED', false))
+      throw new ServiceUnavailableException('IMAGE_UPLOAD_DISABLED');
+    await this.product(productId);
+    if (!file) throw new BadRequestException('IMAGE_FILE_REQUIRED');
+    if (!altText?.trim() || altText.trim().length < 3)
+      throw new BadRequestException('IMAGE_ALT_TEXT_INVALID');
+    const processed = await this.processor.process(file.buffer, file.mimetype);
+    const stored = await this.storage.upload(processed, productId);
+    try {
+      return await this.serial(async (tx) => {
+        const count = await tx.productImage.count({ where: { productId } });
+        if (count >= this.config.get<number>('IMAGE_MAX_PER_PRODUCT', 12))
+          throw new ConflictException('PRODUCT_IMAGE_LIMIT_REACHED');
+        const primary = count === 0 || requestedPrimary;
+        if (primary)
+          await tx.productImage.updateMany({
+            where: { productId, isPrimary: true },
+            data: { isPrimary: false },
+          });
+        const last = await tx.productImage.aggregate({
+          where: { productId },
+          _max: { sortOrder: true },
+        });
+        const row = await tx.productImage.create({
+          data: {
+            productId,
+            url: stored.url,
+            altText: altText.trim(),
+            isPrimary: primary,
+            sortOrder: (last._max.sortOrder ?? -1) + 1,
+            storageProvider: stored.provider,
+            storageKey: stored.storageKey,
+            width: stored.width,
+            height: stored.height,
+            format: stored.format,
+            byteSize: stored.byteSize,
+          },
+          select: imageSelect,
+        });
+        await this.audit.write(tx, c, {
+          action: AUDIT_ACTIONS.PRODUCT_IMAGE_UPLOADED,
+          resourceType: AUDIT_RESOURCE_TYPES.PRODUCT_IMAGE,
+          resourceId: row.id,
+          changes: {
+            productId,
+            imageId: row.id,
+            provider: stored.provider,
+            width: stored.width,
+            height: stored.height,
+            format: stored.format,
+            byteSize: stored.byteSize,
+            isPrimary: primary,
+          },
+        });
+        return row;
+      });
+    } catch (error) {
+      try {
+        await this.storage.delete(stored.storageKey);
+      } catch {
+        // Compensation is best-effort; preserve the original database error.
+      }
+      throw error;
+    }
   }
   async create(
     productId: string,
@@ -107,6 +194,8 @@ export class AdminProductImagesService {
         select: imageSelect,
       });
       if (!old) throw new NotFoundException('Image not found.');
+      if (old.storageProvider && dto.url !== undefined && dto.url !== old.url)
+        throw new ConflictException('MANAGED_IMAGE_URL_IMMUTABLE');
       if (old.isPrimary && dto.isPrimary === false)
         throw new ConflictException('Choose another primary image instead.');
       const data = {
@@ -160,6 +249,13 @@ export class AdminProductImagesService {
     });
   }
   async remove(productId: string, id: string, c: AuditContext) {
+    const managed = await this.prisma.productImage.findFirst({
+      where: { id, productId },
+      select: { storageProvider: true, storageKey: true },
+    });
+    if (!managed) throw new NotFoundException('Image not found.');
+    if (managed.storageProvider && managed.storageKey)
+      await this.storage.delete(managed.storageKey);
     await this.serial(async (tx) => {
       const old = await tx.productImage.findFirst({
         where: { id, productId },

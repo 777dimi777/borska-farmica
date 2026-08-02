@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ImageStorageModule } from '../image-storage/image-storage.module';
 import { AdminProductsController } from './admin-products.controller';
 import { AdminProductsService } from './admin-products.service';
 import { AdminProductMutationsService } from './admin-product-mutations.service';
@@ -15,7 +16,7 @@ import { AdminAvailabilityMutationsService } from './admin-availability-mutation
 import { AdminProductImagesController } from './admin-product-images.controller';
 import { AdminProductImagesService } from './admin-product-images.service';
 @Module({
-  imports: [AdminAuthModule, AdminAuditModule],
+  imports: [AdminAuthModule, AdminAuditModule, ImageStorageModule],
   controllers: [
     AdminProductsController,
     AdminVariantsController,
