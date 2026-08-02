@@ -173,7 +173,7 @@ describe('Guest cart (e2e)', () => {
       .expect(201);
     const cookie = added.headers['set-cookie']?.[0] as string;
     expect(cookie).toContain('HttpOnly');
-    expect(cookie).toContain('Path=/api/v1/cart');
+    expect(cookie).toContain('Path=/api/v1');
     const raw = /bf_cart=([^;]+)/.exec(cookie)?.[1];
     expect(raw).toBeTruthy();
     const cart = await prisma.cart.findFirstOrThrow({

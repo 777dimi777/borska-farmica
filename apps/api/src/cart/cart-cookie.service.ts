@@ -18,7 +18,7 @@ export class CartCookieService {
       httpOnly: true,
       secure,
       sameSite,
-      path: '/api/v1/cart',
+      path: '/api/v1',
       maxAge: this.config.getOrThrow<number>('CART_TTL_DAYS') * 86400000,
     };
   }
@@ -28,7 +28,12 @@ export class CartCookieService {
   set(res: Response, raw: string) {
     res.cookie(this.name(), raw, this.options());
   }
+  migrateLegacy(res: Response, raw: string) {
+    res.clearCookie(this.name(), { ...this.options(), path: '/api/v1/cart' });
+    this.set(res, raw);
+  }
   clear(res: Response) {
     res.clearCookie(this.name(), this.options());
+    res.clearCookie(this.name(), { ...this.options(), path: '/api/v1/cart' });
   }
 }

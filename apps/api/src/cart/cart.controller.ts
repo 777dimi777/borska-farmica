@@ -38,6 +38,7 @@ export class CartController {
     const raw = this.cookies.read(req);
     let cart = await this.identity.resolve(raw);
     if (raw && !cart) this.cookies.clear(res);
+    if (raw && cart) this.cookies.migrateLegacy(res, raw);
     if (!cart) {
       const created = await this.identity.create();
       cart = created.cart;
@@ -53,6 +54,7 @@ export class CartController {
     const raw = this.cookies.read(req),
       cart = await this.identity.resolve(raw);
     if (raw && !cart) this.cookies.clear(res);
+    if (raw && cart) this.cookies.migrateLegacy(res, raw);
     return cart ? this.carts.read(cart.id) : this.carts.empty();
   }
   @Post('items')
