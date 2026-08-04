@@ -1,6 +1,6 @@
 import { serverApiUrl } from '@/lib/config/env';
 export type ApiErrorKind =
-  'unavailable' | 'not-found' | 'validation' | 'unexpected';
+  'unavailable' | 'timeout' | 'not-found' | 'validation' | 'unexpected';
 export class PublicApiError extends Error {
   constructor(
     public readonly kind: ApiErrorKind,
@@ -35,6 +35,11 @@ export async function publicApiFetch<T>(
     return (await response.json()) as T;
   } catch (error) {
     if (error instanceof PublicApiError) throw error;
+    if (
+      error instanceof Error &&
+      (error.name === 'TimeoutError' || error.name === 'AbortError')
+    )
+      throw new PublicApiError('timeout');
     throw new PublicApiError('unavailable');
   }
 }

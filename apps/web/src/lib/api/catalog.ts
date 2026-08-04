@@ -1,20 +1,29 @@
-import type { Category, ProductListResponse } from '@/types/catalog';
+import type {
+  Category,
+  ProductDetail,
+  ProductListResponse,
+} from '@/types/catalog';
+import type { CatalogQuery } from '@/types/catalog-query';
+import { serializeCatalogQuery } from '@/lib/catalog/query';
 import { publicApiFetch } from './client';
 export const getCategories = () =>
   publicApiFetch<Category[]>('/categories', { revalidate: 60 });
-export const getProducts = (
-  params: Record<string, string | number | boolean>,
-) => {
-  const query = new URLSearchParams(
-    Object.entries(params).map(([key, value]) => [key, String(value)]),
-  );
-  return publicApiFetch<ProductListResponse>(`/products?${query}`, {
+export const getCategory = (slug: string) =>
+  publicApiFetch<Category>(`/categories/${encodeURIComponent(slug)}`, {
     revalidate: 60,
   });
-};
+export const getProducts = (params: Partial<CatalogQuery>) =>
+  publicApiFetch<ProductListResponse>(
+    `/products?${serializeCatalogQuery(params)}`,
+    { revalidate: 60 },
+  );
+export const getProduct = (slug: string) =>
+  publicApiFetch<ProductDetail>(`/products/${encodeURIComponent(slug)}`, {
+    revalidate: 60,
+  });
 export async function getHomepageCatalog() {
   const categories = await getCategories();
-  const attempts: Array<Record<string, string | number | boolean>> = [
+  const attempts: Array<Partial<CatalogQuery>> = [
     { featured: true },
     { mainProduct: true },
     {},

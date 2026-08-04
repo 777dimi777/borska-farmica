@@ -44,3 +44,35 @@ export interface ProductListResponse {
   data: ProductPreview[];
   pagination: Pagination;
 }
+export type MeasurementUnit =
+  'LITER' | 'KILOGRAM' | 'GRAM' | 'PIECE' | 'MILLILITER';
+export interface ProductVariant {
+  id: string;
+  name: string;
+  sku: string;
+  price: string;
+  compareAtPrice: string | null;
+  packageAmount: string;
+  unit: MeasurementUnit;
+  default: boolean;
+  inStock: boolean;
+  purchasable: boolean;
+}
+export interface ProductDetailImage extends ProductImage {
+  id: string;
+  primary: boolean;
+}
+export interface ProductDetail {
+  id: string;
+  name: string;
+  slug: string;
+  shortDescription: string | null;
+  description: string | null;
+  featured: boolean;
+  mainProduct: boolean;
+  category: { name: string; slug: string };
+  variants: ProductVariant[];
+  images: ProductDetailImage[];
+  availability: ProductAvailability;
+  seo: { title: string | null; description: string | null };
+}
