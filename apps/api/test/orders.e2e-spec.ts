@@ -222,7 +222,7 @@ describe('Checkout and order lifecycle (e2e)', () => {
     identity = app.get(CartIdentityService);
     maintenance = app.get(MaintenanceService);
     await cleanup();
-    const customer = await register(customerEmail, 'MiloÃ…Â¡'),
+    const customer = await register(customerEmail, 'Milos'),
       other = await register(otherEmail, 'Milica');
     customerId = customer.id;
     customerAccess = customer.access;
@@ -546,7 +546,7 @@ describe('Checkout and order lifecycle (e2e)', () => {
         .send({ targetStatus, ...body });
     await transition('CONFIRMED', {
       confirmedPickupAt: `${requestedDate}T10:00:00+02:00`,
-      note: 'PotvrÃ„â€˜eno telefonom',
+      note: 'PotvrÃƒâ€žÃ¢â‚¬Ëœeno telefonom',
     }).expect(200);
     await request(app.getHttpServer())
       .post(`/api/v1/account/orders/${created.body.orderNumber}/cancel`)
