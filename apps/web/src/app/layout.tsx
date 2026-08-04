@@ -3,6 +3,7 @@ import { Manrope, Cormorant_Garamond } from 'next/font/google';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { siteUrl } from '@/lib/config/env';
+import { AppProviders } from '@/components/providers/app-providers';
 import './globals.css';
 const sans = Manrope({
   variable: '--font-sans',
@@ -16,11 +17,11 @@ const serif = Cormorant_Garamond({
   display: 'swap',
 });
 const description =
-  'Mleko, surutka, sirevi i sezonski proizvodi Borske Farmice. Poručivanje uz lično preuzimanje u Boru i na Gradskoj pijaci subotom.';
+  'Mleko, surutka, sirevi i sezonski proizvodi Borske Farmice. PoruÃ„Âivanje uz liÃ„Âno preuzimanje u Boru i na Gradskoj pijaci subotom.';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: 'Borska Farmica | Domaći proizvodi iz Bora',
+    default: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
     template: '%s | Borska Farmica',
   },
   description,
@@ -29,12 +30,12 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'sr_Latn_RS',
     siteName: 'Borska Farmica',
-    title: 'Borska Farmica | Domaći proizvodi iz Bora',
+    title: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
     description,
   },
   twitter: {
     card: 'summary',
-    title: 'Borska Farmica | Domaći proizvodi iz Bora',
+    title: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
     description,
   },
 };
@@ -47,11 +48,13 @@ export default function RootLayout({
     <html lang="sr-Latn" className={`${sans.variable} ${serif.variable}`}>
       <body>
         <a className="skip-link" href="#glavni-sadrzaj">
-          Preskoči na glavni sadržaj
+          PreskoÃ„Âi na glavni sadrÃ…Â¾aj
         </a>
-        <Header />
-        <main id="glavni-sadrzaj">{children}</main>
-        <Footer />
+        <AppProviders>
+          <Header />
+          <main id="glavni-sadrzaj">{children}</main>
+          <Footer />
+        </AppProviders>
       </body>
     </html>
   );

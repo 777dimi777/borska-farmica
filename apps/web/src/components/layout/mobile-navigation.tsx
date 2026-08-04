@@ -2,11 +2,13 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 const links = [
-  ['Početna', '/'],
+  ['PoÄetna', '/'],
   ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
   ['Kontakt', '/kontakt'],
+  ['Korpa', '/korpa'],
+  ['Prijava / nalog', '/prijava'],
 ] as const;
 export function MobileNavigation() {
   const [open, setOpen] = useState(false);

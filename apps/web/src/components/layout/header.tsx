@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Container } from '@/components/ui/container';
-import { LinkButton } from '@/components/ui/button';
+import { HeaderActions } from './header-actions';
 import { Brand } from './brand';
 import { MobileNavigation } from './mobile-navigation';
 const links = [
-  ['Početna', '/'],
+  ['PoÃ„Âetna', '/'],
   ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
@@ -15,7 +15,7 @@ export function Header() {
     <>
       <div className="announcement">
         <Container>
-          Subotom nas pronađite na{' '}
+          Subotom nas pronaÃ„â€˜ite na{' '}
           <Link href="/preuzimanje">Gradskoj pijaci u Boru.</Link>
         </Container>
       </div>
@@ -31,9 +31,7 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <LinkButton className="header-cta" href="/proizvodi">
-            Pogledaj ponudu
-          </LinkButton>
+          <HeaderActions />
           <MobileNavigation />
         </Container>
       </header>
