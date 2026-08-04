@@ -202,3 +202,7 @@ Checkout i customer order frontend dokumentovani su u docs/CHECKOUT_FRONTEND.md 
 ## Admin order management
 
 Admin workspace sada uključuje /admin/porudzbine i UUID detail rutu sa URL filterima, paginacijom, snapshot/timeline prikazom i kompletnom potvrda → priprema → spremno → cash completion/cancellation matricom. Detalji su u [docs/ADMIN_ORDERS_FRONTEND.md](docs/ADMIN_ORDERS_FRONTEND.md).
+
+## Admin catalog management
+
+Admin workspace uključuje kategorije i kompletan product editor sa varijantama, slikama/uploadom, dostupnošću i zalihama. Implementacioni ugovori su u [ADMIN_CATALOG_FRONTEND](docs/ADMIN_CATALOG_FRONTEND.md), [ADMIN_PRODUCT_CONTENT_FRONTEND](docs/ADMIN_PRODUCT_CONTENT_FRONTEND.md) i [ADMIN_INVENTORY_FRONTEND](docs/ADMIN_INVENTORY_FRONTEND.md).

@@ -293,3 +293,12 @@ SledeÄ‡a celina je cart frontend, customer auth foundation, in-memory access 
 - [x] eksplicitni cash completion sa PAID/SALE posledicama
 - [x] admin cancellation sa reservation release posledicama
 - [ ] admin kategorije, proizvodi, varijante, slike, availability i inventory adjustments
+
+## Status: admin catalog management frontend
+
+- [x] kategorije CRUD, status i redosled
+- [x] product listing, create/edit i lifecycle
+- [x] varijante, slike i managed upload
+- [x] availability periodi i server preview
+- [x] inventory adjustments i movement istorija
+- [ ] admin kupci, audit i CSV frontend
