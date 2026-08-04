@@ -50,16 +50,26 @@ export async function browserApi<T>(path: string, o: Options = {}): Promise<T> {
   const timeout = AbortSignal.timeout(o.timeout ?? 8000);
   const signal = o.signal ? AbortSignal.any([o.signal, timeout]) : timeout;
   try {
+    const multipart =
+      typeof FormData !== 'undefined' && o.body instanceof FormData;
     const r = await fetch(`${publicApiUrl()}${path}`, {
       method: o.method ?? 'GET',
       credentials: 'include',
       signal,
       headers: {
         Accept: 'application/json',
-        ...(o.body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...(o.body !== undefined && !multipart
+          ? { 'Content-Type': 'application/json' }
+          : {}),
+        ...o.headers,
         ...(o.token ? { Authorization: `Bearer ${o.token}` } : {}),
       },
-      body: o.body === undefined ? undefined : JSON.stringify(o.body),
+      body:
+        o.body === undefined
+          ? undefined
+          : multipart
+            ? (o.body as FormData)
+            : JSON.stringify(o.body),
     });
     if (!r.ok)
       throw new BrowserApiError(
