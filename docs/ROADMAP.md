@@ -1,12 +1,12 @@
-# Borska Farmica Ã¢â‚¬â€ razvojni roadmap
+# Borska Farmica ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â razvojni roadmap
 
-Roadmap je fazan. Svaka faza se zavrÃ…Â¡ava funkcionalnom proverom, testovima i smislenim commitovima pre poÃ„Âetka naredne faze.
+Roadmap je fazan. Svaka faza se zavrÃƒâ€¦Ã‚Â¡ava funkcionalnom proverom, testovima i smislenim commitovima pre poÃƒâ€žÃ‚Âetka naredne faze.
 
-## Faza 1 Ã¢â‚¬â€ stabilna osnova
+## Faza 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stabilna osnova
 
-**Status: zavrÃ…Â¡eno.**
+**Status: zavrÃƒâ€¦Ã‚Â¡eno.**
 
-### ZavrÃ…Â¡eno
+### ZavrÃƒâ€¦Ã‚Â¡eno
 
 - [x] monorepo, npm workspaces i Turborepo
 - [x] Next.js frontend i NestJS backend
@@ -15,26 +15,26 @@ Roadmap je fazan. Svaka faza se zavrÃ…Â¡ava funkcionalnom proverom, testovi
 - [x] Prisma konfiguracija, generisanje klijenta i DatabaseModule
 - [x] liveness i database readiness endpointi
 - [x] read-only lint, format check, typecheck, unit test, e2e i build osnova
-- [x] zajedniÃ„Âka bezbedna `npm run check` komanda
+- [x] zajedniÃƒâ€žÃ‚Âka bezbedna `npm run check` komanda
 - [x] lokalna razvojna dokumentacija
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-Frontend i API se lokalno pokreÃ„â€¡u, baza je zdrava, Prisma Client se generiÃ…Â¡e, health provere rade, a lint, typecheck, test i kompletan build prolaze iz root foldera uz dokumentovana uputstva.
+Frontend i API se lokalno pokreÃƒâ€žÃ¢â‚¬Â¡u, baza je zdrava, Prisma Client se generiÃƒâ€¦Ã‚Â¡e, health provere rade, a lint, typecheck, test i kompletan build prolaze iz root foldera uz dokumentovana uputstva.
 
-Sve stavke Faze 1 su implementirane i proverene. GeneriÃ„Âki `GET /api/v1` i dalje vraÃ„â€¡a `Hello World!`; njegovo uklanjanje je mala naredna cleanup celina i nije blokada za stabilnu osnovu.
+Sve stavke Faze 1 su implementirane i proverene. GeneriÃƒâ€žÃ‚Âki `GET /api/v1` i dalje vraÃƒâ€žÃ¢â‚¬Â¡a `Hello World!`; njegovo uklanjanje je mala naredna cleanup celina i nije blokada za stabilnu osnovu.
 
-## Faza 2 Ã¢â‚¬â€ katalog i zalihe
+## Faza 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â katalog i zalihe
 
-**Status: u toku Ã¢â‚¬â€ katalog, admin sadrÃ…Â¾aj, customer auth, korpa i checkout/order backend su zavrÃ…Â¡eni.**
+**Status: u toku ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â katalog, admin sadrÃƒâ€¦Ã‚Â¾aj, customer auth, korpa i checkout/order backend su zavrÃƒâ€¦Ã‚Â¡eni.**
 
 ### Napredak
 
 - [x] poslovni model kataloga dokumentovan u [CATALOG_DOMAIN.md](CATALOG_DOMAIN.md)
 - [x] Prisma modeli i prva migracija kataloga
-- [x] idempotentni seed Ã…Â¡est potvrÃ„â€˜enih kategorija
+- [x] idempotentni seed Ãƒâ€¦Ã‚Â¡est potvrÃƒâ€žÃ¢â‚¬Ëœenih kategorija
 - [x] javni read-only category/product API, validacija, paginacija, filteri, Swagger i testovi
-- [x] zaÃ…Â¡tiÃ„â€¡eni admin CRUD kategorija sa audit logom
+- [x] zaÃƒâ€¦Ã‚Â¡tiÃƒâ€žÃ¢â‚¬Â¡eni admin CRUD kategorija sa audit logom
 - [x] admin product queries i product lifecycle
 - [x] admin upravljanje varijantama i inventory adjustments sa auditom
 - [x] image metadata mutation endpointi i managed Cloudinary upload
@@ -45,64 +45,64 @@ Sve stavke Faze 1 su implementirane i proverene. GeneriÃ„Âki `GET /api/v1`
 ### Obuhvat
 
 - Category, Product, ProductVariant i ProductImage modeli
-- merne jedinice i precizne cene/koliÃ„Âine
+- merne jedinice i precizne cene/koliÃƒâ€žÃ‚Âine
 - SeasonalAvailability i Inventory
 - Prisma migracije i neutralni razvojni seed podaci
 - CRUD API, paginacija, filteri, sortiranje i pretraga
-- DTO validacija i standardizovane greÃ…Â¡ke
+- DTO validacija i standardizovane greÃƒâ€¦Ã‚Â¡ke
 - Swagger dokumentacija
 - unit, integration i API e2e testovi
 
 ### Otvorene odluke
 
-Potvrditi poÃ„Âetne kategorije, proizvode, pakovanja, merne jedinice, stvarne cene, pravila zaliha, sezonalnost i skladiÃ…Â¡tenje fotografija.
+Potvrditi poÃƒâ€žÃ‚Âetne kategorije, proizvode, pakovanja, merne jedinice, stvarne cene, pravila zaliha, sezonalnost i skladiÃƒâ€¦Ã‚Â¡tenje fotografija.
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-Administrator moÃ…Â¾e kroz stabilan i testiran API da upravlja kompletnim katalogom i zalihama bez izmene koda.
+Administrator moÃƒâ€¦Ã‚Â¾e kroz stabilan i testiran API da upravlja kompletnim katalogom i zalihama bez izmene koda.
 
-## Faza 3 Ã¢â‚¬â€ javni storefront
+## Faza 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â javni storefront
 
 ### Obuhvat
 
-- prilagoÃ„â€˜en dizajn sistem Borska Farmica
+- prilagoÃƒâ€žÃ¢â‚¬Ëœen dizajn sistem Borska Farmica
 - odobreni logo i branding asseti
 - header, footer i mobilna navigacija
-- premium poÃ„Âetna stranica sa prioritetom za sir, kozje mleko i surutku
+- premium poÃƒâ€žÃ‚Âetna stranica sa prioritetom za sir, kozje mleko i surutku
 - kategorije, listing i detalji proizvoda
 - pretraga, filteri i sortiranje
 - izbor varijante i prikaz dostupnosti/sezonalnosti
 - loading, empty i error stanja
-- responzivnost, pristupaÃ„Ânost i SEO osnova
+- responzivnost, pristupaÃƒâ€žÃ‚Ânost i SEO osnova
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-Korisnik moÃ…Â¾e brzo i pristupaÃ„Âno da istraÃ…Â¾i stvarni katalog na svim vaÃ…Â¾nim veliÃ„Âinama ekrana, uz kvalitetne performanse i SEO metapodatke.
+Korisnik moÃƒâ€¦Ã‚Â¾e brzo i pristupaÃƒâ€žÃ‚Âno da istraÃƒâ€¦Ã‚Â¾i stvarni katalog na svim vaÃƒâ€¦Ã‚Â¾nim veliÃƒâ€žÃ‚Âinama ekrana, uz kvalitetne performanse i SEO metapodatke.
 
-## Faza 4 Ã¢â‚¬â€ korpa i porudÃ…Â¾bine
+## Faza 4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â korpa i porudÃƒâ€¦Ã‚Â¾bine
 
 ### Obuhvat
 
-- korpa za gosta i podrÃ…Â¡ka za buduÃ„â€¡eg prijavljenog korisnika
-- serverska provera cena, koliÃ„Âina i zaliha
+- korpa za gosta i podrÃƒâ€¦Ã‚Â¡ka za buduÃƒâ€žÃ¢â‚¬Â¡eg prijavljenog korisnika
+- serverska provera cena, koliÃƒâ€žÃ‚Âina i zaliha
 - [x] checkout i validacija podataka kupca
-- [x] transakciono kreiranje porudÃ…Â¾bine
-- [x] rezervacija i lifecycle fiziÃ„Âke zalihe
-- [x] snapshot stavki porudÃ…Â¾bine
-- [x] potvrda porudÃ…Â¾bine i pregled statusa
-- [x] testovi kritiÃ„Ânog toka i obraÃ„Âuna
+- [x] transakciono kreiranje porudÃƒâ€¦Ã‚Â¾bine
+- [x] rezervacija i lifecycle fiziÃƒâ€žÃ‚Âke zalihe
+- [x] snapshot stavki porudÃƒâ€¦Ã‚Â¾bine
+- [x] potvrda porudÃƒâ€¦Ã‚Â¾bine i pregled statusa
+- [x] testovi kritiÃƒâ€žÃ‚Ânog toka i obraÃƒâ€žÃ‚Âuna
 
 ### Otvorene odluke
 
-PotvrÃ„â€˜eno i implementirano: customer nalog je obavezan, nema dostave ni fee-a, plaÃ„â€¡anje je gotovinom pri preuzimanju, a admin ruÃ„Âno potvrÃ„â€˜uje termin. Tok za rakiju i dalje zahteva zasebnu pravnu i poslovnu potvrdu.
+PotvrÃƒâ€žÃ¢â‚¬Ëœeno i implementirano: customer nalog je obavezan, nema dostave ni fee-a, plaÃƒâ€žÃ¢â‚¬Â¡anje je gotovinom pri preuzimanju, a admin ruÃƒâ€žÃ‚Âno potvrÃƒâ€žÃ¢â‚¬Ëœuje termin. Tok za rakiju i dalje zahteva zasebnu pravnu i poslovnu potvrdu.
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-KritiÃ„Âni tok od korpe do porudÃ…Â¾bine je transakcion, precizan, bezbedan i pokriven testovima; frontend nikada nije izvor istine za cenu ili ukupan iznos.
+KritiÃƒâ€žÃ‚Âni tok od korpe do porudÃƒâ€¦Ã‚Â¾bine je transakcion, precizan, bezbedan i pokriven testovima; frontend nikada nije izvor istine za cenu ili ukupan iznos.
 
-## Faza 5 Ã¢â‚¬â€ admin autentifikacija
+## Faza 5 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â admin autentifikacija
 
-**Status: backend foundation zavrÃ…Â¡ena; admin frontend nije zapoÃ„Âet.**
+**Status: backend foundation zavrÃƒâ€¦Ã‚Â¡ena; admin frontend nije zapoÃƒâ€žÃ‚Âet.**
 
 ### Obuhvat
 
@@ -120,30 +120,30 @@ KritiÃ„Âni tok od korpe do porudÃ…Â¾bine je transakcion, precizan, be
 - [ ] 2FA i password reset
 - [x] customer auth backend sa odvojenim identitetom, sesijama i profilom
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-Admin rute su nedostupne neautorizovanim korisnicima, tokeni i lozinke su bezbedno obraÃ„â€˜eni, a kritiÃ„Âne akcije ostavljaju upotrebljiv audit trag.
+Admin rute su nedostupne neautorizovanim korisnicima, tokeni i lozinke su bezbedno obraÃƒâ€žÃ¢â‚¬Ëœeni, a kritiÃƒâ€žÃ‚Âne akcije ostavljaju upotrebljiv audit trag.
 
-## Faza 6 Ã¢â‚¬â€ admin panel i analitika
+## Faza 6 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â admin panel i analitika
 
-**Status: dashboard analytics, customer operations, audit viewer i CSV export backend zavrÃ…Â¡eni; admin frontend nije zapoÃ„Âet.**
+**Status: dashboard analytics, customer operations, audit viewer i CSV export backend zavrÃƒâ€¦Ã‚Â¡eni; admin frontend nije zapoÃƒâ€žÃ‚Âet.**
 
 ### Obuhvat
 
 - [x] dashboard API sa stvarnim KPI podacima iz baze
 - upravljanje kategorijama, proizvodima, varijantama i fotografijama
-- [x] backend zalihe, sezonska dostupnost, porudÃ…Â¾bine i kupci
-- [x] periodi i poreÃ„â€˜enje sa prethodnim periodom
-- [x] API serije i agregacije prodaje, porudÃ…Â¾bina, kategorija, proizvoda i zaliha
-- [x] API brojaÃ„Âi i podaci za stavke koje zahtevaju paÃ…Â¾nju
-- [x] backend filteri i bezbedni CSV izvozi; responzivne tabele Ã„Âekaju frontend
+- [x] backend zalihe, sezonska dostupnost, porudÃƒâ€¦Ã‚Â¾bine i kupci
+- [x] periodi i poreÃƒâ€žÃ¢â‚¬Ëœenje sa prethodnim periodom
+- [x] API serije i agregacije prodaje, porudÃƒâ€¦Ã‚Â¾bina, kategorija, proizvoda i zaliha
+- [x] API brojaÃƒâ€žÃ‚Âi i podaci za stavke koje zahtevaju paÃƒâ€¦Ã‚Â¾nju
+- [x] backend filteri i bezbedni CSV izvozi; responzivne tabele Ãƒâ€žÃ‚Âekaju frontend
 - loading skeleton, empty i error stanja
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-Admin dobija pouzdan operativni pregled i moÃ…Â¾e bez izmene koda da upravlja svakodnevnim poslovanjem. Nijedna izmiÃ…Â¡ljena statistika nije predstavljena kao stvarna.
+Admin dobija pouzdan operativni pregled i moÃƒâ€¦Ã‚Â¾e bez izmene koda da upravlja svakodnevnim poslovanjem. Nijedna izmiÃƒâ€¦Ã‚Â¡ljena statistika nije predstavljena kao stvarna.
 
-## Faza 7 Ã¢â‚¬â€ produkciona spremnost
+## Faza 7 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â produkciona spremnost
 
 ### Obuhvat
 
@@ -155,19 +155,19 @@ Admin dobija pouzdan operativni pregled i moÃ…Â¾e bez izmene koda da upravl
 - deployment frontenda, API-ja i managed PostgreSQL baze
 - cloud storage za fotografije
 - backup i recovery procedura
-- zavrÃ…Â¡na analiza koda i dokumentacije
+- zavrÃƒâ€¦Ã‚Â¡na analiza koda i dokumentacije
 
 ### Otvorene odluke
 
-Potvrditi domen, hosting API-ja, managed bazu, storage, monitoring i komunikacione provajdere. Organization ili LocalBusiness structured data dodati tek kada postoje potvrÃ„â€˜eni poslovni podaci.
+Potvrditi domen, hosting API-ja, managed bazu, storage, monitoring i komunikacione provajdere. Organization ili LocalBusiness structured data dodati tek kada postoje potvrÃƒâ€žÃ¢â‚¬Ëœeni poslovni podaci.
 
-### Kriterijum zavrÃ…Â¡etka
+### Kriterijum zavrÃƒâ€¦Ã‚Â¡etka
 
-Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupaÃ„Âan, brz i ima proverenu proceduru oporavka.
+Sistem je bezbedno deployovan, nadgledan, dokumentovan, pristupaÃƒâ€žÃ‚Âan, brz i ima proverenu proceduru oporavka.
 
-## SledeÃ„â€¡a neposredna celina
+## SledeÃƒâ€žÃ¢â‚¬Â¡a neposredna celina
 
-SledeÃ„â€¡a celina je admin UI za veÃ„â€¡ zavrÃ…Â¡ene product-content endpoint-e. Dashboard frontend, stvarni admin nalog, production hardening, observability, deployment konfiguracija i backup/recovery provera ostaju nezavrÃ…Â¡eni.
+SledeÃƒâ€žÃ¢â‚¬Â¡a celina je admin UI za veÃƒâ€žÃ¢â‚¬Â¡ zavrÃƒâ€¦Ã‚Â¡ene product-content endpoint-e. Dashboard frontend, stvarni admin nalog, production hardening, observability, deployment konfiguracija i backup/recovery provera ostaju nezavrÃƒâ€¦Ã‚Â¡eni.
 
 ## Status: guest cart backend
 
@@ -188,25 +188,25 @@ SledeÃ„â€¡a celina je admin UI za veÃ„â€¡ zavrÃ…Â¡ene product
 - [x] izolovani unit i e2e testovi
 - [ ] email verification provider i password reset
 - [ ] frontend forme i customer UX
-- [x] checkout koji zahteva customer access token i postojeÃ„â€¡u korpu
+- [x] checkout koji zahteva customer access token i postojeÃƒâ€žÃ¢â‚¬Â¡u korpu
 
-Checkout/order backend je implementiran sa tim pravilima; frontend checkout joÃ…Â¡ nije uraÃ„â€˜en.
+Checkout/order backend je implementiran sa tim pravilima; frontend checkout joÃƒâ€¦Ã‚Â¡ nije uraÃƒâ€žÃ¢â‚¬Ëœen.
 
 ## Status: checkout i orders backend
 
-- [x] account-only checkout preview i kreiranje porudÃ…Â¾bine
+- [x] account-only checkout preview i kreiranje porudÃƒâ€¦Ã‚Â¾bine
 - [x] Borska Farmica i subotnja Gradska pijaca pickup pravila
-- [x] idempotentno atomsko kreiranje i fiziÃ„Âke stock rezervacije
+- [x] idempotentno atomsko kreiranje i fiziÃƒâ€žÃ‚Âke stock rezervacije
 - [x] customer order listing/details/pending cancellation
 - [x] admin listing/details i stroga transition matrica
 - [x] cash completion, PAID status i SALE movements
-- [x] cancellation release bez promene fiziÃ„Âkog stocka
+- [x] cancellation release bez promene fiziÃƒâ€žÃ‚Âkog stocka
 - [ ] frontend checkout i order UX
-- [ ] email/SMS obaveÃ…Â¡tenja
+- [ ] email/SMS obaveÃƒâ€¦Ã‚Â¡tenja
 - [ ] returns/refunds i automatsko isticanje rezervacija
 - [x] cloud upload backend; [ ] analytics frontend i production deployment
 
-### Preostale veÃ„â€¡e oblasti
+### Preostale veÃƒâ€žÃ¢â‚¬Â¡e oblasti
 
 - [x] stvarni cloud image upload/storage
 - [x] produkcioni hardening, observability i deployment konfiguracija
@@ -244,16 +244,25 @@ Backend now has a production-ready operational foundation. The next major implem
 - [ ] kompletan katalog sa search/filter/sort/pagination kontrolama
 - [ ] product detail i Product JSON-LD
 
-Sledeća neposredna frontend celina je kompletan katalog, search/filter/sort/pagination i product detail sa Product SEO podacima.
+SledeÄ‡a neposredna frontend celina je kompletan katalog, search/filter/sort/pagination i product detail sa Product SEO podacima.
 
 ## Status: catalog i product detail frontend
 
 - [x] catalog listing i URL filter state
 - [x] search, category, availability i featured filteri
-- [x] podržano sortiranje i backend pagination
+- [x] podrÅ¾ano sortiranje i backend pagination
 - [x] product detail, galerija i variant selection
 - [x] availability/backorder i compare-at prikaz
-- [x] dinamički metadata, Product i Breadcrumb JSON-LD
+- [x] dinamiÄki metadata, Product i Breadcrumb JSON-LD
 - [ ] cart frontend i customer auth foundation
 
-Sledeća celina je cart frontend, customer auth foundation, in-memory access token/refresh-cookie flow i add/update/remove cart item sa cart drawer/page prikazom.
+SledeÄ‡a celina je cart frontend, customer auth foundation, in-memory access token/refresh-cookie flow i add/update/remove cart item sa cart drawer/page prikazom.
+
+## Status: customer auth i cart frontend
+
+- [x] customer registracija, login, refresh i logout
+- [x] account profil i promena lozinke
+- [x] anonymous cart Query state
+- [x] add/update/remove/clear
+- [x] cart drawer i /korpa
+- [ ] checkout preview, pickup izbor, order creation i customer orders
