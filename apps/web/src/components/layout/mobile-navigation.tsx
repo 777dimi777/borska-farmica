@@ -1,16 +1,17 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '@/features/auth/auth-provider';
 const links = [
-  ['PoÄetna', '/'],
+  ['PoÃƒâ€žÃ‚Âetna', '/'],
   ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
   ['Kontakt', '/kontakt'],
   ['Korpa', '/korpa'],
-  ['Prijava / nalog', '/prijava'],
 ] as const;
 export function MobileNavigation() {
+  const auth = useAuth();
   const [open, setOpen] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -52,6 +53,14 @@ export function MobileNavigation() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href={auth.status === 'authenticated' ? '/nalog' : '/prijava'}
+                onClick={() => setOpen(false)}
+              >
+                {auth.status === 'authenticated' ? 'Moj nalog' : 'Prijava'}
+              </Link>
+            </li>{' '}
           </ul>
           <Link
             className="button button-primary"

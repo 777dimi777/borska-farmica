@@ -2,6 +2,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 vi.mock('./header-actions', () => ({ HeaderActions: () => null }));
+vi.mock('@/features/auth/auth-provider', () => ({
+  useAuth: () => ({ status: 'anonymous' }),
+}));
 import { Brand } from './brand';
 import { Header } from './header';
 import { Footer } from './footer';
@@ -22,7 +25,7 @@ describe('storefront layout', () => {
     await user.keyboard('{Escape}');
     expect(button).toHaveAttribute('aria-expanded', 'false');
   });
-  it('footer sadrÃ…Â¾i potvrÃ„â€˜ene linkove i lokacije', () => {
+  it('footer sadrÃƒâ€¦Ã‚Â¾i potvrÃƒâ€žÃ¢â‚¬Ëœene linkove i lokacije', () => {
     render(<Footer />);
     expect(screen.getByText(/Nade Dimi/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Facebooku/ })).toHaveAttribute(
