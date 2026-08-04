@@ -7,3 +7,7 @@ Dashboard arhitektura je dokumentovana u [ADMIN_DASHBOARD_FRONTEND.md](ADMIN_DAS
 ## Catalog workspace
 
 Admin catalog deli izolovani auth/query sloj sa dashboardom i porudžbinama. Njegov cache namespace je dmin-catalog; listing state je u URL-u, a product editor koristi stabilni ab parametar. Multipart je jedini poseban transport i ne postavlja ručni content type.
+
+## Customers, audit and exports
+
+Final admin operations koriste isti izolovani admin provider. Customer/audit query keys su pod dmin-operations; audit query se ne uključuje pre SUPER_ADMIN provere. CSV koristi kratkoživeći Blob/object URL i nikada Query ili browser storage.

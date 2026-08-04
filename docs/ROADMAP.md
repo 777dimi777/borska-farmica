@@ -302,3 +302,12 @@ SledeÄ‡a celina je cart frontend, customer auth foundation, in-memory access 
 - [x] availability periodi i server preview
 - [x] inventory adjustments i movement istorija
 - [ ] admin kupci, audit i CSV frontend
+
+## Status: final admin operations frontend
+
+- [x] customer listing, detail i orders
+- [x] SUPER_ADMIN account disable/enable i session revoke
+- [x] SUPER_ADMIN read-only audit viewer
+- [x] role-aware authenticated CSV exports
+- [ ] završni frontend audit, full-flow E2E, visual polish i performance
+- [ ] pravne stranice, logo asset i launch/deployment priprema

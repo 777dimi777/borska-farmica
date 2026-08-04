@@ -206,3 +206,7 @@ Admin workspace sada uključuje /admin/porudzbine i UUID detail rutu sa URL filt
 ## Admin catalog management
 
 Admin workspace uključuje kategorije i kompletan product editor sa varijantama, slikama/uploadom, dostupnošću i zalihama. Implementacioni ugovori su u [ADMIN_CATALOG_FRONTEND](docs/ADMIN_CATALOG_FRONTEND.md), [ADMIN_PRODUCT_CONTENT_FRONTEND](docs/ADMIN_PRODUCT_CONTENT_FRONTEND.md) i [ADMIN_INVENTORY_FRONTEND](docs/ADMIN_INVENTORY_FRONTEND.md).
+
+## Final admin operations
+
+Admin workspace uključuje customer management, SUPER_ADMIN audit viewer i role-aware autentifikovane CSV izvoze. Detalji su u [ADMIN_CUSTOMERS_FRONTEND](docs/ADMIN_CUSTOMERS_FRONTEND.md) i [ADMIN_AUDIT_EXPORTS_FRONTEND](docs/ADMIN_AUDIT_EXPORTS_FRONTEND.md).
