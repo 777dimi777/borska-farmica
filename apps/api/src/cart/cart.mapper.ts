@@ -123,6 +123,8 @@ export function mapCart(cart: CartRecord) {
         name: v.name,
         sku: v.sku,
         packageAmount: v.packageAmount.toFixed(3),
+        minimumPurchaseQuantity: v.minimumPurchaseQuantity.toFixed(3),
+        purchaseIncrement: v.purchaseIncrement.toFixed(3),
         unit: v.measurementUnit,
       },
       image: p.images[0] ?? null,

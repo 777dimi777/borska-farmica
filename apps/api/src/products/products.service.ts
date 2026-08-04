@@ -142,6 +142,8 @@ export class ProductsService {
             price: true,
             compareAtPrice: true,
             packageAmount: true,
+            minimumPurchaseQuantity: true,
+            purchaseIncrement: true,
             measurementUnit: true,
             isDefault: true,
             stockQuantity: true,

@@ -27,6 +27,8 @@ export interface ProductDetailRecord {
     price: Prisma.Decimal;
     compareAtPrice: Prisma.Decimal | null;
     packageAmount: Prisma.Decimal;
+    minimumPurchaseQuantity: Prisma.Decimal;
+    purchaseIncrement: Prisma.Decimal;
     measurementUnit: MeasurementUnit;
     isDefault: boolean;
     stockQuantity: Prisma.Decimal;
@@ -78,6 +80,8 @@ export function mapProductDetail(
         price: variant.price.toFixed(2),
         compareAtPrice: variant.compareAtPrice?.toFixed(2) ?? null,
         packageAmount: variant.packageAmount.toFixed(3),
+        minimumPurchaseQuantity: variant.minimumPurchaseQuantity.toFixed(3),
+        purchaseIncrement: variant.purchaseIncrement.toFixed(3),
         unit: variant.measurementUnit,
         default: variant.isDefault,
         inStock,

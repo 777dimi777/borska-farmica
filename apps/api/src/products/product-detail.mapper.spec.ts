@@ -24,6 +24,8 @@ const record = (): ProductDetailRecord => ({
       price: d('250'),
       compareAtPrice: null,
       packageAmount: d('1'),
+      minimumPurchaseQuantity: d('0.5'),
+      purchaseIncrement: d('0.25'),
       measurementUnit: MeasurementUnit.LITER,
       isDefault: true,
       stockQuantity: d('1'),
@@ -47,6 +49,8 @@ describe('mapProductDetail', () => {
     expect(mapProductDetail(record()).variants[0]).toMatchObject({
       price: '250.00',
       packageAmount: '1.000',
+      minimumPurchaseQuantity: '0.500',
+      purchaseIncrement: '0.250',
       compareAtPrice: null,
     }));
   it('does not expose internal stock quantities or storage fields', () => {

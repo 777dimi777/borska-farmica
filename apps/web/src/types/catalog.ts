@@ -53,6 +53,8 @@ export interface ProductVariant {
   price: string;
   compareAtPrice: string | null;
   packageAmount: string;
+  minimumPurchaseQuantity?: string;
+  purchaseIncrement?: string;
   unit: MeasurementUnit;
   default: boolean;
   inStock: boolean;

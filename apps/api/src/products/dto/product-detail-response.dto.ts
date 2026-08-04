@@ -13,6 +13,8 @@ export class ProductVariantDto {
   @ApiProperty({ example: '250.00' }) price!: string;
   @ApiProperty({ type: String, nullable: true }) compareAtPrice!: string | null;
   @ApiProperty({ example: '1.000' }) packageAmount!: string;
+  @ApiProperty({ example: '0.500' }) minimumPurchaseQuantity!: string;
+  @ApiProperty({ example: '0.250' }) purchaseIncrement!: string;
   @ApiProperty({ enum: MeasurementUnit }) unit!: MeasurementUnit;
   @ApiProperty() default!: boolean;
   @ApiProperty() inStock!: boolean;
