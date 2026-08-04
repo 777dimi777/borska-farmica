@@ -32,7 +32,7 @@ export default function About() {
             </p>
           </section>
         </div>
-        <LinkButton href="/#ponuda">Pogledaj ponudu</LinkButton>
+        <LinkButton href="/proizvodi">Pogledaj ponudu</LinkButton>
       </Container>
     </div>
   );

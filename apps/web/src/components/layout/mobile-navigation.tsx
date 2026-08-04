@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 const links = [
   ['Početna', '/'],
-  ['Ponuda', '/#ponuda'],
+  ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
   ['Kontakt', '/kontakt'],
@@ -53,7 +53,7 @@ export function MobileNavigation() {
           </ul>
           <Link
             className="button button-primary"
-            href="/#ponuda"
+            href="/proizvodi"
             onClick={() => setOpen(false)}
           >
             Pogledaj ponudu

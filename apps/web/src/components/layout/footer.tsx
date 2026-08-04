@@ -15,6 +15,7 @@ export function Footer() {
           </div>
           <div>
             <h2>Navigacija</h2>
+            <Link href="/proizvodi">Proizvodi</Link>
             <Link href="/o-nama">O nama</Link>
             <Link href="/preuzimanje">Preuzimanje</Link>
             <Link href="/kontakt">Kontakt</Link>

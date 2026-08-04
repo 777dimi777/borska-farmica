@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import type { Category } from '@/types/catalog';
 const descriptions: Record<string, string> = {
-  sir: 'Različite vrste sireva iz trenutne ponude.',
+  sir: 'RazliÄite vrste sireva iz trenutne ponude.',
   mleko: 'Mleko dostupno prema aktuelnoj ponudi.',
-  surutka: 'Surutka za lično preuzimanje u Boru.',
+  surutka: 'Surutka za liÄno preuzimanje u Boru.',
 };
 export function CategoryCard({
   category,
@@ -16,6 +17,11 @@ export function CategoryCard({
   );
   return (
     <article className="category-card">
+      <Link
+        className="category-card-link"
+        href={`/proizvodi?category=${encodeURIComponent(category.slug)}`}
+        aria-label={`Pogledaj kategoriju: ${category.name}`}
+      />
       <span className="category-number">0{index + 1}</span>
       <div>
         <h3>{category.name}</h3>

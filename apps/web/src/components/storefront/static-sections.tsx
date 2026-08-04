@@ -131,7 +131,7 @@ export function StaticSections() {
               Proverite dostupnost proizvoda, zatim planirajte lično
               preuzimanje.
             </p>
-            <LinkButton href="#ponuda" variant="secondary">
+            <LinkButton href="/proizvodi" variant="secondary">
               Pogledaj ponudu
             </LinkButton>
           </div>

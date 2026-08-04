@@ -15,7 +15,7 @@ export function ApiUnavailableState() {
         Brend informacije i lokacije ostaju dostupne. Pokušajte ponovo malo
         kasnije.
       </p>
-      <LinkButton href="#ponuda" variant="secondary">
+      <LinkButton href="/proizvodi" variant="secondary">
         Pokušaj ponovo
       </LinkButton>
     </div>

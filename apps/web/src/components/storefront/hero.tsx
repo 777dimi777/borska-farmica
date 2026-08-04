@@ -14,7 +14,7 @@ export function Hero({ product }: { product?: ProductPreview }) {
             rakiju i sezonske plodove kada im je pravo vreme.
           </p>
           <div className="hero-actions">
-            <LinkButton href="#ponuda">Pogledaj ponudu</LinkButton>
+            <LinkButton href="/proizvodi">Pogledaj ponudu</LinkButton>
             <LinkButton href="/preuzimanje" variant="secondary">
               Kako funkcioniše preuzimanje
             </LinkButton>

@@ -5,7 +5,7 @@ import { Brand } from './brand';
 import { MobileNavigation } from './mobile-navigation';
 const links = [
   ['Početna', '/'],
-  ['Ponuda', '/#ponuda'],
+  ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
   ['Kontakt', '/kontakt'],
@@ -31,7 +31,7 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <LinkButton className="header-cta" href="/#ponuda">
+          <LinkButton className="header-cta" href="/proizvodi">
             Pogledaj ponudu
           </LinkButton>
           <MobileNavigation />
