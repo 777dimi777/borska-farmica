@@ -1,10 +1,11 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, Optional } from '@nestjs/common';
 import {
   Prisma,
   OrderActorType,
   OrderCancellationReason,
   OrderStatus,
 } from '../generated/prisma/client';
+import { MetricsService } from '../observability/metrics.service';
 
 export interface CancelOrderInput {
   orderId: string;
@@ -21,6 +22,7 @@ export interface CancelOrderInput {
 
 @Injectable()
 export class OrderCancellationService {
+  constructor(@Optional() private readonly metrics?: MetricsService) {}
   async cancelIn(tx: Prisma.TransactionClient, input: CancelOrderInput) {
     await tx.$queryRaw(Prisma.sql`
       SELECT "id" FROM "Order" WHERE "id" = ${input.orderId}::uuid FOR UPDATE
@@ -95,6 +97,7 @@ export class OrderCancellationService {
             : undefined,
       },
     });
+    this.metrics?.orders.inc({ event: 'cancelled', reason: input.reason });
     return {
       orderNumber: order.orderNumber,
       fromStatus: order.status,

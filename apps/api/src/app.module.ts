@@ -20,6 +20,8 @@ import { AdminCustomersModule } from './admin-customers/admin-customers.module';
 import { AdminAuditViewerModule } from './admin-audit-viewer/admin-audit-viewer.module';
 import { AdminExportsModule } from './admin-exports/admin-exports.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
+import { ObservabilityModule } from './observability/observability.module';
+import { validateProductionEnvironment } from './config/production-environment';
 
 @Module({
   imports: [
@@ -171,6 +173,59 @@ import { MaintenanceModule } from './maintenance/maintenance.module';
           .min(1)
           .max(3650)
           .default(90),
+        LOG_LEVEL: Joi.string()
+          .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace')
+          .default('info'),
+        LOG_PRETTY: Joi.boolean().truthy('true').falsy('false').default(false),
+        APP_VERSION: Joi.string().max(100).default('development'),
+        GIT_COMMIT_SHA: Joi.string().max(64).allow('').default(''),
+        METRICS_ENABLED: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        METRICS_AUTH_TOKEN: Joi.string()
+          .allow('')
+          .when('METRICS_ENABLED', {
+            is: true,
+            then: Joi.string().min(32).required(),
+          }),
+        SENTRY_ENABLED: Joi.boolean()
+          .truthy('true')
+          .falsy('false')
+          .default(false),
+        SENTRY_DSN: Joi.string().allow('').when('SENTRY_ENABLED', {
+          is: true,
+          then: Joi.string().uri().required(),
+        }),
+        SENTRY_ENVIRONMENT: Joi.string().max(100).allow('').default(''),
+        SENTRY_RELEASE: Joi.string().max(200).allow('').default(''),
+        SENTRY_TRACES_SAMPLE_RATE: Joi.number().min(0).max(1).default(0),
+        SHUTDOWN_GRACE_PERIOD_MS: Joi.number()
+          .integer()
+          .min(1000)
+          .max(120000)
+          .default(10000),
+        HTTP_KEEP_ALIVE_TIMEOUT_MS: Joi.number()
+          .integer()
+          .min(1000)
+          .max(300000)
+          .default(65000),
+        HTTP_HEADERS_TIMEOUT_MS: Joi.number()
+          .integer()
+          .min(2000)
+          .max(310000)
+          .default(66000),
+        HTTP_REQUEST_TIMEOUT_MS: Joi.number()
+          .integer()
+          .min(1000)
+          .max(600000)
+          .default(120000),
+        READINESS_TIMEOUT_MS: Joi.number()
+          .integer()
+          .min(100)
+          .max(30000)
+          .default(3000),
+        AUTH_COOKIE_DOMAIN: Joi.string().allow('').default(''),
         DASHBOARD_PENDING_ATTENTION_HOURS: Joi.number()
           .integer()
           .min(1)
@@ -180,8 +235,9 @@ import { MaintenanceModule } from './maintenance/maintenance.module';
           .truthy('true')
           .falsy('false')
           .default(true),
-      }),
+      }).custom(validateProductionEnvironment, 'production environment'),
     }),
+    ObservabilityModule,
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
     DatabaseModule,
     AdminAuthModule,

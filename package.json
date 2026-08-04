@@ -18,7 +18,10 @@
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
-    "prisma:seed": "npm run prisma:seed --workspace=@borska-farmica/api"
+    "prisma:seed": "npm run prisma:seed --workspace=@borska-farmica/api",
+    "db:migrate:deploy": "npm run prisma:migrate:deploy --workspace=@borska-farmica/api",
+    "db:backup": "node scripts/db-backup.mjs",
+    "db:backup:verify": "node scripts/db-backup-verify.mjs"
   },
   "engines": {
     "node": ">=24.0.0"

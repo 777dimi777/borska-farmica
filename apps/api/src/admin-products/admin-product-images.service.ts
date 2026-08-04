@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Optional,
   Inject,
   ServiceUnavailableException,
   NotFoundException,
@@ -19,6 +20,7 @@ import {
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
 import { ProductImageMutationDto } from './dto/content-mutation.dto';
+import { MetricsService } from '../observability/metrics.service';
 const imageSelect = {
   id: true,
   productId: true,
@@ -43,6 +45,7 @@ export class AdminProductImagesService {
     private readonly config: ConfigService,
     @Inject(IMAGE_STORAGE_PROVIDER)
     private readonly storage: ImageStorageProvider,
+    @Optional() private readonly metrics?: MetricsService,
   ) {}
   private async product(id: string) {
     if (
@@ -83,7 +86,7 @@ export class AdminProductImagesService {
     const processed = await this.processor.process(file.buffer, file.mimetype);
     const stored = await this.storage.upload(processed, productId);
     try {
-      return await this.serial(async (tx) => {
+      const result = await this.serial(async (tx) => {
         const count = await tx.productImage.count({ where: { productId } });
         if (count >= this.config.get<number>('IMAGE_MAX_PER_PRODUCT', 12))
           throw new ConflictException('PRODUCT_IMAGE_LIMIT_REACHED');
@@ -130,7 +133,10 @@ export class AdminProductImagesService {
         });
         return row;
       });
+      this.metrics?.imageUploads.inc({ outcome: 'success' });
+      return result;
     } catch (error) {
+      this.metrics?.imageUploads.inc({ outcome: 'failure' });
       try {
         await this.storage.delete(stored.storageKey);
       } catch {

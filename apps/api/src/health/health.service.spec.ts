@@ -1,6 +1,8 @@
 import { Logger, ServiceUnavailableException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../database/prisma.service';
+import { MetricsService } from '../observability/metrics.service';
 import { HealthService } from './health.service';
 import { HEALTH_SERVICE_NAME } from './health.types';
 
@@ -14,6 +16,16 @@ describe('HealthService', () => {
       providers: [
         HealthService,
         { provide: PrismaService, useValue: { $queryRaw: queryRaw } },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn((_key: string, fallback: unknown) => fallback),
+          },
+        },
+        {
+          provide: MetricsService,
+          useValue: { readiness: { set: jest.fn() } },
+        },
       ],
     }).compile();
     healthService = module.get(HealthService);

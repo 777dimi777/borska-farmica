@@ -1,6 +1,8 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { Logger as PinoLogger } from 'nestjs-pino';
+import type { Server } from 'http';
 import { json, urlencoded } from 'express';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -8,7 +10,11 @@ import { AppModule } from './app.module';
 import { configureOpenApi } from './openapi';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bodyParser: false });
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: false,
+    bufferLogs: true,
+  });
+  app.useLogger(app.get(PinoLogger));
   const configService = app.get(ConfigService);
   const port = configService.getOrThrow<number>('PORT');
   const frontendUrl = configService.getOrThrow<string>('FRONTEND_URL');
@@ -48,6 +54,16 @@ async function bootstrap() {
   configureOpenApi(app, configService.getOrThrow<boolean>('SWAGGER_ENABLED'));
   app.enableShutdownHooks();
   await app.listen(port);
-  new Logger('Bootstrap').log(`API running on http://localhost:${port}/api/v1`);
+  const server = app.getHttpServer() as Server;
+  server.keepAliveTimeout = configService.getOrThrow<number>(
+    'HTTP_KEEP_ALIVE_TIMEOUT_MS',
+  );
+  server.headersTimeout = configService.getOrThrow<number>(
+    'HTTP_HEADERS_TIMEOUT_MS',
+  );
+  server.requestTimeout = configService.getOrThrow<number>(
+    'HTTP_REQUEST_TIMEOUT_MS',
+  );
+  app.get(PinoLogger).log({ event: 'api.started', port });
 }
 void bootstrap();

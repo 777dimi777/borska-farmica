@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, Optional } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
 import { Prisma } from '../generated/prisma/client';
@@ -15,6 +15,7 @@ import {
 import { mapOrder, orderResponseInclude } from './order.mapper';
 import { validatePickupDate } from './checkout-date';
 import { isRetryableTransactionError } from '../common/prisma-write-conflict';
+import { MetricsService } from '../observability/metrics.service';
 
 @Injectable()
 export class OrderCreationService {
@@ -23,6 +24,7 @@ export class OrderCreationService {
     private readonly identity: CartIdentityService,
     private readonly validation: CheckoutValidationService,
     private readonly config: ConfigService,
+    @Optional() private readonly metrics?: MetricsService,
   ) {}
 
   async create(
@@ -220,6 +222,7 @@ export class OrderCreationService {
       where: { id: order.id },
       include: orderResponseInclude,
     });
+    this.metrics?.orders.inc({ event: 'created', reason: 'none' });
     return mapOrder(result, false);
   }
 }

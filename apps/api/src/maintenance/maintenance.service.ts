@@ -1,10 +1,12 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Optional } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { ConfigService } from '@nestjs/config';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
 import { isRetryableTransactionError } from '../common/prisma-write-conflict';
 import { OrderCancellationService } from './order-cancellation.service';
 import { TimeProvider } from './time-provider';
+import { MetricsService } from '../observability/metrics.service';
 
 export interface MaintenanceResult {
   scanned: number;
@@ -22,6 +24,7 @@ export class MaintenanceService {
     private readonly config: ConfigService,
     private readonly clock: TimeProvider,
     private readonly cancellation: OrderCancellationService,
+    @Optional() private readonly metrics?: MetricsService,
   ) {}
   private result(
     start: number,
@@ -96,6 +99,12 @@ export class MaintenanceService {
       if (ids.length < size) break;
     }
     const output = this.result(start, scanned, processed, skipped, failed);
+    this.metrics?.recordMaintenance(
+      'orders',
+      output.processed,
+      output.durationMs,
+      output.failed,
+    );
     this.logger.log(JSON.stringify({ job: 'orders', ...output }));
     return output;
   }
@@ -145,6 +154,12 @@ export class MaintenanceService {
       dryRun ? expired.length + stale.length : 0,
       0,
     );
+    this.metrics?.recordMaintenance(
+      'carts',
+      out.processed,
+      out.durationMs,
+      out.failed,
+    );
     this.logger.log(JSON.stringify({ job: 'carts', ...out }));
     return out;
   }
@@ -188,10 +203,17 @@ export class MaintenanceService {
         dryRun ? scanned : 0,
         0,
       );
+    this.metrics?.recordMaintenance(
+      'sessions',
+      out.processed,
+      out.durationMs,
+      out.failed,
+    );
     this.logger.log(JSON.stringify({ job: 'sessions', ...out }));
     return out;
   }
   async run(target: 'orders' | 'carts' | 'sessions' | 'all', dryRun = false) {
+    const runId = randomUUID();
     const result: Record<string, MaintenanceResult> = {};
     if (target === 'orders' || target === 'all')
       result.orders = await this.expireOrders(dryRun);
@@ -199,6 +221,7 @@ export class MaintenanceService {
       result.carts = await this.cleanCarts(dryRun);
     if (target === 'sessions' || target === 'all')
       result.sessions = await this.cleanSessions(dryRun);
+    this.logger.log(JSON.stringify({ job: target, runId, completed: true }));
     return result;
   }
 }
