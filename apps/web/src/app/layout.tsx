@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Manrope, Cormorant_Garamond } from 'next/font/google';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
+import { SiteChrome } from '@/components/layout/site-chrome';
 import { siteUrl } from '@/lib/config/env';
 import { AppProviders } from '@/components/providers/app-providers';
 import './globals.css';
@@ -51,9 +50,7 @@ export default function RootLayout({
           PreskoÃ„Âi na glavni sadrÃ…Â¾aj
         </a>
         <AppProviders>
-          <Header />
-          <main id="glavni-sadrzaj">{children}</main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </AppProviders>
       </body>
     </html>
