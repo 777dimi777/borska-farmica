@@ -39,6 +39,6 @@ describe('ProductPreviewCard', () => {
         }}
       />,
     );
-    expect(screen.getByText('Trenutno van ponude')).toBeInTheDocument();
+    expect(screen.getByText('Trenutno nije u ponudi')).toBeInTheDocument();
   });
 });
