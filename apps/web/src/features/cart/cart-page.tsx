@@ -12,19 +12,19 @@ export function CartPage() {
     auth = useAuth(),
     dialog = useRef<HTMLDialogElement>(null),
     feedback = useFeedback();
-  if (cart.isLoading) return <p>UÄitavanje korpeâ€¦</p>;
+  if (cart.isLoading) return <p>UÃ„Âitavanje korpeÃ¢â‚¬Â¦</p>;
   if (cart.isError)
     return (
       <div role="alert">
         <p>Korpa trenutno nije dostupna.</p>
-        <button onClick={() => void cart.refetch()}>PokuÅ¡ajte ponovo</button>
+        <button onClick={() => void cart.refetch()}>PokuÃ…Â¡ajte ponovo</button>
       </div>
     );
   if (!cart.data?.items.length)
     return (
       <div className="empty-cart">
         <h2>Korpa je prazna</h2>
-        <p>Dodajte domaÄ‡e proizvode koji su vam potrebni.</p>
+        <p>Dodajte domaÃ„â€¡e proizvode koji su vam potrebni.</p>
         <Link className="button button-primary" href="/proizvodi">
           Pogledajte proizvode
         </Link>
@@ -47,7 +47,7 @@ export function CartPage() {
       <aside className="cart-summary">
         <h2>Pregled korpe</h2>
         <p>
-          <span>RazliÄitih stavki</span>
+          <span>RazliÃ„Âitih stavki</span>
           <strong>{cart.data.summary.distinctItemCount}</strong>
         </p>
         <p className="summary-total">
@@ -55,28 +55,39 @@ export function CartPage() {
           <strong>{formatRsd(cart.data.summary.subtotal)}</strong>
         </p>
         <small>
-          Cena i dostupnost ponovo se proveravaju pri poruÄivanju. PlaÄ‡anje je
-          gotovinom pri preuzimanju.
+          Cena i dostupnost ponovo se proveravaju pri poruÃ„Âivanju.
+          PlaÃ„â€¡anje je gotovinom pri preuzimanju.
         </small>
         <Link href="/preuzimanje">Informacije o preuzimanju</Link>
         {auth.status === 'anonymous' ? (
           <>
-            <p>Za zavrÅ¡etak porudÅ¾bine potrebno je da se prijavite.</p>
+            <p>Za zavrÃ…Â¡etak porudÃ…Â¾bine potrebno je da se prijavite.</p>
             <Link
               className="button button-secondary"
-              href="/prijava?returnTo=/korpa"
+              href="/prijava?returnTo=/checkout"
             >
               Prijavite se
             </Link>
           </>
         ) : auth.status === 'authenticated' ? (
-          <p>Prijavljeni ste kao {auth.customer?.firstName}.</p>
+          <>
+            <p>Prijavljeni ste kao {auth.customer?.firstName}.</p>
+            {cart.data.items.every((item) => item.validation.valid) ? (
+              <Link className="button button-primary" href="/checkout">
+                Nastavi na poručivanje
+              </Link>
+            ) : (
+              <p className="cart-warning">
+                Ispravite označene stavke pre poručivanja.
+              </p>
+            )}
+          </>
         ) : null}
         <Link href="/proizvodi">Nastavite kupovinu</Link>
       </aside>
       <dialog ref={dialog} className="confirm-dialog">
         <h2>Ispraznite korpu?</h2>
-        <p>Sve stavke biÄ‡e uklonjene iz korpe.</p>
+        <p>Sve stavke biÃ„â€¡e uklonjene iz korpe.</p>
         <div>
           <button onClick={() => dialog.current?.close()}>Odustani</button>
           <button
@@ -85,7 +96,7 @@ export function CartPage() {
             onClick={async () => {
               await clear.mutateAsync(undefined);
               dialog.current?.close();
-              feedback('Korpa je ispraÅ¾njena.', 'success');
+              feedback('Korpa je ispraÃ…Â¾njena.', 'success');
             }}
           >
             Isprazni korpu

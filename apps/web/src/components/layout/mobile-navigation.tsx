@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/features/auth/auth-provider';
 const links = [
-  ['PoÃƒâ€žÃ‚Âetna', '/'],
+  ['PoÃƒÆ’Ã¢â‚¬Å¾Ãƒâ€šÃ‚Âetna', '/'],
   ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
   ['Kontakt', '/kontakt'],
   ['Korpa', '/korpa'],
+  ['Moje porudžbine', '/nalog/porudzbine'],
 ] as const;
 export function MobileNavigation() {
   const auth = useAuth();
