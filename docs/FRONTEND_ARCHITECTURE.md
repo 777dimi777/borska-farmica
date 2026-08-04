@@ -37,3 +37,7 @@ Client provider sloj dodaje TanStack Query, memory-only customer auth i anonymou
 ## Checkout i customer orders
 
 Protected checkout koristi obavezan server preview i sessionStorage idempotency metapodatke bez PII. Customer order rute koriste javni broj i snapshots. Detalji: [CHECKOUT_FRONTEND](CHECKOUT_FRONTEND.md) i [CUSTOMER_ORDERS_FRONTEND](CUSTOMER_ORDERS_FRONTEND.md).
+
+## Admin frontend foundation (2026-08-04)
+
+Rute /admin/prijava i /admin/dashboard koriste izolovani admin auth/query provider, memorijski access token i HttpOnly refresh tok. Root chrome ne renderuje javni header/footer na admin rutama. Dashboard koristi svih 12 postojećih analytics endpointa; detalji i granice su u [ADMIN_FRONTEND.md](ADMIN_FRONTEND.md).

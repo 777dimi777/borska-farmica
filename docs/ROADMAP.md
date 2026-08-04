@@ -274,3 +274,12 @@ SledeÄ‡a celina je cart frontend, customer auth foundation, in-memory access 
 - [x] customer order listing/detail/timeline
 - [x] customer cancellation
 - [ ] admin login, layout, dashboard KPI, charts i operational widgets
+
+## Status: admin login i dashboard frontend
+
+- [x] izolovana admin prijava, refresh, logout i protected layout
+- [x] responsive admin shell bez mrtvih CRUD linkova
+- [x] svih 12 dashboard analytics endpointa
+- [x] KPI, grafikoni sa tabelarnom alternativom i operativni widgeti
+- [x] URL period, manual refresh i parcijalne widget greške
+- [ ] admin CRUD frontend za katalog, zalihe, porudžbine i kupce
