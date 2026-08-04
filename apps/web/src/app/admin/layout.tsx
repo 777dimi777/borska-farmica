@@ -3,6 +3,7 @@ import { AdminProvider } from '@/features/admin/admin-provider';
 import './admin.css';
 import './admin-orders.css';
 import './admin-catalog.css';
+import './admin-operations.css';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AdminQueryProvider>

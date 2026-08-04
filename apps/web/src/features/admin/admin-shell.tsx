@@ -73,6 +73,29 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           >
             Kategorije
           </Link>
+          <Link
+            className={path.startsWith('/admin/kupci') ? 'active' : ''}
+            href="/admin/kupci"
+            onClick={() => setOpen(false)}
+          >
+            Kupci
+          </Link>
+          <Link
+            className={path.startsWith('/admin/izvozi') ? 'active' : ''}
+            href="/admin/izvozi"
+            onClick={() => setOpen(false)}
+          >
+            Izvozi
+          </Link>
+          {admin?.role === 'SUPER_ADMIN' && (
+            <Link
+              className={path.startsWith('/admin/audit') ? 'active' : ''}
+              href="/admin/audit"
+              onClick={() => setOpen(false)}
+            >
+              Audit logovi
+            </Link>
+          )}
           <Link href="/" target="_blank" rel="noreferrer">
             Otvori prodavnicu
           </Link>
