@@ -193,3 +193,4 @@ Production hardening, JSON logging, request correlation, protected Prometheus me
 ## Storefront frontend
 
 Prva frontend celina je postavila Next App Router storefront osnovu, design sistem, responsive layout, typed public API preview, homepage i informativne stranice. Arhitektura je u [FRONTEND_ARCHITECTURE](docs/FRONTEND_ARCHITECTURE.md), a vizuelna pravila u [DESIGN_SYSTEM](docs/DESIGN_SYSTEM.md). Lokalni frontend env primer je `apps/web/.env.example`.
+Kompletan javni katalog je na `/proizvodi`, a product detail na `/proizvodi/[slug]`. URL filter contract, galerija, varijante i SEO opisani su u [CATALOG_FRONTEND](docs/CATALOG_FRONTEND.md).

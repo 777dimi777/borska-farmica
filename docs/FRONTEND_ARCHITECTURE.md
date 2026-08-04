@@ -25,3 +25,7 @@ Vitest, jsdom, React Testing Library, jest-dom i vitest-axe rade bez mreÅ¾e/AP
 ## Dependency revizija
 
 Next/React su ciljano podignuti sa 16.2.12/19.2.4 na 16.3.0/19.2.8, čime su uklonjeni ranije prijavljeni Next tranzitivni `postcss` i `sharp` high nalazi. I production-only i puni frontend `npm audit` sada prijavljuju 0 ranjivosti. Major tooling nadogradnje iz `npm outdated` nisu primenjene.
+
+## Catalog i product detail
+
+Katalog koristi URL search params kao jedini state i ostaje Server Component; samo mobile dialog, galerija i variant selector koriste client state. Product metadata i page dele request-scoped cached fetch. Detaljni query/error/cache/SEO contract dokumentovan je u [CATALOG_FRONTEND](CATALOG_FRONTEND.md).

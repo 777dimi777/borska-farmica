@@ -245,3 +245,15 @@ Backend now has a production-ready operational foundation. The next major implem
 - [ ] product detail i Product JSON-LD
 
 Sledeća neposredna frontend celina je kompletan katalog, search/filter/sort/pagination i product detail sa Product SEO podacima.
+
+## Status: catalog i product detail frontend
+
+- [x] catalog listing i URL filter state
+- [x] search, category, availability i featured filteri
+- [x] podržano sortiranje i backend pagination
+- [x] product detail, galerija i variant selection
+- [x] availability/backorder i compare-at prikaz
+- [x] dinamički metadata, Product i Breadcrumb JSON-LD
+- [ ] cart frontend i customer auth foundation
+
+Sledeća celina je cart frontend, customer auth foundation, in-memory access token/refresh-cookie flow i add/update/remove cart item sa cart drawer/page prikazom.
