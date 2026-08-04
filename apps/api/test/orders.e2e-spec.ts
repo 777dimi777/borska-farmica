@@ -531,6 +531,15 @@ describe('Checkout and order lifecycle (e2e)', () => {
           response.body.data.some((row: { id: string }) => row.id === order.id),
         ).toBe(true),
       );
+    const adminDisplay = await request(app.getHttpServer())
+      .get(`/api/v1/admin/orders/${order.id}`)
+      .set('Authorization', `Bearer ${adminAccess}`)
+      .expect(200);
+    expect(adminDisplay.body.confirmationExpiresAt).toBeTruthy();
+    expect(adminDisplay.body.items[0]).toMatchObject({
+      categoryName: 'Orders E2E',
+      categorySlug: 'orders-e2e-category',
+    });
     await request(app.getHttpServer())
       .get(`/api/v1/admin/orders/${order.id}`)
       .set('Authorization', `Bearer ${customerAccess}`)
