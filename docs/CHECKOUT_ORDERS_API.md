@@ -113,3 +113,5 @@ Frontend checkout/order screens, email/SMS notifications, returns/refunds, autom
 ## Automatic confirmation timeout
 
 New pending orders persist `confirmationExpiresAt` using the configured 24-hour TTL. Customer/admin responses expose that deadline and structured `cancellationReason`. Timeout cancellation releases reservations without changing physical stock; see [MAINTENANCE_JOBS.md](MAINTENANCE_JOBS.md).
+
+Customer order detail response uključuje trajno sačuvani confirmationExpiresAt deadline.

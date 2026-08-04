@@ -222,7 +222,7 @@ describe('Checkout and order lifecycle (e2e)', () => {
     identity = app.get(CartIdentityService);
     maintenance = app.get(MaintenanceService);
     await cleanup();
-    const customer = await register(customerEmail, 'Miloš'),
+    const customer = await register(customerEmail, 'MiloÃ…Â¡'),
       other = await register(otherEmail, 'Milica');
     customerId = customer.id;
     customerAccess = customer.access;
@@ -476,6 +476,11 @@ describe('Checkout and order lifecycle (e2e)', () => {
       .get(`/api/v1/account/orders/${orderNumber}`)
       .set('Authorization', `Bearer ${otherAccess}`)
       .expect(404);
+    const customerDetail = await request(app.getHttpServer())
+      .get(`/api/v1/account/orders/${orderNumber}`)
+      .set('Authorization', `Bearer ${customerAccess}`)
+      .expect(200);
+    expect(customerDetail.body.confirmationExpiresAt).toBeTruthy();
     await request(app.getHttpServer())
       .post(`/api/v1/account/orders/${orderNumber}/cancel`)
       .set('Authorization', `Bearer ${customerAccess}`)
@@ -541,7 +546,7 @@ describe('Checkout and order lifecycle (e2e)', () => {
         .send({ targetStatus, ...body });
     await transition('CONFIRMED', {
       confirmedPickupAt: `${requestedDate}T10:00:00+02:00`,
-      note: 'Potvrđeno telefonom',
+      note: 'PotvrÃ„â€˜eno telefonom',
     }).expect(200);
     await request(app.getHttpServer())
       .post(`/api/v1/account/orders/${created.body.orderNumber}/cancel`)

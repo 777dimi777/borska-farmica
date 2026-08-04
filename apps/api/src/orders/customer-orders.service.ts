@@ -146,6 +146,7 @@ export class CustomerOrdersService {
         phone: order.customerPhone,
       },
       customerNote: order.customerNote,
+      confirmationExpiresAt: order.confirmationExpiresAt,
       cancellationReason: order.cancellationReason,
       cancellationNote: order.cancellationNote,
       items: order.items.map((item) => ({
