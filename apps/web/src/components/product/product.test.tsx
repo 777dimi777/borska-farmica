@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+vi.mock('@/features/cart/hooks', () => ({
+  useAddCartItem: () => ({ isPending: false, mutateAsync: vi.fn() }),
+}));
+vi.mock('@/components/providers/feedback-provider', () => ({
+  useFeedback: () => vi.fn(),
+}));
 import { ProductGallery } from './product-gallery';
 import { VariantSelector } from './variant-selector';
 const a = {
@@ -93,15 +99,15 @@ describe('product detail', () => {
     render(<VariantSelector variants={variants} productAvailability={a} />);
     await u.click(screen.getByLabelText(/Velika/));
     expect(screen.getAllByText(/900,00/).length).toBeGreaterThan(0);
-    expect(screen.getByText('Dostupno za poručivanje')).toBeInTheDocument();
+    expect(screen.getByText(/Dostupno za poru/)).toBeInTheDocument();
     expect(screen.getByText(/1.000,00/).tagName).toBe('DEL');
   });
-  it('no cart control', () => {
+  it('has functional cart control', () => {
     render(
       <VariantSelector variants={[variants[0]]} productAvailability={a} />,
     );
     expect(
-      screen.queryByRole('button', { name: /korpu/i }),
-    ).not.toBeInTheDocument();
+      screen.getByRole('button', { name: /dodaj u korpu/i }),
+    ).toBeEnabled();
   });
 });

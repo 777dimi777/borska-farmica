@@ -10,8 +10,10 @@ vi.mock('next/link', () => ({
 }));
 vi.mock('next/image', () => ({
   default: ({
-    priority: _priority,
+    priority,
     ...props
-  }: React.ImgHTMLAttributes<HTMLImageElement> & { priority?: boolean }) =>
-    React.createElement('img', props),
+  }: React.ImgHTMLAttributes<HTMLImageElement> & { priority?: boolean }) => {
+    void priority;
+    return React.createElement('img', props);
+  },
 }));

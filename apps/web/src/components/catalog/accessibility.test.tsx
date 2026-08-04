@@ -1,6 +1,12 @@
 import { render } from '@testing-library/react';
 import { axe } from 'vitest-axe';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+vi.mock('@/features/cart/hooks', () => ({
+  useAddCartItem: () => ({ isPending: false, mutateAsync: vi.fn() }),
+}));
+vi.mock('@/components/providers/feedback-provider', () => ({
+  useFeedback: () => vi.fn(),
+}));
 import { CatalogToolbar } from './catalog-toolbar';
 import { Pagination } from './pagination';
 import { VariantSelector } from '@/components/product/variant-selector';

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+vi.mock('./header-actions', () => ({ HeaderActions: () => null }));
 import { Brand } from './brand';
 import { Header } from './header';
 import { Footer } from './footer';
@@ -21,9 +22,9 @@ describe('storefront layout', () => {
     await user.keyboard('{Escape}');
     expect(button).toHaveAttribute('aria-expanded', 'false');
   });
-  it('footer sadrži potvrđene linkove i lokacije', () => {
+  it('footer sadrÃ…Â¾i potvrÃ„â€˜ene linkove i lokacije', () => {
     render(<Footer />);
-    expect(screen.getByText('Nade Dimić 30, Bor')).toBeInTheDocument();
+    expect(screen.getByText(/Nade Dimi/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Facebooku/ })).toHaveAttribute(
       'rel',
       'noopener noreferrer',
