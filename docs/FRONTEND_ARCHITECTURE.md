@@ -33,3 +33,7 @@ Katalog koristi URL search params kao jedini state i ostaje Server Component; sa
 ## Customer auth i cart
 
 Client provider sloj dodaje TanStack Query, memory-only customer auth i anonymous HttpOnly-cookie cart bez promene SSR kataloga. Detalji su u [CUSTOMER_AUTH_FRONTEND](CUSTOMER_AUTH_FRONTEND.md) i [CART_FRONTEND](CART_FRONTEND.md).
+
+## Checkout i customer orders
+
+Protected checkout koristi obavezan server preview i sessionStorage idempotency metapodatke bez PII. Customer order rute koriste javni broj i snapshots. Detalji: [CHECKOUT_FRONTEND](CHECKOUT_FRONTEND.md) i [CUSTOMER_ORDERS_FRONTEND](CUSTOMER_ORDERS_FRONTEND.md).

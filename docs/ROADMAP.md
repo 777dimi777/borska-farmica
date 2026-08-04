@@ -266,3 +266,11 @@ SledeÄ‡a celina je cart frontend, customer auth foundation, in-memory access 
 - [x] add/update/remove/clear
 - [x] cart drawer i /korpa
 - [ ] checkout preview, pickup izbor, order creation i customer orders
+
+## Status: checkout i customer orders frontend
+
+- [x] checkout preview i pickup selection
+- [x] idempotent order creation i success ruta
+- [x] customer order listing/detail/timeline
+- [x] customer cancellation
+- [ ] admin login, layout, dashboard KPI, charts i operational widgets

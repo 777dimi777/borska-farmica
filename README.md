@@ -196,3 +196,5 @@ Prva frontend celina je postavila Next App Router storefront osnovu, design sist
 Kompletan javni katalog je na `/proizvodi`, a product detail na `/proizvodi/[slug]`. URL filter contract, galerija, varijante i SEO opisani su u [CATALOG_FRONTEND](docs/CATALOG_FRONTEND.md).
 
 Customer auth, nalog i anonimna korpa dokumentovani su u docs/CUSTOMER_AUTH_FRONTEND.md i docs/CART_FRONTEND.md.
+
+Checkout i customer order frontend dokumentovani su u docs/CHECKOUT_FRONTEND.md i docs/CUSTOMER_ORDERS_FRONTEND.md.
