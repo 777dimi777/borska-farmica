@@ -59,6 +59,20 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           >
             Porudžbine
           </Link>
+          <Link
+            className={path.startsWith('/admin/proizvodi') ? 'active' : ''}
+            href="/admin/proizvodi"
+            onClick={() => setOpen(false)}
+          >
+            Proizvodi
+          </Link>
+          <Link
+            className={path.startsWith('/admin/kategorije') ? 'active' : ''}
+            href="/admin/kategorije"
+            onClick={() => setOpen(false)}
+          >
+            Kategorije
+          </Link>
           <Link href="/" target="_blank" rel="noreferrer">
             Otvori prodavnicu
           </Link>
