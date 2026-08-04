@@ -26,6 +26,7 @@ type Options = {
   token?: string | null;
   signal?: AbortSignal;
   timeout?: number;
+  headers?: Record<string, string>;
 };
 const kind = (s: number): BrowserApiErrorKind =>
   s === 400
