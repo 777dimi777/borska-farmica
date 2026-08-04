@@ -198,3 +198,7 @@ Kompletan javni katalog je na `/proizvodi`, a product detail na `/proizvodi/[slu
 Customer auth, nalog i anonimna korpa dokumentovani su u docs/CUSTOMER_AUTH_FRONTEND.md i docs/CART_FRONTEND.md.
 
 Checkout i customer order frontend dokumentovani su u docs/CHECKOUT_FRONTEND.md i docs/CUSTOMER_ORDERS_FRONTEND.md.
+
+## Admin order management
+
+Admin workspace sada uključuje /admin/porudzbine i UUID detail rutu sa URL filterima, paginacijom, snapshot/timeline prikazom i kompletnom potvrda → priprema → spremno → cash completion/cancellation matricom. Detalji su u [docs/ADMIN_ORDERS_FRONTEND.md](docs/ADMIN_ORDERS_FRONTEND.md).

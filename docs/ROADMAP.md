@@ -283,3 +283,13 @@ SledeÄ‡a celina je cart frontend, customer auth foundation, in-memory access 
 - [x] KPI, grafikoni sa tabelarnom alternativom i operativni widgeti
 - [x] URL period, manual refresh i parcijalne widget greške
 - [ ] admin CRUD frontend za katalog, zalihe, porudžbine i kupce
+
+## Status: admin order management frontend
+
+- [x] admin order listing
+- [x] URL filteri, search i backend paginacija
+- [x] order detail sa snapshotima, rezervacijama i timeline-om
+- [x] potvrda, priprema i ready workflow
+- [x] eksplicitni cash completion sa PAID/SALE posledicama
+- [x] admin cancellation sa reservation release posledicama
+- [ ] admin kategorije, proizvodi, varijante, slike, availability i inventory adjustments

@@ -23,3 +23,7 @@ Pokrenuti `npm run check`, frontend testove i build. Za lokalni interaktivni pre
 ## Browser provera
 
 Pokušaj povezivanja sa lokalnim in-app browserom 2026-08-04 blokiran je host Windows ACL greškom pre otvaranja taba. Screenshot i ručna browser interakcija zato nisu predstavljeni kao izvršeni. Production build, route generation, komponentni testovi, lint, typecheck i responsive CSS provere korišćeni su kao deterministična zamena; browser smoke treba ponoviti kada host browser veza bude dostupna.
+
+## Order workspace
+
+Operativni order listing/detail i stroga transition matrica opisani su u [ADMIN_ORDERS_FRONTEND.md](ADMIN_ORDERS_FRONTEND.md). Sidebar nema nefunkcionalne CRUD linkove; sledeća celina je catalog/inventory administracija.
