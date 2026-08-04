@@ -1,0 +1,477 @@
+.admin-orders-page,
+.admin-order-detail {
+  padding: clamp(1rem, 3vw, 2.2rem);
+  max-width: 100rem;
+  margin: auto;
+}
+.orders-page-head,
+.order-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+.orders-page-head h1,
+.order-detail-head h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  margin: 0.1rem 0;
+}
+.orders-page-head p,
+.order-detail-head p {
+  color: var(--admin-muted);
+  margin: 0.2rem 0;
+}
+.order-tabs {
+  display: flex;
+  overflow: auto;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.25rem;
+}
+.order-tabs a {
+  white-space: nowrap;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 99px;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+.order-tabs a.active {
+  background: var(--admin-green);
+  color: #fff;
+  border-color: var(--admin-green);
+}
+.orders-toolbar {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid var(--admin-line);
+  border-radius: 1rem;
+}
+.orders-toolbar form > label,
+.desktop-order-filters label,
+.order-filter-dialog label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+.orders-toolbar form > div {
+  display: flex;
+  gap: 0.5rem;
+}
+.orders-toolbar input,
+.orders-toolbar select,
+.order-filter-dialog input,
+.order-filter-dialog select,
+.order-action-dialog input,
+.order-action-dialog textarea {
+  min-height: 44px;
+  border: 1px solid var(--admin-line);
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.7rem;
+  background: #fff;
+  color: var(--admin-ink);
+}
+.orders-toolbar form:first-child input {
+  width: min(100%, 34rem);
+}
+.orders-toolbar button,
+.order-filter-dialog button {
+  min-height: 44px;
+  padding: 0.55rem 0.8rem;
+}
+.desktop-order-filters {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(7rem, 1fr));
+  gap: 0.6rem;
+  align-items: end;
+}
+.desktop-order-filters button {
+  background: var(--admin-green);
+  color: #fff;
+  border-radius: 0.6rem;
+}
+.mobile-order-filters {
+  display: none;
+}
+.order-filter-dialog {
+  width: min(94vw, 36rem);
+  max-height: 88vh;
+  border: 0;
+  border-radius: 1rem;
+  padding: 1.2rem;
+}
+.order-filter-dialog::backdrop,
+.order-action-dialog::backdrop {
+  background: #06180fc4;
+}
+.order-filter-dialog > header {
+  display: flex;
+  justify-content: space-between;
+}
+.order-filter-dialog > header button {
+  font-size: 1.5rem;
+}
+.order-filter-dialog form {
+  display: grid;
+  gap: 0.8rem;
+}
+.order-filter-dialog form > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.order-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0;
+}
+.order-filter-chips a {
+  padding: 0.45rem 0.65rem;
+  background: #e4eee7;
+  border-radius: 99px;
+  font-size: 0.72rem;
+}
+.orders-result-count {
+  font-weight: 800;
+}
+.order-table-wrap {
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--admin-line);
+  border-radius: 1rem;
+}
+.order-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 70rem;
+  font-size: 0.78rem;
+}
+.order-table-wrap th,
+.order-table-wrap td {
+  text-align: left;
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--admin-line);
+  vertical-align: top;
+}
+.order-table-wrap td > a {
+  font-weight: 800;
+  color: var(--admin-green);
+  text-decoration: underline;
+}
+.order-table-wrap td small {
+  display: block;
+  color: var(--admin-muted);
+  margin-top: 0.25rem;
+}
+.order-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.8rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 99px;
+  background: #f3f6f3;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.deadline {
+  display: block;
+  color: var(--admin-muted);
+  margin-top: 0.3rem;
+}
+.deadline.soon {
+  color: #986500;
+}
+.deadline.expired {
+  color: #a12d2d;
+  font-weight: 750;
+}
+.order-mobile-cards {
+  display: none;
+}
+.orders-list-skeleton,
+.orders-error,
+.orders-empty {
+  min-height: 16rem;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  background: #fff;
+  border: 1px solid var(--admin-line);
+  border-radius: 1rem;
+  margin-top: 1rem;
+  padding: 2rem;
+}
+.orders-list-skeleton {
+  background: linear-gradient(100deg, #f2f4f2 30%, #e5eae6 50%, #f2f4f2 70%);
+  background-size: 200%;
+  animation: admin-pulse 1.2s infinite;
+}
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+.admin-pagination > a,
+.admin-pagination > span > a,
+.admin-pagination > span[aria-disabled] {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0.4rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 0.55rem;
+  background: #fff;
+}
+.admin-pagination a[aria-current='page'] {
+  background: var(--admin-green);
+  color: #fff;
+}
+.admin-pagination i {
+  padding: 0.3rem;
+  font-style: normal;
+}
+.admin-breadcrumb {
+  display: flex;
+  gap: 0.5rem;
+  overflow: auto;
+  white-space: nowrap;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+.order-detail-head > div:last-child {
+  display: flex;
+  gap: 0.5rem;
+}
+.admin-order-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: 1rem;
+  align-items: start;
+}
+.order-detail-card,
+.order-action-panel {
+  background: #fff;
+  border: 1px solid var(--admin-line);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+.order-detail-card h2,
+.order-action-panel h2 {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  margin-top: 0;
+}
+.admin-order-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--admin-line);
+}
+.admin-order-item > div {
+  display: grid;
+  gap: 0.2rem;
+}
+.admin-order-item span,
+.admin-order-item small {
+  color: var(--admin-muted);
+}
+.order-totals,
+.order-dates {
+  display: grid;
+  gap: 0.5rem;
+}
+.order-totals div,
+.order-dates div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.order-totals div:last-child {
+  font-size: 1.15rem;
+  font-weight: 900;
+  border-top: 1px solid var(--admin-line);
+  padding-top: 0.6rem;
+}
+.order-totals dd,
+.order-dates dd {
+  margin: 0;
+  text-align: right;
+}
+.reservation-list {
+  display: grid;
+  gap: 0.6rem;
+}
+.reservation-list article {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.7rem;
+  background: var(--admin-bg);
+  border-radius: 0.6rem;
+}
+.admin-order-timeline ol {
+  list-style: none;
+  border-left: 2px solid var(--admin-green);
+  padding-left: 1.2rem;
+}
+.admin-order-timeline li {
+  display: grid;
+  gap: 0.15rem;
+  position: relative;
+  padding: 0 0 1rem;
+}
+.admin-order-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -1.58rem;
+  top: 0.3rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--admin-green);
+}
+.admin-order-timeline span,
+.admin-order-timeline time {
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+}
+.order-action-panel {
+  position: sticky;
+  top: 5.5rem;
+  display: grid;
+  gap: 0.7rem;
+}
+.order-action-panel .button {
+  width: 100%;
+}
+.destructive {
+  background: #a62d2d !important;
+  color: #fff !important;
+  border: 1px solid #8b1f1f !important;
+  border-radius: 0.65rem;
+  min-height: 44px;
+  padding: 0.6rem;
+}
+.order-conflict {
+  background: #fff1d8;
+  border-left: 4px solid #c17c00;
+  padding: 0.8rem;
+}
+.order-action-dialog {
+  width: min(94vw, 34rem);
+  border: 0;
+  border-radius: 1rem;
+  padding: 1.3rem;
+}
+.order-action-dialog > label,
+.completion-summary {
+  display: grid;
+  gap: 0.5rem;
+}
+.order-action-dialog textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+.confirm-check {
+  display: flex !important;
+  grid-template-columns: auto 1fr !important;
+  align-items: start;
+}
+.confirm-check input {
+  min-height: auto;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.cancellation-info {
+  padding: 0.8rem;
+  background: #fff1f1;
+  border-radius: 0.6rem;
+}
+@media (max-width: 900px) {
+  .desktop-order-filters {
+    display: none;
+  }
+  .mobile-order-filters {
+    display: block;
+  }
+  .admin-order-layout {
+    grid-template-columns: 1fr;
+  }
+  .order-action-panel {
+    position: static;
+  }
+}
+@media (max-width: 720px) {
+  .admin-orders-page,
+  .admin-order-detail {
+    padding: 0.8rem;
+  }
+  .orders-page-head,
+  .order-detail-head {
+    display: grid;
+  }
+  .order-table-wrap {
+    display: none;
+  }
+  .order-mobile-cards {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+  }
+  .order-mobile-cards article {
+    display: grid;
+    gap: 0.5rem;
+    background: #fff;
+    border: 1px solid var(--admin-line);
+    border-radius: 0.8rem;
+    padding: 1rem;
+  }
+  .order-mobile-cards header,
+  .order-mobile-cards article > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .order-mobile-cards p {
+    margin: 0;
+  }
+  .orders-toolbar form > div {
+    display: grid;
+  }
+  .admin-order-item {
+    display: grid;
+  }
+  .dialog-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .dialog-actions button {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orders-list-skeleton {
+    animation: none;
+  }
+}

@@ -1,4 +1,6 @@
 'use client';
+import Link from 'next/link';
+import { AttentionLink } from './attention-link';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
@@ -436,10 +438,12 @@ export function Dashboard() {
           {(data) => (
             <div className="attention-grid">
               {Object.entries(data.counts).map(([key, value]) => (
-                <article key={key}>
-                  <strong>{value}</strong>
-                  <span>
-                    {{
+                <AttentionLink
+                  key={key}
+                  type={key}
+                  value={value}
+                  label={
+                    {
                       pending: 'Čeka potvrdu',
                       stalePending: 'Dugo čeka',
                       confirmedToday: 'Potvrđeno danas',
@@ -449,9 +453,9 @@ export function Dashboard() {
                       seasonalWithoutWindows: 'Sezonski bez perioda',
                       activeWithoutImage: 'Bez slike',
                       activeWithoutVariant: 'Bez varijante',
-                    }[key] ?? key}
-                  </span>
-                </article>
+                    }[key] ?? key
+                  }
+                />
               ))}
             </div>
           )}
@@ -536,7 +540,11 @@ export function Dashboard() {
                     className={x.requiresAttention ? 'needs-attention' : ''}
                   >
                     <div>
-                      <strong>{x.orderNumber}</strong>
+                      <strong>
+                        <Link href={`/admin/porudzbine/${x.id}`}>
+                          {x.orderNumber}
+                        </Link>
+                      </strong>
                       <span>{x.customerName}</span>
                     </div>
                     <div>
