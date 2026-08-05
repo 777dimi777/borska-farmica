@@ -22,7 +22,7 @@ const product: ProductPreview = {
   },
 };
 describe('ProductPreviewCard', () => {
-  it('prikazuje cenu i dostupnost bez storage kljuÄa', () => {
+  it('prikazuje cenu i dostupnost bez storage ključa', () => {
     render(<ProductPreviewCard product={product} />);
     expect(screen.getByText('Dostupno')).toBeInTheDocument();
     expect(screen.queryByText(/storage/i)).not.toBeInTheDocument();

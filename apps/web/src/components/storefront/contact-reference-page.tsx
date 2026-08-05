@@ -21,7 +21,7 @@ export function ContactReferencePage() {
       `Ime: ${data.get('name')}`,
       `Tema: ${data.get('topic')}`,
       data.get('orderNumber')
-        ? `Broj porudÅ¾bine: ${data.get('orderNumber')}`
+        ? `Broj porudžbine: ${data.get('orderNumber')}`
         : '',
       `Poruka: ${data.get('message')}`,
     ]
@@ -46,7 +46,7 @@ export function ContactReferencePage() {
         <Container>
           <div className="contact-hero-copy">
             <nav>
-              <Link href="/">PoÄetna</Link>
+              <Link href="/">Početna</Link>
               <span>/</span>
               <span>Kontakt</span>
             </nav>
@@ -54,11 +54,11 @@ export function ContactReferencePage() {
             <h1>
               Javite nam se.
               <br />
-              Rado Ä‡emo pomoÄ‡i.
+              Rado ćemo pomoći.
             </h1>
             <p>
-              Imate pitanje o proizvodima, porudÅ¾bini ili preuzimanju? PiÅ¡ite
-              nam preko zvaniÄne Facebook stranice.
+              Imate pitanje o proizvodima, porudžbini ili preuzimanju? Pišite
+              nam preko zvanične Facebook stranice.
             </p>
             <div className="hero-actions">
               <a
@@ -67,13 +67,13 @@ export function ContactReferencePage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                PoÅ¡aljite poruku â†’
+                Pošaljite poruku →
               </a>
               <Link className="button button-secondary" href="/preuzimanje">
                 Pogledajte lokacije
               </Link>
             </div>
-            <small>Odgovaramo Äim budemo u moguÄ‡nosti.</small>
+            <small>Odgovaramo čim budemo u mogućnosti.</small>
           </div>
           <div className="contact-hero-photo">
             <Image
@@ -84,7 +84,7 @@ export function ContactReferencePage() {
               sizes="(max-width: 800px) 100vw, 58vw"
             />
             <div>
-              <span>â™§</span>
+              <span>♧</span>
               <strong>
                 Tu smo da
                 <br />
@@ -101,28 +101,28 @@ export function ContactReferencePage() {
             <span>f</span>
             <div>
               <h2>Facebook</h2>
-              <p>ZvaniÄna stranica Borske Farmice</p>
+              <p>Zvanična stranica Borske Farmice</p>
               <a href={facebook} target="_blank" rel="noopener noreferrer">
-                PoÅ¡aljite poruku â†’
+                Pošaljite poruku →
               </a>
             </div>
           </article>
           <article>
-            <span>âŒ–</span>
+            <span>⌖</span>
             <div>
-              <h2>NaÅ¡a adresa</h2>
+              <h2>Naša adresa</h2>
               <p>
-                Nade DimiÄ‡ 30, Bor
+                Nade Dimić 30, Bor
                 <br />
-                ispod StovariÅ¡ta NaÅ¡koviÄ‡
+                ispod Stovarišta Našković
               </p>
               <a href={mapUrl} target="_blank" rel="noopener noreferrer">
-                Pogledajte mapu â†’
+                Pogledajte mapu →
               </a>
             </div>
           </article>
           <article>
-            <span>â™œ</span>
+            <span>♜</span>
             <div>
               <h2>Gradska pijaca</h2>
               <p>
@@ -130,15 +130,15 @@ export function ContactReferencePage() {
                 <br />
                 svake subote
               </p>
-              <Link href="/preuzimanje">Detalji preuzimanja â†’</Link>
+              <Link href="/preuzimanje">Detalji preuzimanja →</Link>
             </div>
           </article>
           <article>
-            <span>ðŸ›’</span>
+            <span>🛒</span>
             <div>
-              <h2>Online porudÅ¾bina</h2>
-              <p>RezerviÅ¡ite proizvode iz kataloga</p>
-              <Link href="/proizvodi">Pogledajte ponudu â†’</Link>
+              <h2>Online porudžbina</h2>
+              <p>Rezervišite proizvode iz kataloga</p>
+              <Link href="/proizvodi">Pogledajte ponudu →</Link>
             </div>
           </article>
         </Container>
@@ -148,10 +148,10 @@ export function ContactReferencePage() {
         <Container>
           <form onSubmit={submit}>
             <header>
-              <p className="eyebrow">NapiÅ¡ite nam</p>
+              <p className="eyebrow">Napišite nam</p>
               <h2>Pripremite poruku</h2>
               <p>
-                Forma priprema i kopira tekst, a zatim otvara naÅ¡u zvaniÄnu
+                Forma priprema i kopira tekst, a zatim otvara našu zvaničnu
                 Facebook stranicu.
               </p>
             </header>
@@ -165,13 +165,13 @@ export function ContactReferencePage() {
                 <select required name="topic">
                   <option value="">Izaberite temu</option>
                   <option>Pitanje o proizvodu</option>
-                  <option>PostojeÄ‡a porudÅ¾bina</option>
+                  <option>Postojeća porudžbina</option>
                   <option>Preuzimanje</option>
                   <option>Drugo</option>
                 </select>
               </label>
               <label>
-                <span>Broj porudÅ¾bine</span>
+                <span>Broj porudžbine</span>
                 <input name="orderNumber" placeholder="Opciono" />
               </label>
               <label className="full">
@@ -180,23 +180,23 @@ export function ContactReferencePage() {
                   required
                   name="message"
                   rows={7}
-                  placeholder="NapiÅ¡ite svoju porukuâ€¦"
+                  placeholder="Napišite svoju poruku…"
                 />
               </label>
             </div>
             <button className="button button-primary" disabled={busy}>
-              {busy ? 'Pripremamoâ€¦' : 'Nastavi na Facebook â†’'}
+              {busy ? 'Pripremamo…' : 'Nastavi na Facebook →'}
             </button>
             <small>
-              Poruka se ne Äuva na sajtu i nije poslata dok je ne poÅ¡aljete u
+              Poruka se ne čuva na sajtu i nije poslata dok je ne pošaljete u
               Facebook razgovoru.
             </small>
           </form>
           <aside>
             <p className="eyebrow">Kontakt podaci</p>
-            <h2>Izaberite naÄin koji vam odgovara.</h2>
+            <h2>Izaberite način koji vam odgovara.</h2>
             <p>
-              Tu smo da pomognemo oko ponude, porudÅ¾bine i liÄnog preuzimanja.
+              Tu smo da pomognemo oko ponude, porudžbine i ličnog preuzimanja.
             </p>
             <dl>
               <div>
@@ -209,14 +209,14 @@ export function ContactReferencePage() {
               </div>
               <div>
                 <dt>Adresa</dt>
-                <dd>Nade DimiÄ‡ 30, Bor</dd>
+                <dd>Nade Dimić 30, Bor</dd>
               </div>
               <div>
                 <dt>Pijaca</dt>
-                <dd>Gradska pijaca Bor â€” subotom</dd>
+                <dd>Gradska pijaca Bor — subotom</dd>
               </div>
               <div>
-                <dt>PlaÄ‡anje</dt>
+                <dt>Plaćanje</dt>
                 <dd>Gotovina prilikom preuzimanja</dd>
               </div>
             </dl>
@@ -227,15 +227,15 @@ export function ContactReferencePage() {
               height={250}
             />
             <div className="existing-order-box">
-              <h3>Pitanje o postojeÄ‡oj porudÅ¾bini?</h3>
+              <h3>Pitanje o postojećoj porudžbini?</h3>
               <p>
-                Pripremite broj porudÅ¾bine kako bismo lakÅ¡e proverili detalje.
+                Pripremite broj porudžbine kako bismo lakše proverili detalje.
               </p>
               <Link
                 className="button button-secondary"
                 href="/nalog/porudzbine"
               >
-                PronaÄ‘i porudÅ¾binu â†’
+                Pronađi porudžbinu →
               </Link>
             </div>
           </aside>
@@ -245,8 +245,8 @@ export function ContactReferencePage() {
       <section className="contact-map-section">
         <Container>
           <header>
-            <p className="eyebrow">LiÄno preuzimanje</p>
-            <h2>PronaÄ‘ite nas u Boru</h2>
+            <p className="eyebrow">Lično preuzimanje</p>
+            <h2>Pronađite nas u Boru</h2>
           </header>
           <div className="contact-map-layout">
             <div className="contact-map-art">
@@ -254,25 +254,25 @@ export function ContactReferencePage() {
               <i />
               <i />
               <span>
-                âŒ– <strong>Borska Farmica</strong>
-                <small>Nade DimiÄ‡ 30, Bor</small>
+                ⌖ <strong>Borska Farmica</strong>
+                <small>Nade Dimić 30, Bor</small>
               </span>
               <b>Bor</b>
             </div>
             <article>
-              <span>âŒ–</span>
+              <span>⌖</span>
               <h3>Preuzimanje na adresi</h3>
-              <p>Nade DimiÄ‡ 30, odmah ispod StovariÅ¡ta NaÅ¡koviÄ‡.</p>
-              <span>â—·</span>
+              <p>Nade Dimić 30, odmah ispod Stovarišta Našković.</p>
+              <span>◷</span>
               <h3>Po dogovorenom terminu</h3>
-              <p>Pre dolaska saÄekajte admin potvrdu porudÅ¾bine.</p>
+              <p>Pre dolaska sačekajte admin potvrdu porudžbine.</p>
               <a
                 className="button button-primary"
                 href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Otvori u mapama â†’
+                Otvori u mapama →
               </a>
             </article>
           </div>
@@ -283,27 +283,27 @@ export function ContactReferencePage() {
         <Container>
           <header>
             <p className="eyebrow">Pitajte nas</p>
-            <h2>Kako vam moÅ¾emo pomoÄ‡i?</h2>
+            <h2>Kako vam možemo pomoći?</h2>
           </header>
           <div>
             {[
               [
-                'â™§',
+                '♧',
                 'Pitanja o proizvodima',
                 'Sastav, dostupnost, pakovanja i aktuelna ponuda.',
               ],
               [
-                'â–¤',
-                'PorudÅ¾bine',
-                'Status porudÅ¾bine, potvrda i izmene pre pripreme.',
+                '▤',
+                'Porudžbine',
+                'Status porudžbine, potvrda i izmene pre pripreme.',
               ],
               [
-                'âŒ–',
-                'LiÄno preuzimanje',
+                '⌖',
+                'Lično preuzimanje',
                 'Lokacije, dogovoreni termin i subotnja pijaca.',
               ],
               [
-                'â™¢',
+                '♢',
                 'Saradnja',
                 'Predlozi, saradnja i druga pitanja za Farmicu.',
               ],
@@ -313,7 +313,7 @@ export function ContactReferencePage() {
                 <h3>{title}</h3>
                 <p>{text}</p>
                 <a href={facebook} target="_blank" rel="noopener noreferrer">
-                  Saznajte viÅ¡e â†’
+                  Saznajte više →
                 </a>
               </article>
             ))}
@@ -324,14 +324,14 @@ export function ContactReferencePage() {
       <section className="contact-response-section">
         <Container>
           <header>
-            <p className="eyebrow">LiÄno i paÅ¾ljivo</p>
-            <h2>Odgovaramo Äim moÅ¾emo</h2>
+            <p className="eyebrow">Lično i pažljivo</p>
+            <h2>Odgovaramo čim možemo</h2>
           </header>
           <div className="contact-response-layout">
             <div className="contact-response-images">
               <Image
                 src="/images/products/mladi-kozji-sir.webp"
-                alt="DomaÄ‡i sir"
+                alt="Domaći sir"
                 width={250}
                 height={230}
               />
@@ -343,7 +343,7 @@ export function ContactReferencePage() {
               />
               <Image
                 src="/images/products/jaja.webp"
-                alt="DomaÄ‡a jaja"
+                alt="Domaća jaja"
                 width={250}
                 height={230}
               />
@@ -353,27 +353,26 @@ export function ContactReferencePage() {
                 <span>1</span>
                 <div>
                   <strong>Pregledamo poruku</strong>
-                  <p>PaÅ¾ljivo Äitamo pitanje i proveravamo detalje.</p>
+                  <p>Pažljivo čitamo pitanje i proveravamo detalje.</p>
                 </div>
               </li>
               <li>
                 <span>2</span>
                 <div>
                   <strong>Javljamo se sa jasnim odgovorom</strong>
-                  <p>Odgovaramo konkretno, bez skrivenih obeÄ‡anja.</p>
+                  <p>Odgovaramo konkretno, bez skrivenih obećanja.</p>
                 </div>
               </li>
               <li>
                 <span>3</span>
                 <div>
-                  <strong>Zajedno reÅ¡avamo pitanje</strong>
-                  <p>Cilj je da taÄno znate sledeÄ‡i korak.</p>
+                  <strong>Zajedno rešavamo pitanje</strong>
+                  <p>Cilj je da tačno znate sledeći korak.</p>
                 </div>
               </li>
             </ol>
             <blockquote>
-              â€žIza svake poruke je stvarna osoba â€” zato odgovaramo
-              paÅ¾ljivo.â€œ
+              „Iza svake poruke je stvarna osoba — zato odgovaramo pažljivo.“
             </blockquote>
           </div>
         </Container>
@@ -383,29 +382,29 @@ export function ContactReferencePage() {
         <Container>
           <header>
             <p className="eyebrow">Korisne informacije</p>
-            <h2>NajÄeÅ¡Ä‡a pitanja</h2>
+            <h2>Najčešća pitanja</h2>
           </header>
           <div>
             {[
               [
-                'Kada mogu da oÄekujem odgovor?',
-                'Odgovaramo Äim budemo u moguÄ‡nosti preko zvaniÄne Facebook stranice.',
+                'Kada mogu da očekujem odgovor?',
+                'Odgovaramo čim budemo u mogućnosti preko zvanične Facebook stranice.',
               ],
               [
-                'Kako mogu da proverim status porudÅ¾bine?',
-                'Prijavite se i otvorite Moj nalog, zatim Moje porudÅ¾bine.',
+                'Kako mogu da proverim status porudžbine?',
+                'Prijavite se i otvorite Moj nalog, zatim Moje porudžbine.',
               ],
               [
-                'Mogu li da promenim porudÅ¾binu?',
-                'Javite se Å¡to pre. Izmena zavisi od trenutnog statusa i da li je priprema veÄ‡ poÄela.',
+                'Mogu li da promenim porudžbinu?',
+                'Javite se što pre. Izmena zavisi od trenutnog statusa i da li je priprema već počela.',
               ],
               [
-                'Gde se preuzima porudÅ¾bina?',
-                'Na Nade DimiÄ‡ 30 po potvrÄ‘enom terminu ili na Gradskoj pijaci Bor subotom.',
+                'Gde se preuzima porudžbina?',
+                'Na Nade Dimić 30 po potvrđenom terminu ili na Gradskoj pijaci Bor subotom.',
               ],
               [
-                'Da li vrÅ¡ite dostavu?',
-                'Ne. OmoguÄ‡eno je iskljuÄivo liÄno preuzimanje.',
+                'Da li vršite dostavu?',
+                'Ne. Omogućeno je isključivo lično preuzimanje.',
               ],
             ].map(([q, a], index) => (
               <details key={q} open={index === 0}>
@@ -424,7 +423,7 @@ export function ContactReferencePage() {
         <Container>
           <div>
             <p className="eyebrow">Novosti sa farmice</p>
-            <h2>Pratite Å¾ivot na farmi</h2>
+            <h2>Pratite život na farmi</h2>
             <p>Nove proizvode i informacije o ponudi pratite na Facebooku.</p>
             <a
               className="button button-secondary"
@@ -455,8 +454,8 @@ export function ContactReferencePage() {
       <section className="contact-final-cta">
         <Container>
           <div>
-            <p className="eyebrow">Razgovor je najbolji poÄetak</p>
-            <h2>PiÅ¡ite nam kada imate pitanje.</h2>
+            <p className="eyebrow">Razgovor je najbolji početak</p>
+            <h2>Pišite nam kada imate pitanje.</h2>
             <div className="hero-actions">
               <a
                 className="button button-secondary"
@@ -464,7 +463,7 @@ export function ContactReferencePage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                PoÅ¡aljite poruku â†’
+                Pošaljite poruku →
               </a>
               <Link className="button button-secondary" href="/proizvodi">
                 Pogledajte ponudu
