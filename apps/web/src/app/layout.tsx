@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Manrope, Cormorant_Garamond } from 'next/font/google';
 import { SiteChrome } from '@/components/layout/site-chrome';
 import { siteUrl } from '@/lib/config/env';
@@ -6,6 +6,7 @@ import { AppProviders } from '@/components/providers/app-providers';
 import './globals.css';
 import './storefront-polish.css';
 import './catalog-redesign.css';
+import './about-redesign.css';
 const sans = Manrope({
   variable: '--font-sans',
   subsets: ['latin', 'latin-ext'],

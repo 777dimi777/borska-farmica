@@ -1,8 +1,9 @@
-﻿import { AboutContent } from '@/components/storefront/info-pages';
+import { AboutContent } from '@/components/storefront/about-content';
 import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'O nama',
-  description: 'Saznajte viÅ¡e o lokalnoj ponudi Borske Farmice iz Bora.',
+  description:
+    'Upoznajte Borsku Farmicu, našu priču, način rada i domaću proizvodnju u Boru.',
 };
 export default function About() {
   return <AboutContent />;
