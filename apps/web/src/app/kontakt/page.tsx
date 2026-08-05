@@ -1,9 +1,12 @@
-﻿import { ContactContent } from '@/components/storefront/info-pages';
 import type { Metadata } from 'next';
+import { ContactReferencePage } from '@/components/storefront/contact-reference-page';
+
 export const metadata: Metadata = {
   title: 'Kontakt',
-  description: 'Adresa, Facebook i informacije za preuzimanje Borske Farmice.',
+  description:
+    'Kontaktirajte Borsku Farmicu preko zvanične Facebook stranice ili pronađite lokacije za lično preuzimanje u Boru.',
 };
+
 export default function Contact() {
-  return <ContactContent />;
+  return <ContactReferencePage />;
 }
