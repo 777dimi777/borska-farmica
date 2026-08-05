@@ -1,8 +1,8 @@
-﻿import 'dotenv/config';
+import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { PrismaClient } from '../src/generated/prisma/client';
-import { seedDemoCatalog } from './demo-catalog';
+import { seedFarmCatalog } from './farm-catalog';
 
 const categories = [
   { name: 'Mlečni proizvodi', slug: 'mlecni-proizvodi', sortOrder: 1 },
@@ -65,10 +65,8 @@ async function main(): Promise<void> {
       `Seeded ${categories.length} product categories and ${pickupLocations.length} pickup locations.`,
     );
     if (process.env.SEED_DEMO_CATALOG === 'true') {
-      const count = await seedDemoCatalog(prisma);
-      console.log(
-        `Seeded ${count} opt-in development demo products with local images.`,
-      );
+      const count = await seedFarmCatalog(prisma);
+      console.log(`Seeded ${count} farm products with local images.`);
     }
   } finally {
     await prisma.$disconnect();
