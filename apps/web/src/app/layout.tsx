@@ -8,6 +8,7 @@ import './storefront-polish.css';
 import './catalog-redesign.css';
 import './about-redesign.css';
 import './pickup-redesign.css';
+import './cart-redesign.css';
 const sans = Manrope({
   variable: '--font-sans',
   subsets: ['latin', 'latin-ext'],
@@ -20,11 +21,11 @@ const serif = Cormorant_Garamond({
   display: 'swap',
 });
 const description =
-  'Mleko, surutka, sirevi i sezonski proizvodi Borske Farmice. PoruÄivanje uz liÄno preuzimanje u Boru i na Gradskoj pijaci subotom.';
+  'Mleko, surutka, sirevi i sezonski proizvodi Borske Farmice. PoruÃ„Âivanje uz liÃ„Âno preuzimanje u Boru i na Gradskoj pijaci subotom.';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: 'Borska Farmica | DomaÄ‡i proizvodi iz Bora',
+    default: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
     template: '%s | Borska Farmica',
   },
   description,
@@ -33,12 +34,12 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'sr_Latn_RS',
     siteName: 'Borska Farmica',
-    title: 'Borska Farmica | DomaÄ‡i proizvodi iz Bora',
+    title: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
     description,
   },
   twitter: {
     card: 'summary',
-    title: 'Borska Farmica | DomaÄ‡i proizvodi iz Bora',
+    title: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
     description,
   },
 };
@@ -51,7 +52,7 @@ export default function RootLayout({
     <html lang="sr-Latn" className={`${sans.variable} ${serif.variable}`}>
       <body>
         <a className="skip-link" href="#glavni-sadrzaj">
-          PreskoÄi na glavni sadrÅ¾aj
+          PreskoÃ„Âi na glavni sadrÃ…Â¾aj
         </a>
         <AppProviders>
           <SiteChrome>{children}</SiteChrome>
