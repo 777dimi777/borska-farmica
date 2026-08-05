@@ -1,4 +1,6 @@
+﻿import Image from 'next/image';
 import Link from 'next/link';
+
 export function Brand({ inverse = false }: { inverse?: boolean }) {
   return (
     <Link
@@ -6,8 +8,14 @@ export function Brand({ inverse = false }: { inverse?: boolean }) {
       className={`brand${inverse ? ' brand-inverse' : ''}`}
       aria-label="Borska Farmica — početna"
     >
-      <span className="brand-mark" aria-hidden="true">
-        BF
+      <span className="brand-mark brand-mark-user">
+        <Image
+          src="/images/brand/borska-farmica-mark.webp"
+          alt=""
+          width={180}
+          height={180}
+          priority
+        />
       </span>
       <span>
         <strong>Borska Farmica</strong>

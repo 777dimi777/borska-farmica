@@ -1,30 +1,35 @@
-import { Container } from '@/components/ui/container';
+﻿import { Container } from '@/components/ui/container';
 import { LinkButton } from '@/components/ui/button';
 import { Section } from '@/components/ui/section';
 import { SectionHeading } from '@/components/ui/section-heading';
+
+const months = [
+  ['Maj', 'Jagode'],
+  ['Jun', 'Paradajz · krastavac'],
+  ['Jul', 'Maline · kupine'],
+  ['Avgust', 'Paradajz · kajsije'],
+  ['Septembar', 'Grožđe'],
+  ['Oktobar', 'Bundeva'],
+];
+
 export function StaticSections() {
   return (
     <>
-      <Section className="seasonal">
-        <Container className="seasonal-grid">
-          <SectionHeading
-            eyebrow="U ritmu sezone"
-            title="Ponuda se menja kada priroda kaže da je vreme."
-            description="Pored glavnih proizvoda, u ponudi se mogu naći sezonski plodovi i drugi proizvodi. Njihova dostupnost zavisi od sezone i trenutne ponude."
-          />
-          <div className="seasonal-lists">
-            <div>
-              <h3>Voće</h3>
-              <p>Šljive, jabuke, kajsije, maline, kupine, kruške i smokve.</p>
+      <Section className="season-calendar">
+        <Container>
+          <div className="season-calendar-inner">
+            <strong>Sezonski kalendar</strong>
+            <div className="season-months">
+              {months.map(([month, produce]) => (
+                <div key={month}>
+                  <span>{month}</span>
+                  <small>{produce}</small>
+                </div>
+              ))}
             </div>
-            <div>
-              <h3>Povrće</h3>
-              <p>Mladi, beli i crni luk, paradajz i krastavac.</p>
-            </div>
-            <div>
-              <h3>Dodatno</h3>
-              <p>Jaja, stajsko đubrivo i rakija — kada su u ponudi.</p>
-            </div>
+            <LinkButton href="/proizvodi" variant="secondary">
+              Pogledaj ponudu
+            </LinkButton>
           </div>
         </Container>
       </Section>
@@ -32,36 +37,32 @@ export function StaticSections() {
         <Container>
           <SectionHeading
             align="center"
-            eyebrow="Zašto mi"
-            title="Jednostavno, lokalno i direktno"
+            eyebrow="Zašto Borska Farmica"
+            title="Lokalno, jednostavno i bez skrivenih koraka"
           />
           <div className="values-grid">
             {[
-              [
-                '01',
-                'Lokalna ponuda',
-                'Proizvodi Borske Farmice dostupni su kupcima u Boru.',
-              ],
+              ['01', 'Lokalna ponuda', 'Proizvodi dostupni kupcima u Boru.'],
               [
                 '02',
-                'Jednostavno poručivanje',
+                'Jasno poručivanje',
                 'Izaberete proizvode, pošaljete porudžbinu i sačekate potvrdu.',
               ],
               [
                 '03',
                 'Lično preuzimanje',
-                'Preuzimanje na adresi ili na Gradskoj pijaci subotom.',
+                'Na adresi Nade Dimić 30 ili subotom na Gradskoj pijaci Bor.',
               ],
               [
                 '04',
-                'Sezonski izbor',
-                'Ponuda prati sezonu i stvarnu dostupnost proizvoda.',
+                'Gotovinsko plaćanje',
+                'Plaćate uživo tek kada preuzmete porudžbinu.',
               ],
-            ].map(([n, t, d]) => (
-              <article key={n}>
-                <span>{n}</span>
-                <h3>{t}</h3>
-                <p>{d}</p>
+            ].map(([number, title, description]) => (
+              <article key={number}>
+                <span>{number}</span>
+                <h3>{title}</h3>
+                <p>{description}</p>
               </article>
             ))}
           </div>
@@ -75,20 +76,20 @@ export function StaticSections() {
           />
           <ol>
             {[
-              'Izaberete proizvode.',
+              'Napravite nalog i izaberete proizvode.',
               'Pošaljete porudžbinu.',
               'Sačekate potvrdu Borske Farmice.',
               'Preuzmete i platite gotovinom.',
-            ].map((x, i) => (
-              <li key={x}>
-                <span>{i + 1}</span>
-                <strong>{x}</strong>
+            ].map((item, index) => (
+              <li key={item}>
+                <span>{index + 1}</span>
+                <strong>{item}</strong>
               </li>
             ))}
           </ol>
           <p className="steps-note">
-            Kupovina zahteva korisnički nalog. Nema dostave ni online plaćanja —
-            plaćanje je isključivo gotovinom prilikom preuzimanja.
+            Kupovina zahteva korisnički nalog. Nema online plaćanja — plaćanje
+            je isključivo gotovinom prilikom preuzimanja.
           </p>
         </Container>
       </Section>
@@ -102,7 +103,10 @@ export function StaticSections() {
             <article>
               <p className="card-kicker">Lično preuzimanje</p>
               <h3>Borska Farmica — Nade Dimić 30, Bor</h3>
-              <p>Odmah ispod Stovarišta Našković.</p>
+              <p>
+                Odmah ispod Stovarišta Našković. Termin potvrđujemo nakon
+                poručivanja.
+              </p>
               <a
                 href="https://www.google.com/maps/search/?api=1&query=Nade+Dimi%C4%87+30%2C+Bor"
                 target="_blank"
@@ -114,7 +118,10 @@ export function StaticSections() {
             <article>
               <p className="card-kicker">Subotom</p>
               <h3>Gradska pijaca Bor</h3>
-              <p>Proizvode možete kupiti na Gradskoj pijaci u Boru subotom.</p>
+              <p>
+                Porudžbinu možete preuzeti ili proizvode kupiti direktno na
+                pijaci subotom.
+              </p>
               <LinkButton href="/preuzimanje" variant="secondary">
                 Detalji preuzimanja
               </LinkButton>
@@ -126,11 +133,8 @@ export function StaticSections() {
         <Container>
           <div>
             <p className="eyebrow">Aktuelna ponuda</p>
-            <h2>Pogledajte šta je trenutno u ponudi.</h2>
-            <p>
-              Proverite dostupnost proizvoda, zatim planirajte lično
-              preuzimanje.
-            </p>
+            <h2>Pogledajte šta je trenutno dostupno.</h2>
+            <p>Proverite proizvode i planirajte lično preuzimanje.</p>
             <LinkButton href="/proizvodi" variant="secondary">
               Pogledaj ponudu
             </LinkButton>

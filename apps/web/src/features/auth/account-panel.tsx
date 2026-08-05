@@ -12,7 +12,7 @@ export function AccountPanel() {
     if (a.status === 'anonymous') router.replace('/prijava?returnTo=/nalog');
   }, [a.status, router]);
   if (a.status === 'loading' || !a.customer)
-    return <div className="account-skeleton" aria-label="UÄitavanje naloga" />;
+    return <div className="account-skeleton" aria-label="Učitavanje naloga" />;
   const c = a.customer;
   const profile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,9 +24,9 @@ export function AccountPanel() {
         lastName: String(f.get('lastName')),
         phone: String(f.get('phone')),
       });
-      feedback('Profil je saÄuvan.', 'success');
+      feedback('Profil je sačuvan.', 'success');
     } catch {
-      feedback('Profil nije saÄuvan. Proverite podatke.', 'error');
+      feedback('Profil nije sačuvan. Proverite podatke.', 'error');
     } finally {
       setBusy(false);
     }
@@ -85,7 +85,7 @@ export function AccountPanel() {
             />
           </label>
           <button className="button button-primary" disabled={busy}>
-            SaÄuvajte profil
+            Sačuvajte profil
           </button>
         </form>
       </section>

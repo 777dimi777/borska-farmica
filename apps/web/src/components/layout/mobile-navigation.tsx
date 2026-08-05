@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/features/auth/auth-provider';
 const links = [
-  ['PoÃƒÆ’Ã¢â‚¬Å¾Ãƒâ€šÃ‚Âetna', '/'],
+  ['Početna', '/'],
   ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],

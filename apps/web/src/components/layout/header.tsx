@@ -4,7 +4,7 @@ import { HeaderActions } from './header-actions';
 import { Brand } from './brand';
 import { MobileNavigation } from './mobile-navigation';
 const links = [
-  ['PoÃ„Âetna', '/'],
+  ['Početna', '/'],
   ['Ponuda', '/proizvodi'],
   ['O nama', '/o-nama'],
   ['Preuzimanje', '/preuzimanje'],
@@ -15,7 +15,7 @@ export function Header() {
     <>
       <div className="announcement">
         <Container>
-          Subotom nas pronaÃ„â€˜ite na{' '}
+          Subotom nas pronađite na{' '}
           <Link href="/preuzimanje">Gradskoj pijaci u Boru.</Link>
         </Container>
       </div>

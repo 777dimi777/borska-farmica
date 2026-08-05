@@ -62,8 +62,8 @@ export function VariantSelector({
       feedback(
         e instanceof BrowserApiError &&
           ['conflict', 'business'].includes(e.kind)
-          ? 'Cena ili dostupnost su promenjeni. OsveÅ¾ite podatke i pokuÅ¡ajte ponovo.'
-          : 'Proizvod trenutno nije moguÄ‡e dodati.',
+          ? 'Cena ili dostupnost su promenjeni. Osvežite podatke i pokušajte ponovo.'
+          : 'Proizvod trenutno nije moguće dodati.',
         'error',
       );
     }
@@ -89,7 +89,7 @@ export function VariantSelector({
               <span>
                 <strong>{v.name}</strong>
                 <small>
-                  {packageLabel(v)} Â· {formatRsd(v.price)}
+                  {packageLabel(v)} · {formatRsd(v.price)}
                 </small>
               </span>
             </label>
@@ -97,7 +97,7 @@ export function VariantSelector({
         </fieldset>
       ) : (
         <p className="single-variant">
-          <strong>{variant.name}</strong> Â· {packageLabel(variant)}
+          <strong>{variant.name}</strong> · {packageLabel(variant)}
         </p>
       )}
       <p
@@ -109,7 +109,7 @@ export function VariantSelector({
         <div className="quantity-control">
           <button
             type="button"
-            aria-label="Smanji koliÄinu"
+            aria-label="Smanji količinu"
             onClick={() =>
               setQuantity(
                 shiftQuantity(
@@ -120,10 +120,10 @@ export function VariantSelector({
               )
             }
           >
-            âˆ’
+            −
           </button>
           <label>
-            <span>KoliÄina</span>
+            <span>Količina</span>
             <input
               inputMode="decimal"
               value={quantity.replace('.', ',')}
@@ -133,7 +133,7 @@ export function VariantSelector({
           </label>
           <button
             type="button"
-            aria-label="PoveÄ‡aj koliÄinu"
+            aria-label="Povećaj količinu"
             onClick={() =>
               setQuantity(
                 shiftQuantity(
@@ -156,11 +156,11 @@ export function VariantSelector({
           disabled={!canAdd || add.isPending}
           onClick={() => void submit()}
         >
-          {add.isPending ? 'Dodavanjeâ€¦' : 'Dodaj u korpu'}
+          {add.isPending ? 'Dodavanje…' : 'Dodaj u korpu'}
         </button>
         {!canAdd && (
           <p className="field-error">
-            {!variant.purchasable ? status : 'Unesite dozvoljenu koliÄinu.'}
+            {!variant.purchasable ? status : 'Unesite dozvoljenu količinu.'}
           </p>
         )}
       </div>

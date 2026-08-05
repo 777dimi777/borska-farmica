@@ -1,11 +1,11 @@
-import type { Category, ProductPreview } from '@/types/catalog';
+﻿import type { Category, ProductPreview } from '@/types/catalog';
 import { Container } from '@/components/ui/container';
 import { Section } from '@/components/ui/section';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { CategoryCard } from './category-card';
 import { ProductPreviewCard } from './product-preview-card';
 import { EmptyState } from '@/components/ui/states';
-const mainNames = ['sir', 'mleko', 'surutka'];
+
 export function HomeContent({
   categories,
   products,
@@ -13,26 +13,22 @@ export function HomeContent({
   categories: Category[];
   products: ProductPreview[];
 }) {
-  const mains = mainNames
-    .map((name) =>
-      categories.find(
-        (c) => c.slug.includes(name) || c.name.toLowerCase().includes(name),
-      ),
-    )
-    .filter(Boolean) as Category[];
-  const shown = mains.length ? mains : categories.slice(0, 3);
   return (
     <>
       <Section className="main-offer">
         <Container>
           <SectionHeading
-            eyebrow="Glavni proizvodi"
-            title="Naša glavna ponuda"
-            description="Izaberite iz aktuelnih kategorija. Dostupnost pojedinačnih proizvoda prikazana je u ponudi."
+            eyebrow="Izdvojeno"
+            title="Odaberite iz naše ponude"
+            description="Domaći proizvodi dostupni za lično preuzimanje u Boru."
           />
-          <div className="category-grid">
-            {shown.map((c, i) => (
-              <CategoryCard key={c.id} category={c} index={i} />
+          <div className="category-grid category-showcase">
+            {categories.slice(0, 6).map((category, index) => (
+              <CategoryCard
+                key={category.id}
+                category={category}
+                index={index}
+              />
             ))}
           </div>
         </Container>
@@ -40,13 +36,16 @@ export function HomeContent({
       <Section id="ponuda" className="products-section">
         <Container>
           <SectionHeading
-            eyebrow="Trenutna ponuda"
-            title="Izdvojeni proizvodi"
-            description="Stvarni podaci iz javnog kataloga, osveženi približno jednom u minutu."
+            align="center"
+            eyebrow="Sveže iz naše farmice"
+            title="Trenutno u ponudi"
+            description="Prikazane količine i dostupnost dolaze direktno iz kataloga."
           />
-          <div className="product-grid">
+          <div className="product-grid home-product-grid">
             {products.length ? (
-              products.map((p) => <ProductPreviewCard key={p.id} product={p} />)
+              products.map((product) => (
+                <ProductPreviewCard key={product.id} product={product} />
+              ))
             ) : (
               <EmptyState />
             )}

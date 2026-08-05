@@ -1,7 +1,8 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { PrismaClient } from '../src/generated/prisma/client';
+import { seedDemoCatalog } from './demo-catalog';
 
 const categories = [
   { name: 'Mlečni proizvodi', slug: 'mlecni-proizvodi', sortOrder: 1 },
@@ -11,7 +12,6 @@ const categories = [
   { name: 'Jaja', slug: 'jaja', sortOrder: 5 },
   { name: 'Stajsko đubrivo', slug: 'stajsko-djubrivo', sortOrder: 6 },
 ] as const;
-
 const pickupLocations = [
   {
     code: 'FARM_HOME',
@@ -32,17 +32,12 @@ const pickupLocations = [
     sortOrder: 1,
   },
 ] as const;
-
 async function main(): Promise<void> {
   const connectionString = process.env.DATABASE_URL;
-
-  if (!connectionString) {
+  if (!connectionString)
     throw new Error('DATABASE_URL is required to seed the database');
-  }
-
   const pool = new Pool({ connectionString });
   const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
-
   try {
     await prisma.$transaction(
       categories.map((category) =>
@@ -53,14 +48,10 @@ async function main(): Promise<void> {
             isActive: true,
             sortOrder: category.sortOrder,
           },
-          create: {
-            ...category,
-            isActive: true,
-          },
+          create: { ...category, isActive: true },
         }),
       ),
     );
-
     await prisma.$transaction(
       pickupLocations.map((location) =>
         prisma.pickupLocation.upsert({
@@ -70,16 +61,20 @@ async function main(): Promise<void> {
         }),
       ),
     );
-
     console.log(
       `Seeded ${categories.length} product categories and ${pickupLocations.length} pickup locations.`,
     );
+    if (process.env.SEED_DEMO_CATALOG === 'true') {
+      const count = await seedDemoCatalog(prisma);
+      console.log(
+        `Seeded ${count} opt-in development demo products with local images.`,
+      );
+    }
   } finally {
     await prisma.$disconnect();
     await pool.end();
   }
 }
-
 void main().catch((error: unknown) => {
   const errorName = error instanceof Error ? error.name : 'UnknownError';
   console.error(`Database seed failed (${errorName}).`);

@@ -1,4 +1,4 @@
-import type {
+﻿import type {
   Category,
   ProductDetail,
   ProductListResponse,
@@ -30,7 +30,7 @@ export async function getHomepageCatalog() {
   ];
   let products: ProductListResponse | null = null;
   for (const filters of attempts) {
-    products = await getProducts({ ...filters, limit: 4, sort: 'featured' });
+    products = await getProducts({ ...filters, limit: 8, sort: 'featured' });
     if (products.data.length) break;
   }
   return { categories, products: products?.data ?? [] };

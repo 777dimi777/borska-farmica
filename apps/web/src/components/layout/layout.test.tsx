@@ -25,7 +25,7 @@ describe('storefront layout', () => {
     await user.keyboard('{Escape}');
     expect(button).toHaveAttribute('aria-expanded', 'false');
   });
-  it('footer sadrÃƒâ€¦Ã‚Â¾i potvrÃƒâ€žÃ¢â‚¬Ëœene linkove i lokacije', () => {
+  it('footer sadrži potvrđene linkove i lokacije', () => {
     render(<Footer />);
     expect(screen.getByText(/Nade Dimi/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Facebooku/ })).toHaveAttribute(

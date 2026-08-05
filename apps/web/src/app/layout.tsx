@@ -4,6 +4,7 @@ import { SiteChrome } from '@/components/layout/site-chrome';
 import { siteUrl } from '@/lib/config/env';
 import { AppProviders } from '@/components/providers/app-providers';
 import './globals.css';
+import './storefront-polish.css';
 const sans = Manrope({
   variable: '--font-sans',
   subsets: ['latin', 'latin-ext'],
@@ -16,11 +17,11 @@ const serif = Cormorant_Garamond({
   display: 'swap',
 });
 const description =
-  'Mleko, surutka, sirevi i sezonski proizvodi Borske Farmice. PoruÃ„Âivanje uz liÃ„Âno preuzimanje u Boru i na Gradskoj pijaci subotom.';
+  'Mleko, surutka, sirevi i sezonski proizvodi Borske Farmice. Poručivanje uz lično preuzimanje u Boru i na Gradskoj pijaci subotom.';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
+    default: 'Borska Farmica | Domaći proizvodi iz Bora',
     template: '%s | Borska Farmica',
   },
   description,
@@ -29,12 +30,12 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'sr_Latn_RS',
     siteName: 'Borska Farmica',
-    title: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
+    title: 'Borska Farmica | Domaći proizvodi iz Bora',
     description,
   },
   twitter: {
     card: 'summary',
-    title: 'Borska Farmica | DomaÃ„â€¡i proizvodi iz Bora',
+    title: 'Borska Farmica | Domaći proizvodi iz Bora',
     description,
   },
 };
@@ -47,7 +48,7 @@ export default function RootLayout({
     <html lang="sr-Latn" className={`${sans.variable} ${serif.variable}`}>
       <body>
         <a className="skip-link" href="#glavni-sadrzaj">
-          PreskoÃ„Âi na glavni sadrÃ…Â¾aj
+          Preskoči na glavni sadržaj
         </a>
         <AppProviders>
           <SiteChrome>{children}</SiteChrome>

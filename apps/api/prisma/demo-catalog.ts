@@ -1,0 +1,193 @@
+﻿import type { PrismaClient } from '../src/generated/prisma/client';
+
+const demos = [
+  {
+    name: 'Mladi kozji sir',
+    slug: 'mladi-kozji-sir',
+    categorySlug: 'mlecni-proizvodi',
+    sku: 'DEMO-SIR-1KG',
+    variant: 'Pakovanje 1 kg',
+    price: '1250.00',
+    amount: '1.000',
+    unit: 'KILOGRAM' as const,
+    stock: '38.000',
+    image: 'mladi-kozji-sir.webp',
+    featured: true,
+  },
+  {
+    name: 'Sveže kozje mleko',
+    slug: 'sveze-kozje-mleko',
+    categorySlug: 'mlecni-proizvodi',
+    sku: 'DEMO-MLEKO-1L',
+    variant: 'Flaša 1 l',
+    price: '220.00',
+    amount: '1.000',
+    unit: 'LITER' as const,
+    stock: '112.000',
+    image: 'kozje-mleko.webp',
+    featured: true,
+  },
+  {
+    name: 'Sveža surutka',
+    slug: 'sveza-surutka',
+    categorySlug: 'mlecni-proizvodi',
+    sku: 'DEMO-SURUTKA-1L',
+    variant: 'Flaša 1 l',
+    price: '120.00',
+    amount: '1.000',
+    unit: 'LITER' as const,
+    stock: '64.000',
+    image: 'surutka.webp',
+    featured: true,
+  },
+  {
+    name: 'Domaća jaja',
+    slug: 'domaca-jaja',
+    categorySlug: 'jaja',
+    sku: 'DEMO-JAJA-10',
+    variant: 'Pakovanje 10 komada',
+    price: '300.00',
+    amount: '10.000',
+    unit: 'PIECE' as const,
+    stock: '86.000',
+    image: 'jaja.webp',
+    featured: true,
+  },
+  {
+    name: 'Paradajz',
+    slug: 'paradajz',
+    categorySlug: 'povrce',
+    sku: 'DEMO-PARADAJZ-1KG',
+    variant: '1 kg',
+    price: '180.00',
+    amount: '1.000',
+    unit: 'KILOGRAM' as const,
+    stock: '42.000',
+    image: 'paradajz.webp',
+    featured: false,
+  },
+  {
+    name: 'Krastavac',
+    slug: 'krastavac',
+    categorySlug: 'povrce',
+    sku: 'DEMO-KRASTAVAC-1KG',
+    variant: '1 kg',
+    price: '150.00',
+    amount: '1.000',
+    unit: 'KILOGRAM' as const,
+    stock: '35.000',
+    image: 'krastavac.webp',
+    featured: false,
+  },
+  {
+    name: 'Maline',
+    slug: 'maline',
+    categorySlug: 'voce',
+    sku: 'DEMO-MALINE-125G',
+    variant: 'Pakovanje 125 g',
+    price: '220.00',
+    amount: '125.000',
+    unit: 'GRAM' as const,
+    stock: '20.000',
+    image: 'maline.webp',
+    featured: false,
+  },
+] as const;
+
+export async function seedDemoCatalog(prisma: PrismaClient) {
+  for (const item of demos) {
+    const category = await prisma.category.findUniqueOrThrow({
+      where: { slug: item.categorySlug },
+    });
+    const product = await prisma.product.upsert({
+      where: { slug: item.slug },
+      update: {
+        categoryId: category.id,
+        name: item.name,
+        shortDescription:
+          'Razvojni primer proizvoda za proveru kompletne prodavnice.',
+        status: 'ACTIVE',
+        isFeatured: item.featured,
+        isMainProduct: item.featured,
+        availabilityMode: 'ALWAYS',
+        isManuallyAvailable: true,
+      },
+      create: {
+        categoryId: category.id,
+        name: item.name,
+        slug: item.slug,
+        shortDescription:
+          'Razvojni primer proizvoda za proveru kompletne prodavnice.',
+        description:
+          'Ovo je lokalni razvojni primer. Pre stvarne prodaje proverite cenu, pakovanje, zalihu i opis kroz admin panel.',
+        status: 'ACTIVE',
+        isFeatured: item.featured,
+        isMainProduct: item.featured,
+        availabilityMode: 'ALWAYS',
+        isManuallyAvailable: true,
+      },
+    });
+    await prisma.productVariant.upsert({
+      where: { sku: item.sku },
+      update: {
+        productId: product.id,
+        name: item.variant,
+        price: item.price,
+        packageAmount: item.amount,
+        measurementUnit: item.unit,
+        stockQuantity: item.stock,
+        lowStockThreshold: '3.000',
+        minimumPurchaseQuantity: '1.000',
+        purchaseIncrement: '1.000',
+        isDefault: true,
+        isActive: true,
+      },
+      create: {
+        productId: product.id,
+        name: item.variant,
+        sku: item.sku,
+        price: item.price,
+        packageAmount: item.amount,
+        measurementUnit: item.unit,
+        stockQuantity: item.stock,
+        lowStockThreshold: '3.000',
+        minimumPurchaseQuantity: '1.000',
+        purchaseIncrement: '1.000',
+        isDefault: true,
+        isActive: true,
+      },
+    });
+    const storageKey = `demo/${item.image}`;
+    await prisma.productImage.upsert({
+      where: {
+        storageProvider_storageKey: {
+          storageProvider: 'local-demo',
+          storageKey,
+        },
+      },
+      update: {
+        productId: product.id,
+        url: `/images/products/${item.image}`,
+        width: 900,
+        height: 900,
+        format: 'webp',
+        altText: `${item.name} — Borska Farmica`,
+        isPrimary: true,
+        sortOrder: 0,
+      },
+      create: {
+        productId: product.id,
+        url: `/images/products/${item.image}`,
+        storageProvider: 'local-demo',
+        storageKey,
+        width: 900,
+        height: 900,
+        format: 'webp',
+        altText: `${item.name} — Borska Farmica`,
+        isPrimary: true,
+        sortOrder: 0,
+      },
+    });
+  }
+  return demos.length;
+}

@@ -62,11 +62,11 @@ export function CheckoutPage({
     setError('');
   };
   if (auth.status === 'loading')
-    return <div className="checkout-skeleton">UÄitavanje checkout-aâ€¦</div>;
+    return <div className="checkout-skeleton">Učitavanje checkout-a…</div>;
   if (auth.status !== 'authenticated') return null;
   if (cart.isLoading || pickups.isLoading)
     return (
-      <div className="checkout-skeleton">Proveravamo korpu i lokacijeâ€¦</div>
+      <div className="checkout-skeleton">Proveravamo korpu i lokacije…</div>
     );
   if (cart.isError || pickups.isError)
     return (
@@ -78,7 +78,7 @@ export function CheckoutPage({
             void pickups.refetch();
           }}
         >
-          PokuÅ¡ajte ponovo
+          Pokušajte ponovo
         </button>
       </div>
     );
@@ -116,8 +116,8 @@ export function CheckoutPage({
     } catch (e) {
       setError(
         e instanceof BrowserApiError && ['network', 'timeout'].includes(e.kind)
-          ? 'Nismo dobili potvrdu servera. PokuÅ¡ajte ponovo â€” isti bezbedni zahtev neÄ‡e napraviti duplu porudÅ¾binu.'
-          : 'PorudÅ¾bina nije poslata. Podaci su se moÅ¾da promenili; proverite preview i pokuÅ¡ajte ponovo.',
+          ? 'Nismo dobili potvrdu servera. Pokušajte ponovo — isti bezbedni zahtev neće napraviti duplu porudžbinu.'
+          : 'Porudžbina nije poslata. Podaci su se možda promenili; proverite preview i pokušajte ponovo.',
       );
       summary.current?.focus();
     }
@@ -125,14 +125,14 @@ export function CheckoutPage({
   return (
     <div className="checkout-grid">
       <section>
-        <ol className="checkout-steps" aria-label="Koraci poruÄivanja">
+        <ol className="checkout-steps" aria-label="Koraci poručivanja">
           <li>1. Nalog i korpa</li>
           <li>2. Preuzimanje</li>
           <li>3. Pregled</li>
         </ol>
         {invalid && (
           <div className="form-summary" role="alert">
-            <p>Korpa sadrÅ¾i stavku koju morate ispraviti.</p>
+            <p>Korpa sadrži stavku koju morate ispraviti.</p>
             <Link href="/korpa">Ispravite korpu</Link>
           </div>
         )}
@@ -181,7 +181,7 @@ export function CheckoutPage({
           </fieldset>
           {selected && (
             <label className="form-field">
-              <span>Å½eljeni datum preuzimanja</span>
+              <span>Željeni datum preuzimanja</span>
               <input
                 type="date"
                 min={today}
@@ -195,12 +195,12 @@ export function CheckoutPage({
               <small>
                 {selected.allowedWeekday === 6
                   ? 'Za Gradsku pijacu izaberite subotu.'
-                  : 'TaÄan termin potvrÄ‘ujemo telefonom.'}
+                  : 'Tačan termin potvrđujemo telefonom.'}
               </small>
             </label>
           )}
           <label className="form-field">
-            <span>Napomena za Borsku Farmicu â€” opciono</span>
+            <span>Napomena za Borsku Farmicu — opciono</span>
             <textarea
               maxLength={500}
               value={note}
@@ -213,16 +213,16 @@ export function CheckoutPage({
           </label>
         </section>
         <section className="checkout-section">
-          <h2>PlaÄ‡anje</h2>
+          <h2>Plaćanje</h2>
           <strong>Gotovina pri preuzimanju</strong>
-          <p>Nema online naplate niti unosa kartice. Iznos plaÄ‡ate uÅ¾ivo.</p>
+          <p>Nema online naplate niti unosa kartice. Iznos plaćate uživo.</p>
         </section>
         <button
           className="button button-secondary"
           disabled={!payload || invalid || preview.isFetching}
           onClick={() => setPreviewPayload(payload)}
         >
-          {preview.isFetching ? 'Proveraâ€¦' : 'PrikaÅ¾i serverski pregled'}
+          {preview.isFetching ? 'Provera…' : 'Prikaži serverski pregled'}
         </button>
       </section>
       <aside className="checkout-preview">
@@ -233,18 +233,18 @@ export function CheckoutPage({
         )}
         {preview.data && (
           <>
-            <h2>Pregled porudÅ¾bine</h2>
+            <h2>Pregled porudžbine</h2>
             {preview.data.items.map((i) => (
               <div className="preview-item" key={i.cartItemId}>
                 <span>
-                  {i.productName} â€” {i.variantName}
+                  {i.productName} — {i.variantName}
                   <small>
-                    {i.quantity} Ã— {formatRsd(i.unitPrice)}
+                    {i.quantity} × {formatRsd(i.unitPrice)}
                   </small>
                 </span>
                 <strong>{formatRsd(i.lineTotal)}</strong>
                 {!i.available && (
-                  <small>Stavka trenutno blokira poruÄivanje.</small>
+                  <small>Stavka trenutno blokira poručivanje.</small>
                 )}
               </div>
             ))}
@@ -254,7 +254,7 @@ export function CheckoutPage({
             </div>
             {!preview.data.valid && (
               <div className="form-summary">
-                Preview sadrÅ¾i probleme. Vratite se u korpu.
+                Preview sadrži probleme. Vratite se u korpu.
               </div>
             )}
             <button
@@ -262,7 +262,7 @@ export function CheckoutPage({
               disabled={!preview.data.valid || create.isPending}
               onClick={() => void submit()}
             >
-              {create.isPending ? 'Slanjeâ€¦' : 'PoÅ¡alji porudÅ¾binu'}
+              {create.isPending ? 'Slanje…' : 'Pošalji porudžbinu'}
             </button>
           </>
         )}

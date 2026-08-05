@@ -30,9 +30,9 @@ export function PasswordField({
         <button
           type="button"
           onClick={() => setShow((v) => !v)}
-          aria-label={show ? 'Sakrij lozinku' : 'PrikaÅ¾i lozinku'}
+          aria-label={show ? 'Sakrij lozinku' : 'Prikaži lozinku'}
         >
-          {show ? 'Sakrij' : 'PrikaÅ¾i'}
+          {show ? 'Sakrij' : 'Prikaži'}
         </button>
       </span>
       {error && (
