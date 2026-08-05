@@ -1,12 +1,8 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import type { Category } from '@/types/catalog';
 import type { CatalogQuery } from '@/types/catalog-query';
 import { catalogHref } from '@/lib/catalog/query';
-const modes = [
-  ['ALWAYS', 'Dostupno tokom cele godine'],
-  ['SEASONAL', 'Sezonska ponuda'],
-  ['MANUAL', 'Dostupnost po dogovoru'],
-] as const;
+
 export function CatalogFilters({
   query,
   categories,
@@ -17,20 +13,23 @@ export function CatalogFilters({
   return (
     <div className="filter-groups">
       <fieldset>
-        <legend>Kategorija</legend>
+        <legend>Kategorije</legend>
         <Link
           className={!query.category ? 'active' : ''}
           href={catalogHref(query, { category: undefined })}
         >
-          Sve
+          <span className="filter-check" />
+          Svi proizvodi
         </Link>
-        {categories.map((c) => (
+        {categories.map((category) => (
           <Link
-            key={c.id}
-            className={query.category === c.slug ? 'active' : ''}
-            href={catalogHref(query, { category: c.slug })}
+            key={category.id}
+            className={query.category === category.slug ? 'active' : ''}
+            href={catalogHref(query, { category: category.slug })}
           >
-            {c.name}
+            <span className="filter-check" />
+            {category.name}
+            <small>{category.productCount}</small>
           </Link>
         ))}
       </fieldset>
@@ -42,6 +41,7 @@ export function CatalogFilters({
             inStock: query.inStock ? undefined : true,
           })}
         >
+          <span className="filter-check" />
           Na stanju
         </Link>
         <Link
@@ -50,29 +50,25 @@ export function CatalogFilters({
             featured: query.featured ? undefined : true,
           })}
         >
+          <span className="filter-check" />
           Izdvojeni proizvodi
         </Link>
-      </fieldset>
-      <fieldset>
-        <legend>Tip dostupnosti</legend>
         <Link
-          className={!query.availabilityMode ? 'active' : ''}
-          href={catalogHref(query, { availabilityMode: undefined })}
+          className={query.availabilityMode === 'SEASONAL' ? 'active' : ''}
+          href={catalogHref(query, {
+            availabilityMode:
+              query.availabilityMode === 'SEASONAL' ? undefined : 'SEASONAL',
+          })}
         >
-          Svi
+          <span className="filter-check" />
+          Sezonski dostupno
         </Link>
-        {modes.map(([value, label]) => (
-          <Link
-            key={value}
-            className={query.availabilityMode === value ? 'active' : ''}
-            href={catalogHref(query, { availabilityMode: value })}
-          >
-            {label}
-          </Link>
-        ))}
       </fieldset>
+      <Link className="filter-apply" href={catalogHref(query, {})}>
+        Primeni filtere
+      </Link>
       <Link className="clear-filters" href="/proizvodi">
-        Obriši filtere
+        Poništi sve
       </Link>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/prisma/client';
+﻿import { Prisma } from '../generated/prisma/client';
 import { AvailabilityMode } from '../generated/prisma/enums';
 import { calculateAvailability, AvailabilityWindowInput } from './availability';
 import { ProductListItemDto } from './dto/product-response.dto';
@@ -15,6 +15,7 @@ export interface ProductListRecord {
   isManuallyAvailable: boolean;
   category: { name: string; slug: string };
   variants: Array<{
+    name: string;
     price: DecimalValue;
     stockQuantity: DecimalValue;
     reservedQuantity: DecimalValue;
@@ -57,6 +58,7 @@ export function mapProductListItem(
           height: record.images[0].height ?? null,
         }
       : null,
+    packageLabel: record.variants[0].name,
     startingPrice: record.variants[0].price.toFixed(2),
     availability,
   };

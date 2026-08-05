@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+﻿import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../database/prisma.service';
 import { createPaginationMetadata } from '../common/pagination/pagination';
@@ -72,6 +72,7 @@ export class ProductsService {
             where: { isActive: true },
             orderBy: [{ price: 'asc' }, { sortOrder: 'asc' }],
             select: {
+              name: true,
               price: true,
               stockQuantity: true,
               reservedQuantity: true,

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+﻿import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ProductPreviewCard } from './product-preview-card';
 import type { ProductPreview } from '@/types/catalog';
@@ -11,6 +11,7 @@ const product: ProductPreview = {
   mainProduct: true,
   category: { name: 'Sir', slug: 'sir' },
   primaryImage: null,
+  packageLabel: '1 l',
   startingPrice: '850.00',
   availability: {
     mode: 'ALWAYS',
@@ -21,7 +22,7 @@ const product: ProductPreview = {
   },
 };
 describe('ProductPreviewCard', () => {
-  it('prikazuje cenu i dostupnost bez storage ključa', () => {
+  it('prikazuje cenu i dostupnost bez storage kljuÄa', () => {
     render(<ProductPreviewCard product={product} />);
     expect(screen.getByText('Dostupno')).toBeInTheDocument();
     expect(screen.queryByText(/storage/i)).not.toBeInTheDocument();

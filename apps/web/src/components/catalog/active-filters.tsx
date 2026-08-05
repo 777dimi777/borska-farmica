@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import type { Category } from '@/types/catalog';
 import type { CatalogQuery } from '@/types/catalog-query';
 import { catalogHref } from '@/lib/catalog/query';
@@ -20,7 +20,8 @@ export function ActiveFilters({
   if (query.category)
     chips.push([
       'category',
-      categories.find((c) => c.slug === query.category)?.name ?? query.category,
+      categories.find((category) => category.slug === query.category)?.name ??
+        query.category,
       { category: undefined },
     ]);
   if (query.inStock) chips.push(['stock', 'Na stanju', { inStock: undefined }]);

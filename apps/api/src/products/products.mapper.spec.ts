@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/prisma/client';
+﻿import { Prisma } from '../generated/prisma/client';
 import { AvailabilityMode } from '../generated/prisma/enums';
 import { mapProductListItem, ProductListRecord } from './products.mapper';
 
@@ -17,6 +17,7 @@ const record = (
   category: { name: 'Dairy', slug: 'dairy' },
   variants: [
     {
+      name: '1 l',
       price: decimal('850'),
       stockQuantity: decimal('2'),
       reservedQuantity: decimal('1'),
@@ -32,6 +33,7 @@ describe('mapProductListItem', () => {
   it('formats Decimal price and omits internal stock fields', () => {
     const result = mapProductListItem(record());
     expect(result.startingPrice).toBe('850.00');
+    expect(result.packageLabel).toBe('1 l');
     expect(result).not.toHaveProperty('stockQuantity');
     expect(JSON.stringify(result)).not.toContain('reservedQuantity');
   });
@@ -46,6 +48,7 @@ describe('mapProductListItem', () => {
     expect(mapProductListItem(record({ images: [] })).primaryImage).toBeNull());
   it('marks fully reserved stock unavailable', () => {
     const variant = {
+      name: '1 l',
       price: decimal('1'),
       stockQuantity: decimal('2'),
       reservedQuantity: decimal('2'),
@@ -57,6 +60,7 @@ describe('mapProductListItem', () => {
   });
   it('allows backorder without available physical stock', () => {
     const variant = {
+      name: '1 l',
       price: decimal('1'),
       stockQuantity: decimal('0'),
       reservedQuantity: decimal('0'),

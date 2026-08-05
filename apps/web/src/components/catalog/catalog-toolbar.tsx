@@ -1,6 +1,7 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import type { CatalogQuery } from '@/types/catalog-query';
 import { catalogHref, serializeCatalogQuery } from '@/lib/catalog/query';
+
 export function CatalogToolbar({
   query,
   total,
@@ -16,12 +17,18 @@ export function CatalogToolbar({
   });
   return (
     <div className="catalog-toolbar">
-      <form action="/proizvodi" method="get" role="search">
+      <p aria-live="polite">Pronađeno {resultLabel(total)}</p>
+      <form
+        className="catalog-search"
+        action="/proizvodi"
+        method="get"
+        role="search"
+      >
         <label htmlFor="catalog-search" className="sr-only">
           Pretraži proizvode
         </label>
-        {Array.from(preserved).map(([k, v]) => (
-          <input key={k} type="hidden" name={k} value={v} />
+        {Array.from(preserved).map(([key, value]) => (
+          <input key={key} type="hidden" name={key} value={value} />
         ))}
         <input
           id="catalog-search"
@@ -29,39 +36,39 @@ export function CatalogToolbar({
           name="search"
           defaultValue={query.search}
           maxLength={100}
-          placeholder="Pretraži proizvode"
+          placeholder="Pretraži proizvode..."
         />
-        <button type="submit">Pretraži</button>
+        <button type="submit" aria-label="Pretraži">
+          ⌕
+        </button>
         {query.search && (
-          <Link
-            href={catalogHref(query, { search: undefined })}
-            aria-label="Obriši pretragu"
-          >
-            Obriši
-          </Link>
+          <Link href={catalogHref(query, { search: undefined })}>Obriši</Link>
         )}
       </form>
-      <form action="/proizvodi" method="get">
-        <label htmlFor="catalog-sort">Sortiranje</label>
+      <form className="catalog-sort" action="/proizvodi" method="get">
+        <label htmlFor="catalog-sort" className="sr-only">
+          Sortiranje
+        </label>
+        <span className="catalog-sort-visible" aria-hidden="true">
+          Sortiraj:
+        </span>
         {Array.from(
           serializeCatalogQuery({ ...query, page: 1, sort: undefined }),
-        ).map(([k, v]) => (
-          <input key={k} type="hidden" name={k} value={v} />
+        ).map(([key, value]) => (
+          <input key={key} type="hidden" name={key} value={value} />
         ))}
         <select id="catalog-sort" name="sort" defaultValue={query.sort}>
-          <option value="featured">Prvo izdvojeni</option>
+          <option value="featured">Izdvojeno</option>
           <option value="newest">Najnovije</option>
           <option value="name_asc">Naziv A–Ž</option>
           <option value="name_desc">Naziv Ž–A</option>
         </select>
         <button type="submit">Primeni</button>
       </form>
-      <p aria-live="polite">{resultLabel(total)}</p>
     </div>
   );
 }
 export function resultLabel(total: number) {
   if (total === 0) return 'Nema pronađenih proizvoda';
-  if (total === 1) return '1 proizvod';
-  return `${total} proizvoda`;
+  return total === 1 ? '1 proizvod' : `${total} proizvoda`;
 }

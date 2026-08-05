@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+﻿import { ApiProperty } from '@nestjs/swagger';
 import { AvailabilityMode } from '../../generated/prisma/enums';
 import { PaginationMetadataDto } from '../../common/pagination/pagination-response.dto';
 
@@ -30,6 +30,7 @@ export class ProductListItemDto {
   @ApiProperty({ type: ProductCategoryDto }) category!: ProductCategoryDto;
   @ApiProperty({ type: ProductImageDto, nullable: true })
   primaryImage!: ProductImageDto | null;
+  @ApiProperty({ example: '1 l' }) packageLabel!: string;
   @ApiProperty({ example: '850.00' }) startingPrice!: string;
   @ApiProperty({ type: ProductAvailabilityDto })
   availability!: ProductAvailabilityDto;

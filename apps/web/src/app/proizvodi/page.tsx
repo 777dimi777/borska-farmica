@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Container } from '@/components/ui/container';
@@ -13,13 +14,14 @@ import { Pagination } from '@/components/catalog/pagination';
 import { getCategories, getProducts } from '@/lib/api/catalog';
 import { parseCatalogQuery, serializeCatalogQuery } from '@/lib/catalog/query';
 import type { SearchParams } from '@/types/catalog-query';
+
 export async function generateMetadata({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
 }): Promise<Metadata> {
-  const p = await searchParams;
-  const filtered = Object.keys(p).length > 0;
+  const params = await searchParams;
+  const filtered = Object.keys(params).length > 0;
   return {
     title: 'Proizvodi',
     description: 'Pretražite aktuelnu ponudu proizvoda Borske Farmice.',
@@ -29,6 +31,16 @@ export async function generateMetadata({
       : { index: true, follow: true },
   };
 }
+
+const categoryIcons: Record<string, string> = {
+  'mlecni-proizvodi': '♙',
+  voce: '♧',
+  povrce: '♧',
+  rakija: '♙',
+  jaja: '◉',
+  'stajsko-djubrivo': '♧',
+};
+
 export default async function ProductsPage({
   searchParams,
 }: {
@@ -65,30 +77,44 @@ export default async function ProductsPage({
   const filterUi = <CatalogFilters query={query} categories={categories} />;
   return (
     <CatalogShell>
-      <div className="category-shortcuts">
+      <nav className="offer-category-tabs" aria-label="Kategorije proizvoda">
         <Link href="/proizvodi" className={!query.category ? 'active' : ''}>
-          Sve
+          <span>▦</span>
+          <strong>Svi proizvodi</strong>
+          <small>
+            {categories.reduce((sum, item) => sum + item.productCount, 0)}{' '}
+            proizvoda
+          </small>
         </Link>
-        {categories.map((c) => (
+        {categories.slice(0, 5).map((category) => (
           <Link
-            key={c.id}
-            href={`/proizvodi?category=${encodeURIComponent(c.slug)}`}
-            className={query.category === c.slug ? 'active' : ''}
+            key={category.id}
+            href={`/proizvodi?category=${encodeURIComponent(category.slug)}`}
+            className={query.category === category.slug ? 'active' : ''}
           >
-            {c.name}
+            <span>{categoryIcons[category.slug] ?? '♧'}</span>
+            <strong>{category.name}</strong>
+            <small>{category.productCount} proizvoda</small>
           </Link>
         ))}
-      </div>
-      <CatalogToolbar query={query} total={result.pagination.total} />
-      <ActiveFilters query={query} categories={categories} />
-      <MobileFilters count={activeCount}>{filterUi}</MobileFilters>
-      <div className="catalog-layout">
-        <aside>{filterUi}</aside>
+      </nav>
+      <div className="offer-toolbar-row">
         <div>
+          <CatalogToolbar query={query} total={result.pagination.total} />
+          <ActiveFilters query={query} categories={categories} />
+        </div>
+        <MobileFilters count={activeCount}>{filterUi}</MobileFilters>
+      </div>
+      <div className="offer-catalog-layout">
+        <aside className="offer-filter-panel">
+          <h2>Filtriraj ponudu</h2>
+          {filterUi}
+        </aside>
+        <main>
           {result.data.length ? (
-            <div className="catalog-grid">
-              {result.data.map((p) => (
-                <ProductPreviewCard key={p.id} product={p} />
+            <div className="offer-catalog-grid">
+              {result.data.map((product) => (
+                <ProductPreviewCard key={product.id} product={product} />
               ))}
             </div>
           ) : result.pagination.total === 0 && activeCount === 0 ? (
@@ -103,34 +129,86 @@ export default async function ProductsPage({
             </div>
           )}
           <Pagination query={query} pagination={result.pagination} />
+        </main>
+      </div>
+      <section className="offer-promo">
+        <Image
+          src="/images/farm-hero.webp"
+          alt="Izbor proizvoda Borske Farmice"
+          fill
+          sizes="(max-width: 800px) 100vw, 45vw"
+        />
+        <div>
+          <p className="eyebrow">Pomoć pri izboru</p>
+          <h2>Ne znate šta da izaberete?</h2>
+          <p>
+            Pogledajte izdvojene proizvode i napravite kombinaciju za lično
+            preuzimanje.
+          </p>
+          <Link href="/proizvodi?featured=true">Pogledaj izdvojeno →</Link>
         </div>
-      </div>
-      <div className="catalog-info">
-        <strong>Kupovina i preuzimanje</strong>
-        <p>
-          Porudžbinu potvrđuje Borska Farmica. Plaćanje je gotovinom, uz lično
-          preuzimanje u Boru ili na Gradskoj pijaci subotom.
-        </p>
-      </div>
+      </section>
+      <section className="offer-benefits" aria-label="Prednosti kupovine">
+        <article>
+          <span>⌂</span>
+          <div>
+            <strong>Lokalna proizvodnja</strong>
+            <small>Proizvedeno na našoj farmici u Boru</small>
+          </div>
+        </article>
+        <article>
+          <span>✓</span>
+          <div>
+            <strong>Proverena ponuda</strong>
+            <small>Stvarna dostupnost iz kataloga</small>
+          </div>
+        </article>
+        <article>
+          <span>▣</span>
+          <div>
+            <strong>Lično preuzimanje</strong>
+            <small>Nade Dimić 30 ili pijaca subotom</small>
+          </div>
+        </article>
+        <article>
+          <span>●</span>
+          <div>
+            <strong>Sigurno plaćanje</strong>
+            <small>Gotovinom tek pri preuzimanju</small>
+          </div>
+        </article>
+      </section>
     </CatalogShell>
   );
 }
+
 function CatalogShell({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <section className="catalog-hero">
+      <section className="offer-hero">
         <Container>
-          <Breadcrumbs
-            items={[{ label: 'Početna', href: '/' }, { label: 'Proizvodi' }]}
-          />
-          <p className="eyebrow">Aktuelni katalog</p>
-          <h1>Domaća ponuda Borske Farmice</h1>
-          <p>
-            Dostupnost sezonskih proizvoda zavisi od perioda i trenutnih zaliha.
-          </p>
+          <div className="offer-hero-copy">
+            <Breadcrumbs
+              items={[{ label: 'Početna', href: '/' }, { label: 'Proizvodi' }]}
+            />
+            <h1>Naša ponuda</h1>
+            <p>
+              Sveže, domaće i pažljivo pripremljeno — izaberite proizvode sa
+              naše farmice.
+            </p>
+          </div>
+          <div className="offer-hero-image">
+            <Image
+              src="/images/farm-hero.webp"
+              alt="Sir, mleko, surutka i sezonska ponuda"
+              fill
+              priority
+              sizes="(max-width: 800px) 100vw, 58vw"
+            />
+          </div>
         </Container>
       </section>
-      <section className="section catalog-page">
+      <section className="offer-page">
         <Container>{children}</Container>
       </section>
     </>

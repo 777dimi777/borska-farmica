@@ -1,4 +1,4 @@
-export type AvailabilityMode = 'ALWAYS' | 'MANUAL' | 'SEASONAL';
+﻿export type AvailabilityMode = 'ALWAYS' | 'MANUAL' | 'SEASONAL';
 export interface Category {
   id: string;
   name: string;
@@ -29,6 +29,7 @@ export interface ProductPreview {
   mainProduct: boolean;
   category: { name: string; slug: string };
   primaryImage: ProductImage | null;
+  packageLabel: string;
   startingPrice: string;
   availability: ProductAvailability;
 }
