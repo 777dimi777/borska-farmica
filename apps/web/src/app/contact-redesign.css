@@ -282,6 +282,40 @@
   top: 58%;
   font: 700 1.8rem var(--font-serif);
 }
+.contact-map-embed {
+  position: relative;
+  display: block;
+  min-height: 430px;
+  overflow: hidden;
+  border: 1px solid #d5cbb5;
+  border-radius: 1rem;
+  background: #e8efda;
+  cursor: pointer;
+}
+.contact-map-embed iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  border: 0;
+  pointer-events: none;
+  filter: saturate(0.85) contrast(0.95);
+}
+.contact-map-embed > span {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  background: #155033;
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgb(21 80 51 / 25%);
+}
+.contact-map-embed:hover > span,
+.contact-map-embed:focus-visible > span {
+  background: #0d3d27;
+  transform: translateY(-2px);
+}
 .contact-map-layout > article {
   padding: 2rem;
   background: #fffaf0;

@@ -249,16 +249,22 @@ export function ContactReferencePage() {
             <h2>Pronađite nas u Boru</h2>
           </header>
           <div className="contact-map-layout">
-            <div className="contact-map-art">
-              <i />
-              <i />
-              <i />
-              <span>
-                ⌖ <strong>Borska Farmica</strong>
-                <small>Nade Dimić 30, Bor</small>
-              </span>
-              <b>Bor</b>
-            </div>
+            <a
+              className="contact-map-embed"
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Otvori lokaciju Borske Farmice u Google mapama"
+            >
+              <iframe
+                title="Mapa lokacije Borske Farmice"
+                src="https://www.google.com/maps?q=Nade%20Dimi%C4%87%2030%2C%20Bor%2C%20Serbia&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                tabIndex={-1}
+              />
+              <span>Otvori mapu</span>
+            </a>
             <article>
               <span>⌖</span>
               <h3>Preuzimanje na adresi</h3>
