@@ -140,20 +140,18 @@ export function PickupContent() {
             <h2>Dve jednostavne opcije u Boru</h2>
           </header>
           <div className="pickup-map-layout">
-            <div
-              className="pickup-map-art"
-              aria-label="Ilustracija lokacija preuzimanja u Boru"
-            >
-              <i />
-              <i />
-              <i />
-              <span className="pin pin-home">
-                ⌖ <b>Nade Dimić 30</b>
-              </span>
-              <span className="pin pin-market">
-                ⌖ <b>Gradska pijaca</b>
-              </span>
-              <strong>Bor</strong>
+            <div className="pickup-location-photo">
+              <Image
+                src="/images/pastir-i-koze.webp"
+                alt="Koze na zelenom pasnjaku Borske Farmice kod Bora"
+                fill
+                sizes="(max-width: 900px) 100vw, 55vw"
+              />
+              <div>
+                <span>Bor, isto&#269;na Srbija</span>
+                <strong>Doma&#263;e, lokalno i li&#269;no.</strong>
+                <small>Dve sigurne lokacije za preuzimanje.</small>
+              </div>
             </div>
             <div className="pickup-location-list">
               <article>
@@ -178,14 +176,24 @@ export function PickupContent() {
                   </p>
                 </div>
               </article>
-              <a
-                className="button button-primary"
-                href={mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Pronađi adresu →
-              </a>
+              <div className="pickup-location-actions">
+                <a
+                  className="button button-primary"
+                  href={mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Mapa do ku&#263;e &#8594;
+                </a>
+                <a
+                  className="button button-secondary"
+                  href={marketMapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Mapa do pijace &#8594;
+                </a>
+              </div>
             </div>
           </div>
         </Container>

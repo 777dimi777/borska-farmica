@@ -231,60 +231,61 @@
   grid-template-columns: 1.25fr 1fr;
   gap: 1rem;
 }
-.pickup-map-art {
+.pickup-location-photo {
   position: relative;
   min-height: 430px;
   overflow: hidden;
   border: 1px solid #d8cfbc;
-  border-radius: 1rem;
-  background:
-    linear-gradient(25deg, transparent 48%, #a9bea7 49% 51%, transparent 52%),
-    linear-gradient(155deg, transparent 45%, #c5a96d 46% 48%, transparent 49%),
-    radial-gradient(ellipse at 20% 30%, #d1dcba 0 18%, transparent 19%),
-    radial-gradient(ellipse at 70% 70%, #e1c98f 0 16%, transparent 17%), #eaf0d9;
+  border-radius: 1.35rem;
+  background: #dfe8d8;
+  box-shadow: 0 18px 45px rgb(34 70 48 / 12%);
 }
-.pickup-map-art i {
+.pickup-location-photo:after {
+  content: '';
   position: absolute;
-  width: 140%;
-  height: 42px;
-  border: 2px solid #82a7a2;
-  border-left: 0;
-  border-right: 0;
-  border-radius: 50%;
-  transform: rotate(-20deg);
-  left: -20%;
-  top: 48%;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 42%, rgb(5 40 24 / 78%) 100%);
 }
-.pickup-map-art i:nth-child(2) {
-  transform: rotate(40deg);
-  top: 25%;
-  border-color: #c7b889;
+.pickup-location-photo img {
+  object-fit: cover;
 }
-.pickup-map-art i:nth-child(3) {
-  transform: rotate(8deg);
-  top: 78%;
-  border-color: #8eae82;
-}
-.pickup-map-art > strong {
+.pickup-location-photo > div {
   position: absolute;
-  inset: 46% auto auto 45%;
-  font: 700 2rem var(--font-serif);
+  z-index: 2;
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 1.4rem;
+  display: grid;
+  gap: 0.2rem;
+  color: white;
 }
-.pickup-map-art .pin {
-  position: absolute;
-  background: white;
-  padding: 0.7rem 1rem;
+.pickup-location-photo span {
+  width: max-content;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgb(255 255 255 / 45%);
   border-radius: 999px;
-  box-shadow: 0 4px 18px #2345;
-  color: #174b35;
+  background: rgb(255 255 255 / 16%);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
 }
-.pin-home {
-  left: 8%;
-  top: 18%;
+.pickup-location-photo strong {
+  font: 700 clamp(1.8rem, 3vw, 2.7rem) var(--font-serif);
 }
-.pin-market {
-  right: 7%;
-  bottom: 18%;
+.pickup-location-photo small {
+  color: #eaf2eb;
+  font-size: 0.95rem;
+}
+.pickup-location-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.pickup-location-actions .button {
+  width: 100%;
+  text-align: center;
 }
 .pickup-location-list {
   display: flex;
@@ -610,6 +611,9 @@
   .pickup-details-section > .container {
     grid-template-columns: 1fr;
   }
+  .pickup-location-actions {
+    grid-template-columns: 1fr;
+  }
   .pickup-details-photo {
     grid-area: auto;
     min-height: 260px;
@@ -617,12 +621,10 @@
   .pickup-final-cta img {
     height: 220px;
   }
-  .pickup-map-art {
+  .pickup-location-photo {
     min-height: 330px;
   }
-  .pickup-map-art .pin {
-    font-size: 0.72rem;
-  }
+
   .pickup-payment-section,
   .pickup-faq-section,
   .pickup-map-section,
