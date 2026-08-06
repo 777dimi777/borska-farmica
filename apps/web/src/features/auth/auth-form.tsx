@@ -8,6 +8,8 @@ import { useAuth } from './auth-provider';
 import { safeReturnTo } from './return-to';
 import { PasswordField } from './password-field';
 import { BrowserApiError } from '@/lib/browser-api/client';
+import { adminAuthApi } from '@/features/admin/api';
+import { adminMemorySession } from '@/features/admin/session';
 const schema = z.object({
   email: z.email('Unesite ispravnu email adresu.').max(254),
   password: z.string().min(1, 'Unesite lozinku.').max(128),
@@ -47,9 +49,25 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
       }
     }
     try {
-      if (mode === 'login')
-        await auth.login({ email: v.email, password: v.password });
-      else
+      if (mode === 'login') {
+        try {
+          await auth.login({ email: v.email, password: v.password });
+        } catch (customerError) {
+          if (
+            !(customerError instanceof BrowserApiError) ||
+            customerError.kind !== 'unauthenticated'
+          )
+            throw customerError;
+          const adminAuth = await adminAuthApi.login({
+            email: v.email,
+            password: v.password,
+          });
+          adminMemorySession.set(adminAuth.accessToken);
+          reset();
+          router.replace('/admin/dashboard');
+          return;
+        }
+      } else
         await auth.register({
           firstName: v.firstName!,
           lastName: v.lastName!,

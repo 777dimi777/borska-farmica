@@ -1401,6 +1401,7 @@ h3 {
   gap: 0.6rem;
 }
 .account-control,
+.admin-dashboard-link,
 .cart-control {
   min-height: 44px;
   display: inline-flex;
@@ -1644,7 +1645,8 @@ h3 {
   .header-actions {
     margin-left: auto;
   }
-  .account-control {
+  .account-control,
+  .admin-dashboard-link {
     display: none;
   }
 }

@@ -1,18 +1,11 @@
 import type { Metadata } from 'next';
-import { AdminLogin } from '@/features/admin/admin-login';
+import { redirect } from 'next/navigation';
+
 export const metadata: Metadata = {
-  title: 'Admin prijava',
+  title: 'Prijava',
   robots: { index: false, follow: false },
 };
+
 export default function Page() {
-  return (
-    <main id="glavni-sadrzaj" className="admin-login-page">
-      <section>
-        <p className="eyebrow">Borska Farmica</p>
-        <h1>Admin prijava</h1>
-        <p>Pristup je dozvoljen samo ovlašćenim administratorima.</p>
-        <AdminLogin />
-      </section>
-    </main>
-  );
+  redirect('/prijava');
 }

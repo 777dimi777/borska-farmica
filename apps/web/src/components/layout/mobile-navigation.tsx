@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/features/auth/auth-provider';
+import { AdminNavLink } from '@/features/admin/admin-nav-link';
 const links = [
   ['Početna', '/'],
   ['Ponuda', '/proizvodi'],
@@ -54,6 +55,9 @@ export function MobileNavigation() {
                 </Link>
               </li>
             ))}
+            <li>
+              <AdminNavLink onNavigate={() => setOpen(false)} />
+            </li>
             <li>
               <Link
                 href={auth.status === 'authenticated' ? '/nalog' : '/prijava'}
