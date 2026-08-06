@@ -53,7 +53,7 @@ export function AboutContent() {
           </div>
           <div className="about-hero-photo">
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/pastir-i-koze.webp"
               alt="Borska Farmica u zelenom okruženju Bora"
               fill
               priority
@@ -110,7 +110,7 @@ export function AboutContent() {
         <Container>
           <div className="about-story-photo">
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/pravljenje-sira.webp"
               alt="Prirodno okruženje Borske Farmice"
               fill
               sizes="(max-width: 800px) 100vw, 48vw"
@@ -165,7 +165,7 @@ export function AboutContent() {
             <article>
               <div>
                 <Image
-                  src="/images/products/kozje-mleko.webp"
+                  src="/images/muza-koza.webp"
                   alt="Sveže kozje mleko"
                   fill
                   sizes="(max-width: 700px) 100vw, 33vw"
@@ -249,7 +249,7 @@ export function AboutContent() {
         <Container>
           <div className="about-origin-photo">
             <Image
-              src="/images/farm-hero.webp"
+              src="/images/ponuda-farme.webp"
               alt="Sir, mleko i surutka Borske Farmice"
               fill
               sizes="(max-width: 800px) 100vw, 50vw"
@@ -358,7 +358,7 @@ export function AboutContent() {
             </div>
           </div>
           <Image
-            src="/images/farm-hero.webp"
+            src="/images/licno-preuzimanje.webp"
             alt="Proizvodi Borske Farmice"
             width={900}
             height={600}

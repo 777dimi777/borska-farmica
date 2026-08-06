@@ -279,7 +279,7 @@ export function OrdersReferencePage({ page = 1 }: { page?: number }) {
         <section className="order-help-banner">
           <div>
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/licno-preuzimanje.webp"
               alt="Borska Farmica"
               fill
               sizes="(max-width: 700px) 100vw, 40vw"

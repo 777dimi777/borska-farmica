@@ -77,7 +77,7 @@ export function ContactReferencePage() {
           </div>
           <div className="contact-hero-photo">
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/licno-preuzimanje.webp"
               alt="Borska Farmica u Boru"
               fill
               priority
@@ -221,7 +221,7 @@ export function ContactReferencePage() {
               </div>
             </dl>
             <Image
-              src="/images/farm-hero.webp"
+              src="/images/ponuda-farme.webp"
               alt="Ponuda Borske Farmice"
               width={420}
               height={250}
@@ -477,7 +477,7 @@ export function ContactReferencePage() {
             </div>
           </div>
           <Image
-            src="/images/farm-hero.webp"
+            src="/images/pakovanje-proizvoda.webp"
             alt="Borska Farmica"
             width={620}
             height={300}

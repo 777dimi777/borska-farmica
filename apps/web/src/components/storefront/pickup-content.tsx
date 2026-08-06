@@ -37,7 +37,7 @@ export function PickupContent() {
           </div>
           <div className="pickup-hero-photo">
             <Image
-              src="/images/farm-hero.webp"
+              src="/images/licno-preuzimanje.webp"
               alt="Proizvodi Borske Farmice spremni za lično preuzimanje"
               fill
               priority
@@ -210,7 +210,7 @@ export function PickupContent() {
         <Container>
           <div className="pickup-care-photo">
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/pakovanje-proizvoda.webp"
               alt="Lokalna Borska Farmica"
               fill
               sizes="(max-width: 800px) 100vw, 50vw"
@@ -382,7 +382,7 @@ export function PickupContent() {
             </div>
           </div>
           <Image
-            src="/images/farm-hero.webp"
+            src="/images/ponuda-farme.webp"
             alt="Ponuda Borske Farmice"
             width={600}
             height={300}

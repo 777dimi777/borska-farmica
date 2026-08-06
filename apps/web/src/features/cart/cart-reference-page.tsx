@@ -241,7 +241,7 @@ export function CartReferencePage({
         <section className="cart-help-section">
           <div>
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/pakovanje-proizvoda.webp"
               alt="Borska Farmica u Boru"
               fill
               sizes="(max-width: 700px) 100vw, 38vw"

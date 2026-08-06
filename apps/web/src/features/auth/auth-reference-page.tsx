@@ -19,7 +19,7 @@ export function AuthReferencePage({ mode }: { mode: 'login' | 'register' }) {
         <section className="auth-reference-card">
           <div className="auth-visual-panel">
             <Image
-              src="/images/farm-story-v2.webp"
+              src="/images/pastir-i-koze.webp"
               alt="Borska Farmica u zelenom okruženju Bora"
               fill
               priority
@@ -164,7 +164,7 @@ export function AuthReferencePage({ mode }: { mode: 'login' | 'register' }) {
           </Link>
           <div className="auth-help-photo">
             <Image
-              src="/images/farm-hero.webp"
+              src="/images/ponuda-farme.webp"
               alt="Proizvodi Borske Farmice"
               fill
               sizes="(max-width: 700px) 100vw, 30vw"

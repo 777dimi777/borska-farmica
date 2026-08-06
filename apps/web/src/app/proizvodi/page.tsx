@@ -133,7 +133,7 @@ export default async function ProductsPage({
       </div>
       <section className="offer-promo">
         <Image
-          src="/images/farm-hero.webp"
+          src="/images/ponuda-farme.webp"
           alt="Izbor proizvoda Borske Farmice"
           fill
           sizes="(max-width: 800px) 100vw, 45vw"
@@ -199,7 +199,7 @@ function CatalogShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="offer-hero-image">
             <Image
-              src="/images/farm-hero.webp"
+              src="/images/pravljenje-sira.webp"
               alt="Sir, mleko, surutka i sezonska ponuda"
               fill
               priority
