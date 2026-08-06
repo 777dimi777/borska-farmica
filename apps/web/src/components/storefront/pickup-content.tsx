@@ -5,6 +5,8 @@ import { LinkButton } from '@/components/ui/button';
 
 const mapUrl =
   'https://www.google.com/maps/search/?api=1&query=Nade+Dimi%C4%87+30%2C+Bor';
+const marketMapUrl =
+  'https://www.google.com/maps/search/?api=1&query=Zelena+pijaca%2C+Majdanpe%C4%8Dka+bb%2C+19210+Bor';
 
 export function PickupContent() {
   return (
@@ -57,9 +59,22 @@ export function PickupContent() {
       <section id="lokacije" className="pickup-option-section">
         <Container>
           <article>
-            <div className="pickup-option-art home-art">
-              <span>⌂</span>
-            </div>
+            <a
+              className="pickup-option-map"
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Otvori Nade Dimic 30 u Google mapama"
+            >
+              <iframe
+                title="Mapa adrese Nade Dimic 30, Bor"
+                src="https://www.google.com/maps?q=Nade%20Dimi%C4%87%2030%2C%20Bor%2C%20Serbia&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                tabIndex={-1}
+              />
+              <span>Ku&#263;a - Nade Dimi&#263; 30</span>
+            </a>
             <div>
               <p className="eyebrow">Po potvrđenom terminu</p>
               <h2>Nade Dimić 30, Bor</h2>
@@ -83,12 +98,26 @@ export function PickupContent() {
             </div>
           </article>
           <article>
-            <div className="pickup-option-art market-art">
-              <span>♜</span>
-            </div>
+            <a
+              className="pickup-option-map"
+              href={marketMapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Otvori Gradsku pijacu Bor u Google mapama"
+            >
+              <iframe
+                title="Mapa Zelene pijace u Boru"
+                src="https://www.google.com/maps?q=Zelena%20pijaca%2C%20Majdanpe%C4%8Dka%20bb%2C%2019210%20Bor%2C%20Serbia&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                tabIndex={-1}
+              />
+              <span>Pijaca - Majdanpe&#269;ka bb</span>
+            </a>
             <div>
               <p className="eyebrow">Svake subote</p>
               <h2>Gradska pijaca Bor</h2>
+              <address>Majdanpe&#269;ka bb, 19210 Bor</address>
               <p>
                 Posetite našu tezgu subotom i kupite ono što je tog dana
                 dostupno. Veće i posebne porudžbine rezervišite unapred.
