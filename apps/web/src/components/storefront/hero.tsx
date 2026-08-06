@@ -1,67 +1,72 @@
-﻿import Image from 'next/image';
+import Image from 'next/image';
 import { Container } from '@/components/ui/container';
 import { LinkButton } from '@/components/ui/button';
 import type { ProductPreview } from '@/types/catalog';
 
 export function Hero({ product }: { product?: ProductPreview }) {
   return (
-    <section className="farm-home-hero">
+    <section className="reference-hero">
       <Image
-        className="farm-home-hero-image"
+        className="reference-hero-photo"
         src="/images/farm-hero.webp"
-        alt="Kozji sir, mleko, surutka i sezonsko povrće Borske Farmice"
+        alt="Sveži sir, mleko, surutka i povrće Borske Farmice"
         fill
         priority
         sizes="100vw"
       />
-      <div className="farm-home-hero-shade" />
-      <Container className="farm-home-hero-inner">
-        <div className="farm-home-hero-copy">
+      <div className="reference-hero-paper" />
+      <Container className="reference-hero-inner">
+        <div className="reference-hero-copy">
           <p className="eyebrow">Domaće iz Bora</p>
-          <h1>Iz naše farmice pravo na vaš sto.</h1>
+          <h1>
+            Pravo sa naše farme.
+            <br />
+            Sveže, domaće, iskreno.
+          </h1>
           <p>
-            Kozji sir, sveže mleko, surutka i sezonski proizvodi. Poručite
-            online, a platite gotovinom pri ličnom preuzimanju.
+            Naša porodična ponuda donosi mleko, surutku, sireve, jaja i sezonske
+            plodove direktno kupcima u Boru. Bez prečica. Bez komplikacija.
           </p>
           <div className="hero-actions">
-            <LinkButton href="/proizvodi">Pogledaj proizvode</LinkButton>
+            <LinkButton href="/proizvodi">Pogledaj proizvode →</LinkButton>
             <LinkButton href="/o-nama" variant="secondary">
-              Naša priča
+              Naša priča →
             </LinkButton>
           </div>
+          <div className="hero-proof">
+            <span>BF</span>
+            <span>BF</span>
+            <span>BF</span>
+            <p>
+              <strong>Lokalna kupovina</strong>
+              <small>Direktno od Borske Farmice</small>
+            </p>
+          </div>
         </div>
-        <aside className="availability-board" aria-label="Danas dostupno">
-          <p>
-            <span aria-hidden="true">●</span> Danas dostupno
-          </p>
-          <ul>
-            <li>
-              <span>Mladi kozji sir</span>
-              <strong>na stanju</strong>
-            </li>
-            <li>
-              <span>Kozje mleko</span>
-              <strong>na stanju</strong>
-            </li>
-            <li>
-              <span>Surutka</span>
-              <strong>na stanju</strong>
-            </li>
-            <li>
-              <span>Jaja</span>
-              <strong>na stanju</strong>
-            </li>
-            <li>
-              <span>Sezonska ponuda</span>
-              <strong>aktuelna</strong>
-            </li>
-          </ul>
-          <small>
-            {product
-              ? `Izdvojeno: ${product.name}`
-              : 'Ponuda se ažurira kroz admin panel'}
-          </small>
-        </aside>
+        <div className="hero-badges" aria-label="Prednosti proizvoda">
+          <span>
+            <b>100%</b> domaća ponuda
+          </span>
+          <span>
+            <b>Sveže</b> pripremljeno
+          </span>
+        </div>
+      </Container>
+      <Container className="hero-trust-strip">
+        {[
+          ['⌂', 'Lokalna ponuda', 'Preuzimanje u Boru'],
+          ['✓', 'Jasna dostupnost', 'Stanje iz kataloga'],
+          ['▣', 'Lično preuzimanje', 'Na adresi ili pijaci'],
+          ['●', 'Gotovina', 'Plaćanje uživo'],
+        ].map(([icon, title, text]) => (
+          <div key={title}>
+            <i>{icon}</i>
+            <p>
+              <strong>{title}</strong>
+              <small>{text}</small>
+            </p>
+          </div>
+        ))}
       </Container>
     </section>
   );

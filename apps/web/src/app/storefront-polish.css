@@ -746,3 +746,549 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Reference-led homepage v2 */
+.reference-hero {
+  position: relative;
+  min-height: 650px;
+  padding-bottom: 58px;
+  overflow: hidden;
+  background: #f5efe2;
+}
+.reference-hero-photo {
+  object-fit: cover;
+  object-position: 71% center;
+}
+.reference-hero-paper {
+  position: absolute;
+  inset: 0 42% 0 0;
+  background: linear-gradient(
+    90deg,
+    #fbf6e9 0%,
+    #fbf6e9 82%,
+    rgba(251, 246, 233, 0.55) 94%,
+    transparent 100%
+  );
+  clip-path: polygon(
+    0 0,
+    94% 0,
+    99% 9%,
+    95% 17%,
+    100% 28%,
+    95% 39%,
+    99% 52%,
+    94% 65%,
+    99% 78%,
+    95% 90%,
+    98% 100%,
+    0 100%
+  );
+}
+.reference-hero-inner {
+  position: relative;
+  z-index: 1;
+  min-height: 570px;
+  display: flex;
+  align-items: center;
+}
+.reference-hero-copy {
+  width: 54%;
+  padding: 50px 0;
+}
+.reference-hero-copy h1 {
+  margin: 10px 0 22px;
+  color: #174f32;
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 5.25vw, 5.65rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+.reference-hero-copy > p:not(.eyebrow) {
+  max-width: 610px;
+  color: #465b4e;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+.reference-hero .hero-actions {
+  margin-top: 28px;
+}
+.hero-proof {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+.hero-proof > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  margin-right: -8px;
+  border: 2px solid #fbf6e9;
+  border-radius: 50%;
+  place-items: center;
+  background: #416e54;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+.hero-proof p {
+  display: grid;
+  margin: 0 0 0 18px;
+}
+.hero-proof small {
+  color: #68786e;
+}
+.hero-badges {
+  position: absolute;
+  right: 0;
+  top: 100px;
+  display: grid;
+  gap: 14px;
+}
+.hero-badges span {
+  display: grid;
+  min-width: 155px;
+  padding: 14px 20px;
+  border: 1px solid #d9dbc9;
+  border-radius: 14px;
+  background: rgba(255, 252, 242, 0.94);
+  color: #365a45;
+  box-shadow: 0 9px 28px rgba(36, 66, 45, 0.13);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+}
+.hero-badges b {
+  color: #184f32;
+  font-size: 1.1rem;
+}
+.hero-trust-strip {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: -24px;
+  padding: 20px 26px;
+  border: 1px solid #ded7c7;
+  border-radius: 20px;
+  background: rgba(255, 252, 243, 0.97);
+  box-shadow: 0 12px 35px rgba(54, 67, 48, 0.09);
+}
+.hero-trust-strip > div {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 0 20px;
+  border-right: 1px solid #ded7c7;
+}
+.hero-trust-strip > div:last-child {
+  border: 0;
+}
+.hero-trust-strip i {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  place-items: center;
+  background: #e9f0e4;
+  color: #1d5838;
+  font-style: normal;
+  font-size: 1.25rem;
+}
+.hero-trust-strip p {
+  display: grid;
+  margin: 0;
+}
+.hero-trust-strip strong {
+  color: #274f39;
+}
+.hero-trust-strip small {
+  color: #707b72;
+}
+.reference-offers,
+.reference-products,
+.order-how,
+.pickup-confidence {
+  background: #fcf8ed;
+}
+.reference-offers .section-heading h2,
+.reference-products .section-heading h2,
+.order-how .section-heading h2,
+.pickup-confidence .section-heading h2 {
+  color: #174f32;
+  font-family: var(--font-serif);
+}
+.offer-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.offer-card {
+  position: relative;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: 0 12px 32px rgba(39, 60, 41, 0.1);
+}
+.offer-card > img {
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+.offer-card:hover > img {
+  transform: scale(1.035);
+}
+.offer-card > div {
+  position: absolute;
+  inset: auto 14px 14px;
+  min-height: 112px;
+  padding: 18px 62px 18px 20px;
+  border-radius: 15px;
+  background: rgba(255, 250, 238, 0.95);
+}
+.offer-card h3 {
+  margin: 0;
+  color: #214d35;
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+}
+.offer-card p {
+  margin: 6px 0 0;
+  color: #647067;
+  font-size: 0.85rem;
+}
+.offer-card span {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  display: grid;
+  width: 39px;
+  height: 39px;
+  border: 1px solid #b9c5b9;
+  border-radius: 50%;
+  place-items: center;
+  color: #225b39;
+  transform: translateY(-50%);
+}
+.reference-products {
+  padding-top: 35px;
+}
+.center-link {
+  text-align: center;
+  margin-top: 30px;
+}
+.center-link a {
+  color: #155b37;
+  font-weight: 800;
+}
+.farm-story-section {
+  padding: 0;
+  background: #f8f2e5;
+}
+.farm-story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: none;
+  padding: 0;
+}
+.farm-story-photo {
+  position: relative;
+  min-height: 560px;
+}
+.farm-story-photo img {
+  object-fit: cover;
+}
+.farm-story-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(45px, 7vw, 100px);
+  background: #fbf6e9;
+}
+.farm-story-copy h2,
+.season-feature h2,
+.home-contact-band h2 {
+  color: #174f32;
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4vw, 4.1rem);
+  line-height: 1.05;
+}
+.farm-story-copy > p:not(.eyebrow) {
+  color: #596a60;
+  line-height: 1.7;
+}
+.story-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 30px 0;
+}
+.story-values div {
+  display: grid;
+  padding-right: 10px;
+  border-right: 1px solid #d9d3c3;
+}
+.story-values div:last-child {
+  border: 0;
+}
+.story-values strong {
+  color: #1d5938;
+}
+.story-values span {
+  color: #6d786f;
+  font-size: 0.8rem;
+}
+.order-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.order-steps article {
+  position: relative;
+  min-height: 250px;
+  padding: 24px;
+  border: 1px solid #ded8ca;
+  border-radius: 18px;
+  background: #fffaf0;
+  text-align: center;
+}
+.order-steps > article:not(:last-child):after {
+  content: '→';
+  position: absolute;
+  z-index: 2;
+  right: -17px;
+  top: 50%;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  border: 1px dashed #55715f;
+  border-radius: 50%;
+  place-items: center;
+  background: #fcf8ed;
+  color: #315d43;
+}
+.order-steps article > span {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  place-items: center;
+  background: #174f32;
+  color: #fff;
+  font-weight: 800;
+}
+.step-drawing {
+  margin: 10px auto 15px;
+  color: #a47a31;
+  font-family: var(--font-serif);
+  font-size: 4.5rem;
+}
+.order-steps h3 {
+  color: #214c35;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+}
+.order-steps p {
+  color: #6a756e;
+  font-size: 0.9rem;
+}
+.season-feature {
+  padding-top: 20px;
+  background: #fcf8ed;
+}
+.season-feature-inner {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  border-radius: 22px;
+}
+.season-feature-inner > img {
+  object-fit: cover;
+}
+.season-feature-inner > div {
+  position: absolute;
+  inset: 0 0 0 52%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 55px;
+  background: linear-gradient(
+    90deg,
+    rgba(251, 246, 233, 0.3),
+    rgba(251, 246, 233, 0.98) 25%
+  );
+}
+.season-feature h2 {
+  margin: 10px 0 15px;
+}
+.season-feature p:not(.eyebrow) {
+  color: #596a60;
+}
+.confidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.confidence-grid article {
+  padding: 28px;
+  border: 1px solid #ded8ca;
+  border-radius: 18px;
+  background: #fffdf7;
+}
+.confidence-grid strong {
+  color: #174f32;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+}
+.confidence-grid p {
+  color: #657168;
+}
+.home-contact-band {
+  padding: 45px 0;
+  background: #f0e9d9;
+}
+.home-contact-band > .container {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 28px;
+  align-items: center;
+}
+.home-contact-band h2 {
+  font-size: 2.5rem;
+}
+.home-contact-band a {
+  color: #174f32;
+  font-weight: 800;
+}
+.mini-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.mini-gallery > img {
+  position: relative !important;
+  width: 100% !important;
+  height: 210px !important;
+  border-radius: 16px;
+  object-fit: cover;
+}
+@media (max-width: 980px) {
+  .reference-hero-paper {
+    inset: 0 18% 0 0;
+  }
+  .reference-hero-copy {
+    width: 72%;
+  }
+  .hero-badges {
+    display: none;
+  }
+  .hero-trust-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-trust-strip > div:nth-child(2) {
+    border-right: 0;
+  }
+  .offer-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .offer-card:last-child {
+    grid-column: 1/-1;
+  }
+  .farm-story-grid {
+    grid-template-columns: 1fr;
+  }
+  .farm-story-photo {
+    min-height: 450px;
+  }
+  .order-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+  .order-steps > article:after {
+    display: none;
+  }
+  .season-feature-inner > div {
+    inset: auto 0 0;
+    padding: 35px;
+    background: linear-gradient(
+      0deg,
+      #fbf6e9 20%,
+      rgba(251, 246, 233, 0.78) 75%,
+      transparent
+    );
+  }
+  .season-feature-inner {
+    min-height: 560px;
+  }
+  .home-contact-band > .container {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 650px) {
+  .reference-hero {
+    min-height: 760px;
+  }
+  .reference-hero-photo {
+    object-position: 66% bottom;
+  }
+  .reference-hero-paper {
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      #fbf6e9 0%,
+      rgba(251, 246, 233, 0.94) 57%,
+      rgba(251, 246, 233, 0.18) 100%
+    );
+    clip-path: none;
+  }
+  .reference-hero-inner {
+    min-height: 610px;
+    align-items: flex-start;
+  }
+  .reference-hero-copy {
+    width: 100%;
+    padding-top: 45px;
+  }
+  .reference-hero-copy h1 {
+    font-size: clamp(2.7rem, 12vw, 4rem);
+  }
+  .hero-trust-strip {
+    grid-template-columns: 1fr;
+    margin-inline: 14px;
+    padding: 15px;
+  }
+  .hero-trust-strip > div {
+    border-right: 0;
+    border-bottom: 1px solid #ded7c7;
+    padding: 10px;
+  }
+  .offer-cards,
+  .order-steps,
+  .confidence-grid,
+  .story-values {
+    grid-template-columns: 1fr;
+  }
+  .offer-card:last-child {
+    grid-column: auto;
+  }
+  .farm-story-photo {
+    min-height: 340px;
+  }
+  .farm-story-copy {
+    padding: 38px 22px;
+  }
+  .story-values div {
+    border-right: 0;
+    border-bottom: 1px solid #d9d3c3;
+    padding: 10px 0;
+  }
+  .season-feature-inner > div {
+    padding: 25px;
+  }
+  .home-contact-band h2 {
+    font-size: 2.1rem;
+  }
+  .mini-gallery > img {
+    height: 130px !important;
+  }
+}
