@@ -1,4 +1,5 @@
 FROM node:24-bookworm-slim AS build
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 ENV CI=true
 COPY package.json package-lock.json ./
@@ -11,12 +12,15 @@ RUN DATABASE_URL=postgresql://build:build@localhost:5432/build npm run build --w
 RUN npm prune --omit=dev
 
 FROM node:24-bookworm-slim AS runtime
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates openssl && rm -rf /var/lib/apt/lists/*
 ENV NODE_ENV=production
 WORKDIR /app
 RUN groupadd --system --gid 1001 app && useradd --system --uid 1001 --gid app --home-dir /app app
 COPY --from=build --chown=app:app /app/node_modules ./node_modules
 COPY --from=build --chown=app:app /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=build --chown=app:app /app/apps/api/dist ./apps/api/dist
+COPY --from=build --chown=app:app /app/apps/api/prisma ./apps/api/prisma
+COPY --from=build --chown=app:app /app/apps/api/prisma.config.ts ./apps/api/prisma.config.ts
 COPY --from=build --chown=app:app /app/apps/api/package.json ./apps/api/package.json
 USER app
 EXPOSE 4000

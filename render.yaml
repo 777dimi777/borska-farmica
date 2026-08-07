@@ -1,0 +1,80 @@
+services:
+  - type: web
+    name: borska-farmica-api
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/v1/health/ready
+    preDeployCommand: cd apps/api && npx prisma migrate deploy
+    initialDeployHook: cd apps/api && node dist/prisma/seed.js
+    maxShutdownDelaySeconds: 30
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: FRONTEND_URL
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: borska-farmica-db
+          property: connectionString
+      - key: TRUST_PROXY
+        value: 'true'
+      - key: JSON_BODY_LIMIT
+        value: 100kb
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CUSTOMER_JWT_ACCESS_SECRET
+        generateValue: true
+      - key: CUSTOMER_JWT_REFRESH_SECRET
+        generateValue: true
+      - key: AUTH_COOKIE_SECURE
+        value: 'true'
+      - key: CUSTOMER_COOKIE_SECURE
+        value: 'true'
+      - key: CART_COOKIE_SECURE
+        value: 'true'
+      - key: AUTH_COOKIE_SAME_SITE
+        value: none
+      - key: CUSTOMER_COOKIE_SAME_SITE
+        value: none
+      - key: CART_COOKIE_SAME_SITE
+        value: none
+      - key: SWAGGER_ENABLED
+        value: 'false'
+      - key: LOG_LEVEL
+        value: info
+      - key: LOG_PRETTY
+        value: 'false'
+      - key: APP_VERSION
+        value: render
+      - key: METRICS_ENABLED
+        value: 'false'
+      - key: SENTRY_ENABLED
+        value: 'false'
+      - key: MAINTENANCE_JOBS_ENABLED
+        value: 'true'
+      - key: SEED_DEMO_CATALOG
+        value: 'true'
+      - key: IMAGE_UPLOAD_ENABLED
+        value: 'true'
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+databases:
+  - name: borska-farmica-db
+    plan: basic-256mb
+    region: frankfurt
+    databaseName: borska_farmica
+    user: borska_farmica
+    ipAllowList: []

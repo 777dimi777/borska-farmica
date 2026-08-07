@@ -30,5 +30,10 @@
   "devDependencies": {
     "prettier": "^3.9.6",
     "turbo": "^2.10.8"
+  },
+  "overrides": {
+    "@nestjs/swagger": {
+      "js-yaml": "5.2.3"
+    }
   }
 }
