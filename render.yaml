@@ -2,13 +2,11 @@ services:
   - type: web
     name: borska-farmica-api
     runtime: docker
-    plan: starter
+    plan: free
     region: frankfurt
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
     healthCheckPath: /api/v1/health/ready
-    preDeployCommand: cd apps/api && npx prisma migrate deploy
-    initialDeployHook: cd apps/api && node dist/prisma/seed.js
     maxShutdownDelaySeconds: 30
     autoDeployTrigger: commit
     envVars:
@@ -19,9 +17,7 @@ services:
       - key: FRONTEND_URL
         sync: false
       - key: DATABASE_URL
-        fromDatabase:
-          name: borska-farmica-db
-          property: connectionString
+        sync: false
       - key: TRUST_PROXY
         value: 'true'
       - key: JSON_BODY_LIMIT
@@ -70,11 +66,3 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-
-databases:
-  - name: borska-farmica-db
-    plan: basic-256mb
-    region: frankfurt
-    databaseName: borska_farmica
-    user: borska_farmica
-    ipAllowList: []

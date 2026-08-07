@@ -21,9 +21,10 @@ COPY --from=build --chown=app:app /app/apps/api/node_modules ./apps/api/node_mod
 COPY --from=build --chown=app:app /app/apps/api/dist ./apps/api/dist
 COPY --from=build --chown=app:app /app/apps/api/prisma ./apps/api/prisma
 COPY --from=build --chown=app:app /app/apps/api/prisma.config.ts ./apps/api/prisma.config.ts
+COPY --from=build --chown=app:app /app/apps/api/render-free-start.sh ./apps/api/render-free-start.sh
 COPY --from=build --chown=app:app /app/apps/api/package.json ./apps/api/package.json
 USER app
 EXPOSE 4000
 STOPSIGNAL SIGTERM
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 CMD ["node", "-e", "fetch('http://127.0.0.1:4000/api/v1/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
-CMD ["node", "apps/api/dist/src/main.js"]
+CMD ["sh", "apps/api/render-free-start.sh"]
