@@ -1,9 +1,24 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "NODE_ENV",
+    "DATABASE_URL",
+    "FRONTEND_URL",
+    "JWT_ACCESS_SECRET",
+    "JWT_REFRESH_SECRET",
+    "CUSTOMER_JWT_ACCESS_SECRET",
+    "CUSTOMER_JWT_REFRESH_SECRET",
+    "AUTH_COOKIE_SECURE",
+    "CUSTOMER_COOKIE_SECURE",
+    "AUTH_COOKIE_SAME_SITE",
+    "CUSTOMER_COOKIE_SAME_SITE",
+    "TRUST_PROXY"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "dev": {
