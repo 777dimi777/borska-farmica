@@ -80,10 +80,12 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
     } catch (e) {
       const message =
         e instanceof BrowserApiError && e.kind === 'rate-limit'
-          ? 'Previše pokušaja. Sačekajte malo i pokušajte ponovo.'
+          ? 'PreviÅ¡e pokuÅ¡aja. SaÄekajte malo i pokuÅ¡ajte ponovo.'
           : mode === 'login'
             ? 'Email ili lozinka nisu ispravni.'
-            : 'Registracija nije uspela. Proverite podatke ili pokušajte kasnije.';
+            : e instanceof BrowserApiError && e.kind === 'conflict'
+              ? 'Ovaj email je već registrovan. Otvorite stranicu Prijava.'
+              : 'Registracija nije uspela. Proverite podatke ili pokušajte kasnije.';
       setError('root', { message });
     }
   };
@@ -154,13 +156,13 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
       )}
       <button className="button button-primary" disabled={isSubmitting}>
         {isSubmitting
-          ? 'Sačekajte…'
+          ? 'SaÄekajteâ€¦'
           : mode === 'login'
             ? 'Prijavite se'
             : 'Napravite nalog'}
       </button>
       <p>
-        {mode === 'login' ? 'Nemate nalog?' : 'Već imate nalog?'}{' '}
+        {mode === 'login' ? 'Nemate nalog?' : 'VeÄ‡ imate nalog?'}{' '}
         <Link
           href={`${mode === 'login' ? '/registracija' : '/prijava'}?returnTo=${encodeURIComponent(returnTo)}`}
         >
