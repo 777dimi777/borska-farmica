@@ -55,7 +55,7 @@ services:
       - key: SENTRY_ENABLED
         value: 'false'
       - key: MAINTENANCE_JOBS_ENABLED
-        value: 'true'
+        value: 'false'
       - key: SEED_DEMO_CATALOG
         value: 'true'
       - key: IMAGE_UPLOAD_ENABLED

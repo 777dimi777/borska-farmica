@@ -1,0 +1,3 @@
+API_INTERNAL_URL=https://borska-farmica-api.onrender.com/api/v1
+NEXT_PUBLIC_API_URL=https://borska-farmica-api.onrender.com/api/v1
+NEXT_PUBLIC_SITE_URL=https://borska-farmica.workers.dev
