@@ -43,7 +43,7 @@ export function validateProductionEnvironment(
     'CUSTOMER_JWT_REFRESH_SECRET',
   ]) {
     const secret = typeof value[key] === 'string' ? value[key] : '';
-    if (secret.length < 48 || PLACEHOLDER.test(secret))
+    if (secret.length < 43 || PLACEHOLDER.test(secret))
       return helpers.error('any.custom', {
         message: `${key} is not production-safe`,
       });

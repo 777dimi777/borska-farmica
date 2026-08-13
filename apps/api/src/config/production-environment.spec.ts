@@ -25,6 +25,21 @@ describe('production environment validation', () => {
     expect(validateProductionEnvironment({ ...safe }, helpers)).toEqual(safe);
   });
 
+  it('accepts Render generated 256-bit base64 secrets', () => {
+    const generated = 'B0jrphAPOY7pg92AN0c9MN4yecczLMdwnx4OkA1KFUk=';
+    expect(
+      validateProductionEnvironment(
+        {
+          ...safe,
+          JWT_ACCESS_SECRET: generated,
+          JWT_REFRESH_SECRET: generated.replace('B', 'C'),
+          CUSTOMER_JWT_ACCESS_SECRET: generated.replace('B', 'D'),
+          CUSTOMER_JWT_REFRESH_SECRET: generated.replace('B', 'E'),
+        },
+        helpers,
+      ),
+    ).not.toHaveProperty('error');
+  });
   it.each([
     ['localhost origin', { FRONTEND_URL: 'http://localhost:3000' }],
     ['insecure cookies', { CART_COOKIE_SECURE: false }],
