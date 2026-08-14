@@ -16,6 +16,7 @@ import { mapOrder, orderResponseInclude } from './order.mapper';
 import { validatePickupDate } from './checkout-date';
 import { isRetryableTransactionError } from '../common/prisma-write-conflict';
 import { MetricsService } from '../observability/metrics.service';
+import { OrderNotificationService } from './order-notification.service';
 
 @Injectable()
 export class OrderCreationService {
@@ -24,6 +25,7 @@ export class OrderCreationService {
     private readonly identity: CartIdentityService,
     private readonly validation: CheckoutValidationService,
     private readonly config: ConfigService,
+    private readonly notifications: OrderNotificationService,
     @Optional() private readonly metrics?: MetricsService,
   ) {}
 
@@ -39,10 +41,13 @@ export class OrderCreationService {
       tokenHash = this.identity.hash(rawCartToken);
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
-        return await this.prisma.$transaction(
+        const result = await this.prisma.$transaction(
           async (tx) => this.createIn(tx, customerId, tokenHash, keyHash, dto),
           { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
         );
+        if (!result.idempotentReplay)
+          await this.notifications.orderCreated(result);
+        return result;
       } catch (error) {
         if (attempt < 2 && isRetryableTransactionError(error, true)) continue;
         throw error;

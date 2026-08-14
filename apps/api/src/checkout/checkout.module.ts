@@ -4,11 +4,16 @@ import { CustomerAuthModule } from '../customer-auth/customer-auth.module';
 import { CheckoutController } from './checkout.controller';
 import { CheckoutValidationService } from './checkout-validation.service';
 import { OrderCreationService } from './order-creation.service';
+import { OrderNotificationService } from './order-notification.service';
 
 @Module({
   imports: [CartModule, CustomerAuthModule],
   controllers: [CheckoutController],
-  providers: [CheckoutValidationService, OrderCreationService],
+  providers: [
+    CheckoutValidationService,
+    OrderCreationService,
+    OrderNotificationService,
+  ],
   exports: [CheckoutValidationService, OrderCreationService],
 })
 export class CheckoutModule {}

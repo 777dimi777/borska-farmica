@@ -243,6 +243,9 @@ import { ContactModule } from './contact/contact.module';
         CONTACT_EMAIL_FROM: Joi.string()
           .max(200)
           .default('Borska Farmica <onboarding@resend.dev>'),
+        ORDER_NOTIFICATION_EMAIL_TO: Joi.string()
+          .email()
+          .default('borskafarmica@gmail.com'),
       }).custom(validateProductionEnvironment, 'production environment'),
     }),
     ObservabilityModule,

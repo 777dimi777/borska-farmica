@@ -69,3 +69,5 @@ services:
         value: borskafarmica@gmail.com
       - key: CONTACT_EMAIL_FROM
         value: Borska Farmica <onboarding@resend.dev>
+      - key: ORDER_NOTIFICATION_EMAIL_TO
+        value: borskafarmica@gmail.com
