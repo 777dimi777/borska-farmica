@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Container } from '@/components/ui/container';
 import { useFeedback } from '@/components/providers/feedback-provider';
+import { browserApi } from '@/lib/browser-api/client';
 
 const facebook = 'https://www.facebook.com/borska.farmica.3';
 const mapUrl =
@@ -15,29 +16,35 @@ export function ContactReferencePage() {
   const [busy, setBusy] = useState(false);
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
     setBusy(true);
-    const data = new FormData(event.currentTarget);
-    const message = [
-      `Ime: ${data.get('name')}`,
-      `Tema: ${data.get('topic')}`,
-      data.get('orderNumber')
-        ? `Broj porudžbine: ${data.get('orderNumber')}`
-        : '',
-      `Poruka: ${data.get('message')}`,
-    ]
-      .filter(Boolean)
-      .join('\n');
     try {
-      await navigator.clipboard.writeText(message);
+      await browserApi<void>('/contact', {
+        method: 'POST',
+        timeout: 12_000,
+        body: {
+          name: String(data.get('name') ?? ''),
+          email: String(data.get('email') ?? ''),
+          topic: String(data.get('topic') ?? ''),
+          orderNumber: String(data.get('orderNumber') ?? '') || undefined,
+          message: String(data.get('message') ?? ''),
+          website: String(data.get('website') ?? ''),
+        },
+      });
+      form.reset();
       feedback(
-        'Poruka je kopirana. Nalepite je u Facebook razgovor.',
+        'Poruka je uspešno poslata na borskafarmica@gmail.com.',
         'success',
       );
     } catch {
-      feedback('Otvaramo Facebook stranicu za kontakt.', 'info');
+      feedback(
+        'Poruka trenutno nije poslata. Pokušajte ponovo malo kasnije.',
+        'error',
+      );
+    } finally {
+      setBusy(false);
     }
-    window.open(facebook, '_blank', 'noopener,noreferrer');
-    setBusy(false);
   };
 
   return (
@@ -58,15 +65,10 @@ export function ContactReferencePage() {
             </h1>
             <p>
               Imate pitanje o proizvodima, porudžbini ili preuzimanju? Pišite
-              nam preko zvanične Facebook stranice.
+              nam direktno preko kontakt forme.
             </p>
             <div className="hero-actions">
-              <a
-                className="button button-primary"
-                href={facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="button button-primary" href="#kontakt-forma">
                 Pošaljite poruku →
               </a>
               <Link className="button button-secondary" href="/preuzimanje">
@@ -102,9 +104,7 @@ export function ContactReferencePage() {
             <div>
               <h2>Facebook</h2>
               <p>Zvanična stranica Borske Farmice</p>
-              <a href={facebook} target="_blank" rel="noopener noreferrer">
-                Pošaljite poruku →
-              </a>
+              <a href="#kontakt-forma">Pošaljite poruku →</a>
             </div>
           </article>
           <article>
@@ -144,22 +144,28 @@ export function ContactReferencePage() {
         </Container>
       </section>
 
-      <section className="contact-form-section">
+      <section className="contact-form-section" id="kontakt-forma">
         <Container>
           <form onSubmit={submit}>
             <header>
               <p className="eyebrow">Napišite nam</p>
               <h2>Pripremite poruku</h2>
-              <p>
-                Forma priprema i kopira tekst, a zatim otvara našu zvaničnu
-                Facebook stranicu.
-              </p>
+              <p>Poruka se bezbedno šalje direktno na našu e-mail adresu.</p>
             </header>
             <div className="contact-form-grid">
               <label>
                 <span>Ime i prezime *</span>
                 <input required name="name" autoComplete="name" />
               </label>
+              <label>
+                <span>E-mail *</span>{' '}
+                <input
+                  required
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                />{' '}
+              </label>{' '}
               <label>
                 <span>Tema *</span>
                 <select required name="topic">
@@ -174,6 +180,10 @@ export function ContactReferencePage() {
                 <span>Broj porudžbine</span>
                 <input name="orderNumber" placeholder="Opciono" />
               </label>
+              <label className="contact-honeypot" aria-hidden="true">
+                <span>Ne popunjavajte ovo polje</span>{' '}
+                <input name="website" tabIndex={-1} autoComplete="off" />{' '}
+              </label>{' '}
               <label className="full">
                 <span>Poruka *</span>
                 <textarea
@@ -185,11 +195,11 @@ export function ContactReferencePage() {
               </label>
             </div>
             <button className="button button-primary" disabled={busy}>
-              {busy ? 'Pripremamo…' : 'Nastavi na Facebook →'}
+              {busy ? 'Šaljemo…' : 'Pošaljite poruku →'}
             </button>
             <small>
-              Poruka se ne čuva na sajtu i nije poslata dok je ne pošaljete u
-              Facebook razgovoru.
+              Poruka se šalje direktno na borskafarmica@gmail.com. Odgovor ćete
+              dobiti na e-mail koji ste uneli.
             </small>
           </form>
           <aside>
@@ -200,10 +210,10 @@ export function ContactReferencePage() {
             </p>
             <dl>
               <div>
-                <dt>Facebook</dt>
+                <dt>E-mail</dt>
                 <dd>
-                  <a href={facebook} target="_blank" rel="noopener noreferrer">
-                    Borska Farmica
+                  <a href="mailto:borskafarmica@gmail.com">
+                    borskafarmica@gmail.com
                   </a>
                 </dd>
               </div>
@@ -318,9 +328,7 @@ export function ContactReferencePage() {
                 <span>{icon}</span>
                 <h3>{title}</h3>
                 <p>{text}</p>
-                <a href={facebook} target="_blank" rel="noopener noreferrer">
-                  Saznajte više →
-                </a>
+                <a href="#kontakt-forma">Saznajte više →</a>
               </article>
             ))}
           </div>
@@ -394,7 +402,7 @@ export function ContactReferencePage() {
             {[
               [
                 'Kada mogu da očekujem odgovor?',
-                'Odgovaramo čim budemo u mogućnosti preko zvanične Facebook stranice.',
+                'Odgovaramo čim budemo u mogućnosti na e-mail adresu koju unesete u formi.',
               ],
               [
                 'Kako mogu da proverim status porudžbine?',
@@ -431,12 +439,7 @@ export function ContactReferencePage() {
             <p className="eyebrow">Novosti sa farmice</p>
             <h2>Pratite život na farmi</h2>
             <p>Nove proizvode i informacije o ponudi pratite na Facebooku.</p>
-            <a
-              className="button button-secondary"
-              href={facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a className="button button-secondary" href="#kontakt-forma">
               Facebook
             </a>
           </div>
@@ -463,12 +466,7 @@ export function ContactReferencePage() {
             <p className="eyebrow">Razgovor je najbolji početak</p>
             <h2>Pišite nam kada imate pitanje.</h2>
             <div className="hero-actions">
-              <a
-                className="button button-secondary"
-                href={facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="button button-secondary" href="#kontakt-forma">
                 Pošaljite poruku →
               </a>
               <Link className="button button-secondary" href="/proizvodi">

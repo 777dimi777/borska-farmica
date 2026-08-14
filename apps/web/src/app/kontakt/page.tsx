@@ -4,7 +4,7 @@ import { ContactReferencePage } from '@/components/storefront/contact-reference-
 export const metadata: Metadata = {
   title: 'Kontakt',
   description:
-    'Kontaktirajte Borsku Farmicu preko zvanične Facebook stranice ili pronađite lokacije za lično preuzimanje u Boru.',
+    'Pošaljite poruku Borskoj Farmici na borskafarmica@gmail.com ili pronađite lokacije za lično preuzimanje u Boru.',
 };
 
 export default function Contact() {

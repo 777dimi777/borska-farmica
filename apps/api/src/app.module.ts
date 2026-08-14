@@ -22,6 +22,7 @@ import { AdminExportsModule } from './admin-exports/admin-exports.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { ObservabilityModule } from './observability/observability.module';
 import { validateProductionEnvironment } from './config/production-environment';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -235,6 +236,13 @@ import { validateProductionEnvironment } from './config/production-environment';
           .truthy('true')
           .falsy('false')
           .default(true),
+        RESEND_API_KEY: Joi.string().allow('').default(''),
+        CONTACT_EMAIL_TO: Joi.string()
+          .email()
+          .default('borskafarmica@gmail.com'),
+        CONTACT_EMAIL_FROM: Joi.string()
+          .max(200)
+          .default('Borska Farmica <onboarding@resend.dev>'),
       }).custom(validateProductionEnvironment, 'production environment'),
     }),
     ObservabilityModule,
@@ -256,6 +264,7 @@ import { validateProductionEnvironment } from './config/production-environment';
     AdminExportsModule,
     HealthModule,
     MaintenanceModule,
+    ContactModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
